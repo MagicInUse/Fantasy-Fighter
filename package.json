@@ -1,0 +1,18 @@
+{
+  "name": "project-2",
+  "version": "1.0.0",
+  "description": "Project 2 for Full-Stack Bootcamp",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "client": "npm run dev --prefix client",
+    "server": "npm start --prefix server",
+    "dev": "concurrently \"npm run client\" \"npm run server\""
+  },
+  "devDependencies": {
+    "concurrently": "^6.5.1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
