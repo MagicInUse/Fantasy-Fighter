@@ -21,4 +21,4 @@ router.post('/', (req: Request, res: Response) => {
     res.status(201).json(newItem);
 });
 
-module.exports = router;
+export default router;

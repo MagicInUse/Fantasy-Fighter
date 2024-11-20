@@ -1,6 +1,6 @@
-import sequelize from "../config/database";
-import { Model, DataTypes } from "sequelize";
+import { Sequelize, Model, DataTypes, Optional } from "sequelize";
 
+// Define attributes for the User
 interface UserAttributes {
     id: number;
     username: string;
@@ -8,14 +8,18 @@ interface UserAttributes {
     password: string;
 }
 
-export class User extends Model<UserAttributes> implements UserAttributes {
+// Make id optional for UserCreationAttributes
+interface UserCreationAttributes extends Optional<UserAttributes, "id"> {}
+
+export class User extends Model<UserAttributes, UserCreationAttributes> implements UserAttributes {
     public id!: number;
     public username!: string;
     public email!: string;
     public password!: string;
 }
 
-export function UserFactory(sequelize: typeof Sequelize): typeof User {
+// Factory function to define the model
+export function UserFactory(sequelize: Sequelize): typeof User {
     User.init(
         {
             id: {
@@ -39,7 +43,7 @@ export function UserFactory(sequelize: typeof Sequelize): typeof User {
             },
         },
         {
-            modelName: 'User',
+            modelName: "User",
             sequelize,
         }
     );
