@@ -1,6 +1,8 @@
+import { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider, RouteObject } from 'react-router-dom';
-import './index.css';
+
+import 'bootswatch/dist/spacelab/bootstrap.min.css';
 
 import App from './App.tsx';
 
@@ -40,5 +42,9 @@ const router = createBrowserRouter(routes);
 
 const rootElement = document.getElementById('root');
 if (rootElement) {
-  ReactDOM.createRoot(rootElement).render(<RouterProvider router={router} />);
+  ReactDOM.createRoot(rootElement).render(
+    <StrictMode>
+      <RouterProvider router={router} />
+    </StrictMode>
+  );
 }

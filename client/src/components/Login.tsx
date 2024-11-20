@@ -60,7 +60,7 @@ const Login = () => {
             <form className='form login-form' onSubmit={handleSubmit}>
                 <h1>Login</h1>
                 <div className='form-group'>
-                <label>Username</label>
+                <label>Username: </label>
                 <input
                     className='form-input'
                     type='text'
@@ -70,7 +70,7 @@ const Login = () => {
                 />
                 </div>
                 <div className='form-group'>
-                <label>Password</label>
+                <label>Password: </label>
                 <input
                     className='form-input'
                     type='password'
@@ -86,11 +86,11 @@ const Login = () => {
                             checked={newUser}
                             onChange={() => setNewUser(!newUser)}
                         />
-                        New User
+                        {` New User`}
                     </label>
                 </div>
                 <div className='form-group'>
-                    <button className='btn' type='submit'>
+                    <button className='btn btn-primary' type='submit'>
                         {newUser ? 'Create Account & Login' : 'Login'}
                     </button>
                 </div>

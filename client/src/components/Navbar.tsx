@@ -20,12 +20,12 @@ const Navbar = () => {
       <h1></h1>
       <div>
         {!loginCheck ? (
-          <>
-          </>
+          <nav className="navbar">
+          </nav>
         ) : (
-          <nav>
+          <nav className="navbar">
             <button
-              className='btn'
+              className='btn btn-secondary'
               type='button'
               onClick={() => {
                 window.location.assign('/levels');
@@ -34,16 +34,16 @@ const Navbar = () => {
               Levels
             </button>
             <button
-              className='btn'
+              className='btn btn-secondary'
               type='button'
               onClick={() => {
                 window.location.assign('/profile');
               }}
-              >
-                Character Profile
-              </button>
+            >
+              Character Profile
+            </button>
             <button
-              className='btn'
+              className='btn btn-secondary'
               type='button'
               onClick={() => {
                 auth.logout();
