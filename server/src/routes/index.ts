@@ -1,5 +1,4 @@
 import express, { Request, Response } from 'express';
-import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -8,16 +7,18 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
-app.use(bodyParser.json());
+app.use(express.json());
 
 // Routes
-const playerRoutes = require('./player');
-const inventoryRoutes = require('./inventory');
-const combatRoutes = require('./combat');
+import characterRoutes from './character';
+import inventoryRoutes from './inventory';
+import combatRoutes from './combat';
+import levelRoutes from './level';
 
-app.use('/api/player', playerRoutes);
+app.use('/api/character', characterRoutes);
 app.use('/api/inventory', inventoryRoutes);
 app.use('/api/combat', combatRoutes);
+app.use('/api/level', levelRoutes);
 
 // Route testing
 app.get('/', (req: Request, res: Response) => {

@@ -1,3 +1,4 @@
+import exp from 'constants';
 import express, { Request, Response } from 'express';
 const router = express.Router();
 
@@ -21,4 +22,4 @@ router.post('/', (req: Request, res: Response) => {
     res.status(201).json(newItem);
 });
 
-module.exports = router;
+export default router;
