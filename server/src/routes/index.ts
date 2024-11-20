@@ -10,11 +10,13 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json());
 
 // Routes
+import authRoutes from './auth';
 import characterRoutes from './character';
 import inventoryRoutes from './inventory';
 import combatRoutes from './combat';
 import levelRoutes from './level';
 
+app.use('/auth', authRoutes);
 app.use('/api/character', characterRoutes);
 app.use('/api/inventory', inventoryRoutes);
 app.use('/api/combat', combatRoutes);
