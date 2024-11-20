@@ -1,4 +1,3 @@
-import exp from "constants";
 import sequelize from "../config/database";
 import { Model, DataTypes } from "sequelize";
 
@@ -16,7 +15,7 @@ export class User extends Model<UserAttributes> implements UserAttributes {
     public password!: string;
 }
 
-export function UserFactory(sequelize: Sequelize): typeof User {
+export function UserFactory(sequelize: typeof Sequelize): typeof User {
     User.init(
         {
             id: {
