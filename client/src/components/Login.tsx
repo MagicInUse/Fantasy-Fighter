@@ -56,13 +56,14 @@ const Login = () => {
     };
 
     return (
-        <div className='form-container'>
+        <div className='form-container d-flex justify-content-center align-items-center vh-100'>
+            <div className="col-md-6">
             <form className='form login-form' onSubmit={handleSubmit}>
-                <h1>Login</h1>
-                <div className='form-group'>
-                <label>Username: </label>
+                <h1 className="text-center mb-4">Login</h1>
+                <div className='form-group mb-3'>
+                <label className="form-label">Username: </label>
                 <input
-                    className='form-input'
+                    className='form-control'
                     type='text'
                     name='username'
                     value={loginData.username || ''}
@@ -70,18 +71,19 @@ const Login = () => {
                 />
                 </div>
                 <div className='form-group'>
-                <label>Password: </label>
+                <label className="form-label">Password: </label>
                 <input
-                    className='form-input'
+                    className='form-control'
                     type='password'
                     name='password'
                     value={loginData.password || ''}
                     onChange={handleChange}
                 />
                 </div>
-                <div className='form-group'>
-                    <label>
+                <div className='form-group mt-3 mb-3'>
+                    <label className="form-check-label">
                         <input
+                            className="form-check-input"
                             type='checkbox'
                             checked={newUser}
                             onChange={() => setNewUser(!newUser)}
@@ -89,12 +91,13 @@ const Login = () => {
                         {` New User`}
                     </label>
                 </div>
-                <div className='form-group'>
-                    <button className='btn btn-primary' type='submit'>
+                <div className='form-group text-center'>
+                    <button className='btn btn-primary w-25' type='submit'>
                         {newUser ? 'Create Account & Login' : 'Login'}
                     </button>
                 </div>
             </form>
+            </div>
         </div>
     );
 };
