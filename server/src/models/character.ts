@@ -21,7 +21,7 @@ export class Character extends Model<CharacterAttributes> implements CharacterAt
     //public armor!: string;
 }
 
-export function CharacterFactory(sequelize: Sequelize): typeof Character {
+export function CharacterFactory(sequelize: typeof Sequelize): typeof Character {
     Character.init(
         {
             id: {
