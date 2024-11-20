@@ -1,7 +1,7 @@
 import express, { NextFunction } from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { User } from '../models/user';
+import { User, sequelize } from '../config/database';
 
 const router = express.Router();
 const SECRET_KEY = process.env.JWT_SECRET || 'secret';
