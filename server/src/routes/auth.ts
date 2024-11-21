@@ -9,13 +9,13 @@ const SECRET_KEY = process.env.JWT_SECRET || 'secret';
 // User Registration
 router.post('/create', (req, res, next): void => {
   (async () => {
-    const { username, email, password } = req.body;
+    const { username, password } = req.body;
 
     try {
-      // Check if email is already in use
-      const existingUser = await User.findOne({ where: { email } });
+      // Check if username is already in use
+      const existingUser = await User.findOne({ where: { username } });
       if (existingUser) {
-        return res.status(400).json({ error: 'Email is already in use.' });
+        return res.status(400).json({ error: 'Username is already in use.' });
       }
 
       // Hash the password
@@ -24,7 +24,6 @@ router.post('/create', (req, res, next): void => {
       // Create the user
       const newUser = await User.create({
         username,
-        email,
         password: hashedPassword,
       });
 
@@ -42,10 +41,10 @@ router.post('/create', (req, res, next): void => {
 // User Login
 router.post('/login', (req, res, next): void => {
   (async () => {
-    const { email, password } = req.body;
+    const { username, password } = req.body;
 
     try {
-      const user = await User.findOne({ where: { email } });
+      const user = await User.findOne({ where: { username } });
       if (!user) {
         return res.status(404).json({ error: 'User not found.' });
       }
