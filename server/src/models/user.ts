@@ -4,7 +4,6 @@ import { Sequelize, Model, DataTypes, Optional } from "sequelize";
 interface UserAttributes {
     id: number;
     username: string;
-    email: string;
     password: string;
 }
 
@@ -14,7 +13,6 @@ interface UserCreationAttributes extends Optional<UserAttributes, "id"> {}
 export class User extends Model<UserAttributes, UserCreationAttributes> implements UserAttributes {
     public id!: number;
     public username!: string;
-    public email!: string;
     public password!: string;
 }
 
@@ -28,11 +26,6 @@ export function UserFactory(sequelize: Sequelize): typeof User {
                 autoIncrement: true,
             },
             username: {
-                type: DataTypes.STRING,
-                allowNull: false,
-                unique: true,
-            },
-            email: {
                 type: DataTypes.STRING,
                 allowNull: false,
                 unique: true,
