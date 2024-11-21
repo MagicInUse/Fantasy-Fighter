@@ -19,3 +19,6 @@ A turn-based RPG featuring a Fantasy protagonist thrown into a world of chaos fe
 
 - [Icon Scout](https://iconscout.com/)
 - [Bootswatch - Free Bootstrap Themes - Spacelab](https://bootswatch.com/spacelab)
+- [Google Fonts](https://fonts.google.com/)
+  - [UnifrakturMaguntia Font License](https://fonts.google.com/specimen/UnifrakturMaguntia/license)
+- [Hero Patters SVG/CSS Topography](https://heropatterns.com/)
