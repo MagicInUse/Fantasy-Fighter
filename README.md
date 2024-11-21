@@ -17,7 +17,7 @@ A turn-based RPG featuring a Fantasy protagonist thrown into a world of chaos fe
 
 ## References
 
-- [Dragon Icon Vectors by Vecteezy]("https://www.vecteezy.com/free-vector/dragon-icon")
+- [Dragon Icon Vectors by Vecteezy](https://www.vecteezy.com/free-vector/dragon-icon)
 - [Bootswatch - Free Bootstrap Themes - Spacelab](https://bootswatch.com/spacelab)
 - [Google Fonts](https://fonts.google.com/)
   - [UnifrakturMaguntia Font License](https://fonts.google.com/specimen/UnifrakturMaguntia/license)
