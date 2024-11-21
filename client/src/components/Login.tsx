@@ -6,6 +6,7 @@ import type { UserLogin } from '../interfaces/UserLogin';
 
 const Login = () => {
     const [loginData, setLoginData] = useState<UserLogin>({
+        email: '',
         username: '',
         password: '',
     });
@@ -60,6 +61,17 @@ const Login = () => {
             <div className="col-md-6">
             <form className='form login-form' onSubmit={handleSubmit}>
                 <h1 className="text-center mb-4">Login</h1>
+                {/* TODO: Get w/ Hailey to see if we want only email or username or all */}
+                <div className='form-group mb-3'>
+                <label className="form-label">Email: </label>
+                <input
+                    className='form-control'
+                    type='text'
+                    name='email'
+                    value={loginData.email || ''}
+                    onChange={handleChange}
+                />
+                </div>
                 <div className='form-group mb-3'>
                 <label className="form-label">Username: </label>
                 <input
