@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider, RouteObject } from 'react-router-dom';
 
 import 'bootswatch/dist/spacelab/bootstrap.min.css';
+import '../src/assets/topography.css';
+
 
 import App from './App.tsx';
 

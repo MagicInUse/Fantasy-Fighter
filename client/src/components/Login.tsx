@@ -38,7 +38,7 @@ const Login = () => {
         if (newUser) {
             try {
                 createUser(loginData);
-                pushLogin(loginData);
+                setNewUser(!newUser);
             }
             catch (err) {
                 console.error('Failed to create user', err);
@@ -57,8 +57,8 @@ const Login = () => {
     };
 
     return (
-        <div className='form-container d-flex justify-content-center align-items-center vh-100'>
-            <div className="col-md-6">
+        <div className='form-container d-flex justify-content-center align-items-center mt-5'>
+            <div className="col-md-6 card border-secondary p-5 mt-5">
             <form className='form login-form' onSubmit={handleSubmit}>
                 <h1 className="text-center mb-4">Login</h1>
                 {/* TODO: Get w/ Hailey to see if we want only email or username or all */}
@@ -105,7 +105,7 @@ const Login = () => {
                 </div>
                 <div className='form-group text-center'>
                     <button className='btn btn-primary w-25' type='submit'>
-                        {newUser ? 'Create Account & Login' : 'Login'}
+                        {newUser ? 'Create Account' : 'Login'}
                     </button>
                 </div>
             </form>
