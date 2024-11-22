@@ -40,10 +40,11 @@ Level.init(
     }
 );
 
-Level.hasMany(Enemy, {
-    foreignKey: 'level_id',
-    as: 'enemies',
-});
-Enemy.belongsTo(Level, { foreignKey: 'level_id', as: 'level' });
+// TODO: Uncomment this code when you have created the Enemy model
+// Level.hasMany(Enemy, {
+//     foreignKey: 'level_id',
+//     as: 'enemies',
+// });
+// Enemy.belongsTo(Level, { foreignKey: 'level_id', as: 'level' });
 
 export default Level;
