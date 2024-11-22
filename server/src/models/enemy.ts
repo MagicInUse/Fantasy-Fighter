@@ -4,13 +4,13 @@ import { Level } from "./level";
 interface EnemyAttributes {
     health: number;
     damage: number;
-    levelId?: number;
+    level_id?: number;
 }
 
 export class Enemy extends Model<EnemyAttributes> implements EnemyAttributes {
     public health!: number;
     public damage!: number;
-    public levelId!: number;
+    public level_id!: number;
 }
 export function EnemyFactory(sequelize: Sequelize): typeof Enemy {
 
@@ -24,7 +24,7 @@ export function EnemyFactory(sequelize: Sequelize): typeof Enemy {
                 type: DataTypes.INTEGER,
                 allowNull: false,
             },
-            levelId: {
+            level_id: {
                 type: DataTypes.INTEGER,
                 references: {
                     model: 'level',
