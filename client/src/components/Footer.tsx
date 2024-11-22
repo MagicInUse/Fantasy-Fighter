@@ -6,14 +6,28 @@ const Footer = () => {
 
   const aboutModal = {
     title: 'About',
-    body: `
-      <p>Meet the devs!</p>
-      <ul>
-        <li class="text-info"><a href="https://github.com/Kristenshields" target="_blank" class="text-success-emphasis">Kristen</a></li>
-        <li class="text-info"><a href="https://github.com/Cinnlight" target="_blank" class="text-success-emphasis">Hailey</a></li>
-        <li class="text-info"><a href="https://github.com/MagicInUse" target="_blank" class="text-success-emphasis">Jacob</a></li>
-      </ul>
-    `,
+    body: (
+      <div>
+        <p>Meet the devs!</p>
+        <ul>
+          <li className="text-info">
+            <a href="https://github.com/Kristenshields" target="_blank" className="text-success-emphasis">
+              Kristen
+            </a>
+          </li>
+          <li className="text-info">
+            <a href="https://github.com/Cinnlight" target="_blank" className="text-success-emphasis">
+              Hailey
+            </a>
+          </li>
+          <li className="text-info">
+            <a href="https://github.com/MagicInUse" target="_blank" className="text-success-emphasis">
+              Jacob
+            </a>
+          </li>
+        </ul>
+      </div>
+    ),
     exitButton: 'Close',
     show: showModal,
     onClose: () => setShowModal(false),
