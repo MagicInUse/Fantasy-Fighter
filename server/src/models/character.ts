@@ -1,27 +1,29 @@
+import { Sequelize, Model, DataTypes } from "sequelize"; // Added Sequelize
 import sequelize from "../config/database";
-import { Model, DataTypes } from "sequelize";
 
 interface CharacterAttributes {
     id: number;
+    userId: number;
     characterName: string;
     level: number;
     health: number;
     mana: number;
     currentWeapon: string;
-    //armor: string; 
+    // armor: string; 
 }
 
 export class Character extends Model<CharacterAttributes> implements CharacterAttributes {
     public id!: number;
+    public userId!: number;
     public characterName!: string;
     public level!: number;
     public health!: number;
     public mana!: number;
     public currentWeapon!: string;
-    //public armor!: string;
+    // public armor!: string;
 }
 
-export function CharacterFactory(sequelize: typeof Sequelize): typeof Character {
+export function CharacterFactory(sequelize: Sequelize): typeof Character {
     Character.init(
         {
             id: {
@@ -29,22 +31,26 @@ export function CharacterFactory(sequelize: typeof Sequelize): typeof Character 
                 primaryKey: true,
                 autoIncrement: true,
             },
-
+            userId: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+                references: {
+                    model: 'users',
+                    key: 'id',
+                },
+            },
             characterName: {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
-
             level: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
             },
-
             health: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
             },
-
             mana: {
                 type: DataTypes.INTEGER,
                 allowNull: true,
@@ -53,10 +59,10 @@ export function CharacterFactory(sequelize: typeof Sequelize): typeof Character 
                 type: DataTypes.STRING,
                 allowNull: true,
             },
- 
         },
         {
             modelName: 'Character',
+            tableName: 'characters',
             sequelize,
         }
     );

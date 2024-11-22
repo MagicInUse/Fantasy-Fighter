@@ -1,33 +1,28 @@
-import express, { NextFunction } from 'express';
-import Level from '../models/level';
+import express, { Request, Response, NextFunction } from 'express';
+import { Level } from '../models/index';
+import { authenticate } from './middleware/auth';
 
 const router = express.Router();
 
-interface LevelParams {
-  id: string;
-}
+const getLevelById = async ( req: Request, res: Response, next: NextFunction): Promise<void> => {
+  const { id } = req.params;
+
+  try {
+    const level = await Level.findByPk(id);
+
+    if (!level) {
+      res.status(404).send({ message: 'Level not found' });
+      return;
+    }
+
+    res.json(level);
+  } catch (error) {
+    console.error('Error fetching level:', error);
+    res.status(500).send({ message: 'Internal Server Error' });
+  }
+};
 
 // GET /api/level/:id
-router.get(
-  '/:id',
-  (req: express.Request<LevelParams>, res: express.Response, next: NextFunction): void => {
-    (async () => {
-      const { id } = req.params;
-
-      try {
-        const level = await Level.findByPk(id);
-
-        if (!level) {
-          return res.status(404).send({ message: 'Level not found' });
-        }
-
-        res.json(level);
-      } catch (error) {
-        console.error('Error fetching level:', error);
-        res.status(500).send({ message: 'Internal Server Error' });
-      }
-    })().catch(next);
-  }
-);
+router.get('/:id', authenticate, getLevelById);
 
 export default router;
