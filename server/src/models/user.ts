@@ -5,6 +5,7 @@ interface UserAttributes {
     id: number;
     username: string;
     password: string;
+    level: number;
 }
 
 // Make id optional for UserCreationAttributes
@@ -14,6 +15,7 @@ export class User extends Model<UserAttributes, UserCreationAttributes> implemen
     public id!: number;
     public username!: string;
     public password!: string;
+    public level!: number;
 }
 
 // Factory function to define the model
@@ -34,9 +36,15 @@ export function UserFactory(sequelize: Sequelize): typeof User {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
+            level: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+                defaultValue: 1,
+            },
         },
         {
             modelName: "User",
+            tableName: "users",
             sequelize,
         }
     );

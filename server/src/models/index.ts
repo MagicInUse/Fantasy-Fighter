@@ -1,45 +1,53 @@
-'use strict';
+import { Sequelize } from "sequelize";
+import dotenv from 'dotenv';
+dotenv.config();
 
-const fs = require('fs');
-const path = require('path');
-const Sequelize = require('sequelize');
-const process = require('process');
-const basename = path.basename(__filename);
-const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.json')[env];
-const db = {};
+// Import factory functions
+import { User, UserFactory } from "./user";
+import { Character, CharacterFactory } from "./character";
+import { Enemy, EnemyFactory } from "./enemy";
+import { Item, ItemFactory } from "./item";
+import { Level, LevelFactory } from "./level";
 
-let sequelize;
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
-} else {
-  sequelize = new Sequelize(config.database, config.username, config.password, config);
-}
+// Initialize Sequelize instance
+const sequelize = new Sequelize(
+    process.env.DB_NAME || 'rpg_db',
+    process.env.DB_USER || 'postgres',
+    process.env.DB_PASSWORD || 'postgres',
+    {
+        host: process.env.DB_HOST || 'localhost',
+        dialect: 'postgres',
+        logging: false,
+    }
+);
 
-fs
-  .readdirSync(__dirname)
-  .filter(file => {
-    return (
-      file.indexOf('.') !== 0 &&
-      file !== basename &&
-      file.slice(-3) === '.js' &&
-      file.indexOf('.test.js') === -1
-    );
-  })
-  .forEach(file => {
-    const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
-    db[model.name] = model;
-  });
+// Initialize all models
+UserFactory(sequelize);
+CharacterFactory(sequelize);
+EnemyFactory(sequelize);
+ItemFactory(sequelize);
+LevelFactory(sequelize);
 
-Object.keys(db).forEach(modelName => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
-  }
-});
+// Set up associations here, after all models have been initialized
 
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
+// 1. User has many Characters
+User.hasMany(Character, { foreignKey: 'userId', as: 'characters' });
+Character.belongsTo(User, { foreignKey: 'userId', as: 'user' });
 
-module.exports = db;
+// 2. Level has one Enemy
+Level.hasOne(Enemy, { foreignKey: 'level_id', as: 'enemyDetails' });
+Enemy.belongsTo(Level, { foreignKey: 'level_id', as: 'level' });
 
-//verifying my contribution status
+// 3. Characters can have Items (Many-to-Many)
+Character.belongsToMany(Item, { through: 'CharacterItems', as: 'items' });
+Item.belongsToMany(Character, { through: 'CharacterItems', as: 'characters' });
+
+// Export all models and the Sequelize instance
+export {
+    User,
+    Character,
+    Enemy,
+    Item,
+    Level,
+    sequelize
+};

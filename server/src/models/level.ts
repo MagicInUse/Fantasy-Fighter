@@ -1,49 +1,48 @@
 import { DataTypes, Model, Sequelize } from 'sequelize';
 import sequelize from '../config/database';
-import { Enemy } from './enemy';
 
-export class Level extends Model {}
+interface LevelAttributes {
+    level_id: number;
+    level_name: string;
+    loot_table: object | null;
+    description: string | null;
+}
 
-Level.init(
-    {
-        level_id: {
-            type: DataTypes.INTEGER,
-            primaryKey: true,
-            autoIncrement: true,
+export class Level extends Model<LevelAttributes> implements LevelAttributes {
+    public level_id!: number;
+    public level_name!: string;
+    public loot_table!: object | null;
+    public description!: string | null;
+}
+
+export function LevelFactory(sequelize: Sequelize): typeof Level {
+    Level.init(
+        {
+            level_id: {
+                type: DataTypes.INTEGER,
+                primaryKey: true,
+                autoIncrement: true,
+            },
+            level_name: {
+                type: DataTypes.STRING(50),
+                allowNull: false,
+            },
+            loot_table: {
+                type: DataTypes.JSONB,
+                allowNull: true,
+            },
+            description: {
+                type: DataTypes.STRING(255),
+                allowNull: true,
+            },
         },
-        level_name: {
-            type: DataTypes.STRING(50),
-            allowNull: false,
-        },
-         enemy: {
-            type: DataTypes.STRING(50),
-            allowNull: false,
-         },
-         enemy_stats: {
-            type: DataTypes.JSONB,
-            allowNull: false,
-         },
-         loot_table: {
-            type: DataTypes.JSONB,
-            allowNull: true,
-         },
-         description: {
-            type: DataTypes.STRING(255),
-            allowNull: true,
-         },
-    },
-    {
-        sequelize,
-        modelName: 'Level',
-        tableName: 'levels',
-        timestamps: false,
-    }
-);
+        {
+            sequelize,
+            modelName: 'Level',
+            tableName: 'levels',
+            timestamps: false,
+        }
+    );
 
-Level.hasMany(Enemy, {
-    foreignKey: 'level_id',
-    as: 'enemies',
-});
-Enemy.belongsTo(Level, { foreignKey: 'level_id', as: 'level' });
-
-export default Level;
+    return Level;
+}
