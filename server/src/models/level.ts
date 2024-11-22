@@ -1,7 +1,8 @@
-import { DataTypes, Model } from 'sequelize';
+import { DataTypes, Model, Sequelize } from 'sequelize';
 import sequelize from '../config/database';
+import { Enemy } from './enemy';
 
-class Level extends Model {}
+export class Level extends Model {}
 
 Level.init(
     {
@@ -29,7 +30,7 @@ Level.init(
          description: {
             type: DataTypes.STRING(255),
             allowNull: true,
-         }
+         },
     },
     {
         sequelize,
@@ -38,5 +39,11 @@ Level.init(
         timestamps: false,
     }
 );
+
+Level.hasMany(Enemy, {
+    foreignKey: 'level_id',
+    as: 'enemies',
+});
+Enemy.belongsTo(Level, { foreignKey: 'level_id', as: 'level' });
 
 export default Level;
