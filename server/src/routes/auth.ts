@@ -1,7 +1,7 @@
 import express, { NextFunction } from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { User, sequelize } from '../config/database';
+import { User } from '../models/index';
 
 const router = express.Router();
 const SECRET_KEY = process.env.JWT_SECRET || 'secret';
@@ -25,6 +25,7 @@ router.post('/create', (req, res, next): void => {
       const newUser = await User.create({
         username,
         password: hashedPassword,
+        level: 1,
       });
 
       res.status(201).json({
