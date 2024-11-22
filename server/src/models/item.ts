@@ -1,5 +1,4 @@
-import sequelize from "../config/database";
-import { Model, DataTypes } from "sequelize";
+import { Sequelize, Model, DataTypes } from "sequelize"; // Added Sequelize
 
 interface ItemAttributes {
     id: number;
@@ -19,7 +18,7 @@ export class Item extends Model<ItemAttributes> implements ItemAttributes {
     public effect?: string;
 }
 
-export function ItemFactory(sequelize: typeof Sequelize): typeof Item {
+export function ItemFactory(sequelize: Sequelize): typeof Item { // Changed typeof Sequelize to Sequelize
     Item.init(
         {
             id: {
@@ -27,35 +26,30 @@ export function ItemFactory(sequelize: typeof Sequelize): typeof Item {
                 primaryKey: true,
                 autoIncrement: true,
             },
-
             itemName: {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
-
             type: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
             },
-
             quantity: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
             },
-
             damage: {
                 type: DataTypes.INTEGER,
                 allowNull: true,
             },
-
             effect: {
                 type: DataTypes.STRING,
                 allowNull: true,
             },
- 
         },
         {
-            modelName: 'Character',
+            modelName: 'Item',
+            tableName: 'items',
             sequelize,
         }
     );
