@@ -12,7 +12,7 @@ import ErrorPage from './pages/ErrorPage.tsx';
 import Home from './pages/Home.tsx';
 import Levels from './pages/Levels.tsx';
 import Combat from './pages/Combat.tsx';
-import Profile from './pages/Profile.tsx';
+import Inventory from './pages/Inventory.tsx';
 
 const routes: RouteObject[] = [
   {
@@ -33,8 +33,8 @@ const routes: RouteObject[] = [
         element: <Combat />,
       },
       {
-        path: '/profile',
-        element: <Profile />,
+        path: '/inventory',
+        element: <Inventory />,
       },
     ],
   },
