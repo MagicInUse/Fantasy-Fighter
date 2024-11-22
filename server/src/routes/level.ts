@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
 import { Level } from '../models/index';
-import { authenticate } from './middleware/auth';
+import { authenticate, authenticateLevelAccess } from './middleware/auth';
 
 const router = express.Router();
 
@@ -23,6 +23,6 @@ const getLevelById = async ( req: Request, res: Response, next: NextFunction): P
 };
 
 // GET /api/level/:id
-router.get('/:id', authenticate, getLevelById);
+router.get('/:id', authenticateLevelAccess, getLevelById);
 
 export default router;

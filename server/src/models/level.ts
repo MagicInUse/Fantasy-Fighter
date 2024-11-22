@@ -6,6 +6,8 @@ interface LevelAttributes {
     level_name: string;
     loot_table: object | null;
     description: string | null;
+    complete: boolean;
+    locked: boolean;
 }
 
 export class Level extends Model<LevelAttributes> implements LevelAttributes {
@@ -13,6 +15,8 @@ export class Level extends Model<LevelAttributes> implements LevelAttributes {
     public level_name!: string;
     public loot_table!: object | null;
     public description!: string | null;
+    public complete!: boolean;
+    public locked!: boolean;
 }
 
 export function LevelFactory(sequelize: Sequelize): typeof Level {
@@ -34,6 +38,16 @@ export function LevelFactory(sequelize: Sequelize): typeof Level {
             description: {
                 type: DataTypes.STRING(255),
                 allowNull: true,
+            },
+            complete: {
+                type: DataTypes.BOOLEAN,
+                allowNull: false,
+                defaultValue: false,
+            },
+            locked: {
+                type: DataTypes.BOOLEAN,
+                allowNull: false,
+                defaultValue: true,
             },
         },
         {
