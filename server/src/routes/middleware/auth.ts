@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { User } from '../../models/index';
+import { User, Level } from '../../models/index';
 import { JwtPayload } from 'jsonwebtoken';
 
 const SECRET_KEY = process.env.JWT_SECRET || 'secret';
@@ -43,26 +43,40 @@ export const authenticate = (req: Request, res: Response, next: NextFunction): v
 export const authenticateLevelAccess = async (req: Request, res: Response, next: NextFunction) => {
     try {
         if (!req.user || !req.user.id) {
-            return res.status(401).json({ error: 'Access denied. User information missing.' });
+            res.status(401).json({ error: 'Access denied. User information missing.' });
+            return;
         }
 
         const userId = req.user.id;
 
         const user = await User.findByPk(userId);
         if (!user) {
-            return res.status(404).json({ error: 'User not found' });
+            res.status(404).json({ error: 'User not found' });
+            return;
         }
 
         const requestedLevel = parseInt(req.params.levelId, 10);
 
         if (isNaN(requestedLevel)) {
-            return res.status(400).json({ error: 'Invalid level ID provided.' });
+            res.status(400).json({ error: 'Invalid level ID provided.' });
+            return;
         }
 
         if (user.level < requestedLevel) {
-            return res.status(403).json({ error: `Level ${requestedLevel} is locked. Complete level ${user.level} to progress.` });
+            res.status(403).json({ error: `Level ${requestedLevel} is locked. Complete level ${user.level} to progress.` });
+            return;
         }
 
+        const level = await Level.findByPk(requestedLevel);
+
+        if (!level) {
+            res.status(404).json({ error: 'Level not found' });
+            return;
+        } else if (level.locked) {
+            level.locked = false;
+            await level.save();
+            console.log(`Level ${requestedLevel} unlocked.`);
+        }
         next();
     } catch (error) {
         console.error("Error in authenticateLevelAccess middleware", error);
