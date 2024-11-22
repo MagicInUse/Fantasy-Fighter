@@ -1,10 +1,19 @@
 const ErrorPage = () => {
-    return (
-      <section>
-        <h1>404: Page Not Found</h1>
-        <h1> ¯\_(ツ)_/¯</h1>
-      </section>
-    );
+  const handleGoBack = () => {
+    window.history.back();
   };
-  
-  export default ErrorPage;
+
+  return (
+    <div className="d-flex justify-content-center align-items-center vh-100">
+      <section className="text-center card border-secondary p-3">
+        <h1>404: Page Not Found</h1>
+        <h1>¯\_(ツ)_/¯</h1>
+        <button className="btn btn-danger mt-4" onClick={handleGoBack}>
+          Go Back
+        </button>
+      </section>
+    </div>
+  );
+};
+
+export default ErrorPage;

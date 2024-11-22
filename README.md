@@ -22,3 +22,4 @@ A turn-based RPG featuring a Fantasy protagonist thrown into a world of chaos fe
 - [Google Fonts](https://fonts.google.com/)
   - [UnifrakturMaguntia Font License](https://fonts.google.com/specimen/UnifrakturMaguntia/license)
 - [Hero Patters SVG/CSS Topography](https://heropatterns.com/)
+- [React-Bootstrap Docs](https://react-bootstrap.netlify.app/docs/)

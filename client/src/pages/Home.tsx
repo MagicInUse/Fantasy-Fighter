@@ -1,6 +1,7 @@
 import { useState, useEffect, useLayoutEffect } from "react";
 
 import Login from "../components/Login";
+import Footer from "../components/Footer";
 
 import Auth from '../utils/auth';
 
@@ -30,6 +31,7 @@ const Home = () => {
     return (
         <>
             <Login />
+            <Footer />
         </>
     );
 };
