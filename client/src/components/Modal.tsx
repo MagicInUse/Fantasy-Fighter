@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect } from 'react';
 
 interface ModalProps {
   title: string;
@@ -9,6 +9,24 @@ interface ModalProps {
 }
 
 const ModalComponent: React.FC<ModalProps> = ({ title, body, exitButton, show, onClose }) => {
+  const handleClickOutside = (event: MouseEvent) => {
+    const modal = document.querySelector('.modal-dialog');
+    if (modal && !modal.contains(event.target as Node)) {
+      onClose();
+    }
+  };
+
+  useEffect(() => {
+    if (show) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [show]);
+
   if (!show) {
     return null;
   }

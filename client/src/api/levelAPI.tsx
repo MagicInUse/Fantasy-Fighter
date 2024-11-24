@@ -1,6 +1,6 @@
 import type { LevelData } from '../interfaces/LevelData';
 
-// /api/levels endpoint
+// /api/level endpoint
 const getLevels = async (): Promise<LevelData[]> => {
   try {
     const response = await fetch('/api/level');
@@ -18,7 +18,7 @@ const getLevels = async (): Promise<LevelData[]> => {
   }
 };
 
-// /api/levels/:id endpoint
+// /api/level/:id endpoint
 const getLevel = async (level: number): Promise<LevelData> => {
   try {
     const response = await fetch(`/api/level/${level}`);
