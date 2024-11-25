@@ -1,4 +1,5 @@
 import type { LevelData } from '../interfaces/LevelData';
+
 import AuthService from '../utils/auth';
 
 // /api/level endpoint

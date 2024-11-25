@@ -1,5 +1,6 @@
 import type { UserLogin } from '../interfaces/UserLogin';
 
+// /api/auth/login post method
 const login = async (userInfo: UserLogin) => {
   try {
     const response = await fetch('/api/auth/login', {
@@ -23,6 +24,7 @@ const login = async (userInfo: UserLogin) => {
   }
 };
 
+// /api/auth/create post method
 const createUser = async (userInfo: UserLogin) => {
   try {
     const response = await fetch('/api/auth/create', {
