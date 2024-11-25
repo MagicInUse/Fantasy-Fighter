@@ -1,9 +1,18 @@
 import type { LevelData } from '../interfaces/LevelData';
+import AuthService from '../utils/auth';
 
 // /api/level endpoint
 const getLevels = async (): Promise<LevelData[]> => {
+  if (!AuthService.loggedIn()) {
+    return Promise.reject('User is not authenticated');
+  }
+
   try {
-    const response = await fetch('/api/level');
+    const response = await fetch('/api/level', {
+      headers: {
+        Authorization: `Bearer ${AuthService.getToken()}`,
+      },
+    });
 
     if (!response.ok) {
       throw new Error('Could not retrieve levels');
@@ -20,8 +29,16 @@ const getLevels = async (): Promise<LevelData[]> => {
 
 // /api/level/:id endpoint
 const getLevel = async (level: number): Promise<LevelData> => {
+  if (!AuthService.loggedIn()) {
+    return Promise.reject('User is not authenticated');
+  }
+
   try {
-    const response = await fetch(`/api/level/${level}`);
+    const response = await fetch(`/api/level/${level}`, {
+      headers: {
+        Authorization: `Bearer ${AuthService.getToken()}`,
+      },
+    });
 
     if (!response.ok) {
       throw new Error('Could not retrieve level');
