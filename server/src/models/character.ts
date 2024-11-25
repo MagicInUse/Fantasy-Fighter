@@ -1,4 +1,5 @@
-import { Sequelize, Model, DataTypes } from "sequelize"; // Added Sequelize
+import { Sequelize, Model, DataTypes, Optional } from "sequelize"; // Added Sequelize
+import { Item } from "./index";
 import sequelize from "../config/database";
 
 interface CharacterAttributes {
@@ -12,7 +13,9 @@ interface CharacterAttributes {
     // armor: string; 
 }
 
-export class Character extends Model<CharacterAttributes> implements CharacterAttributes {
+interface CharacterCreationAttributes extends Optional<CharacterAttributes, "id"> {}
+
+export class Character extends Model<CharacterAttributes, CharacterCreationAttributes> implements CharacterAttributes {
     public id!: number;
     public userId!: number;
     public characterName!: string;
@@ -21,6 +24,11 @@ export class Character extends Model<CharacterAttributes> implements CharacterAt
     public mana!: number;
     public currentWeapon!: string;
     // public armor!: string;
+
+    // Association Methods
+    public addItem!: (item: Item | Item[]) => Promise<void>;
+    public getItems!: () => Promise<Item[]>;
+    public removeItem!: (item: Item | Item[]) => Promise<void>;
 }
 
 export function CharacterFactory(sequelize: Sequelize): typeof Character {

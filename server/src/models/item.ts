@@ -1,4 +1,4 @@
-import { Sequelize, Model, DataTypes } from "sequelize"; // Added Sequelize
+import { Sequelize, Model, DataTypes, Optional } from "sequelize"; // Added Sequelize
 
 interface ItemAttributes {
     id: number;
@@ -9,7 +9,9 @@ interface ItemAttributes {
     effect?: string;
 }
 
-export class Item extends Model<ItemAttributes> implements ItemAttributes {
+interface ItemCreationAttributes extends Optional<ItemAttributes, "id"> {}
+
+export class Item extends Model<ItemAttributes, ItemCreationAttributes> implements ItemAttributes {
     public id!: number;
     public itemName!: string;
     public type!: number;
