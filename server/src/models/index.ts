@@ -42,6 +42,10 @@ Enemy.belongsTo(Level, { foreignKey: 'level_id', as: 'level' });
 Character.belongsToMany(Item, { through: 'CharacterItems', as: 'items' });
 Item.belongsToMany(Character, { through: 'CharacterItems', as: 'characters' });
 
+// 4. Level has many Items
+Level.hasMany(Item, { foreignKey: 'level_id', as: 'loot' });
+Item.belongsTo(Level, { foreignKey: 'level_id', as: 'level' });
+
 // Export all models and the Sequelize instance
 export {
     User,

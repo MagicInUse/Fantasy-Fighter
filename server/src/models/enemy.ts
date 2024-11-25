@@ -1,4 +1,4 @@
-import { Model, DataTypes, Sequelize } from "sequelize";
+import { Model, DataTypes, Sequelize, Optional } from "sequelize";
 
 interface EnemyAttributes {
     enemy_id: number;
@@ -8,7 +8,9 @@ interface EnemyAttributes {
     level_id?: number;
 }
 
-export class Enemy extends Model<EnemyAttributes> implements EnemyAttributes {
+interface EnemyCreationAttributes extends Optional<EnemyAttributes, "enemy_id"> {}
+
+export class Enemy extends Model<EnemyAttributes, EnemyCreationAttributes> implements EnemyAttributes {
     public enemy_id!: number;
     public type!: string;
     public health!: number;

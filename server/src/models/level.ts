@@ -1,4 +1,4 @@
-import { DataTypes, Model, Sequelize } from 'sequelize';
+import { DataTypes, Model, Sequelize, Optional } from 'sequelize';
 import sequelize from '../config/database';
 
 interface LevelAttributes {
@@ -10,7 +10,9 @@ interface LevelAttributes {
     locked: boolean;
 }
 
-export class Level extends Model<LevelAttributes> implements LevelAttributes {
+interface LevelCreationAttributes extends Optional<LevelAttributes, "level_id"> {}
+
+export class Level extends Model<LevelAttributes, LevelCreationAttributes> implements LevelAttributes {
     public level_id!: number;
     public level_name!: string;
     public loot_table!: object | null;

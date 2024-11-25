@@ -1,4 +1,4 @@
-import { Sequelize, Model, DataTypes } from "sequelize"; // Added Sequelize
+import { Sequelize, Model, DataTypes, Optional } from "sequelize"; // Added Sequelize
 import sequelize from "../config/database";
 
 interface CharacterAttributes {
@@ -12,7 +12,9 @@ interface CharacterAttributes {
     // armor: string; 
 }
 
-export class Character extends Model<CharacterAttributes> implements CharacterAttributes {
+interface CharacterCreationAttributes extends Optional<CharacterAttributes, "id"> {}
+
+export class Character extends Model<CharacterAttributes, CharacterCreationAttributes> implements CharacterAttributes {
     public id!: number;
     public userId!: number;
     public characterName!: string;
