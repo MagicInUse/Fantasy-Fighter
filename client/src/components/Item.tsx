@@ -25,7 +25,7 @@ const Item: React.FC<ItemProps> = ({ item, onUpdate }) => {
 
   const handleEquip = () => {
     if (item.type === 1) {
-      // Equip the item
+      // Equip or Unequip the item
       const updatedItem = { ...item, equipped: !item.equipped };
       onUpdate(updatedItem);
     } else {
@@ -61,7 +61,7 @@ const Item: React.FC<ItemProps> = ({ item, onUpdate }) => {
               {item.effect ? <p>Effect: {item.effect}</p> : null}
             </div>
           } 
-          equipButton={item.type === 1 ? "Equip" : item.quantity > 0 ? "Use" : null} 
+          equipButton={item.type === 1 ? (item.equipped ? "Unequip" : "Equip") : item.quantity > 0 ? "Use" : null} 
           exitButton="Close" 
           show={showModal} 
           onEquip={handleEquip} 
