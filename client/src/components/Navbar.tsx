@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+
 import auth from '../utils/auth';
 
 const Navbar = () => {
