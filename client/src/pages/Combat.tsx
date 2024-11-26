@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { CharacterData } from '../interfaces/CharacterData';
 import { EnemyData } from '../interfaces/EnemyData';
 
-import { getPlayerData, getEnemyData } from '../api/combatAPI.tsx';
+import { getCharacterData, getEnemyData } from '../api/combatAPI.tsx';
 
 const Combat = () => {
   const [player, setPlayer] = useState<CharacterData | null>(null);
@@ -12,7 +12,7 @@ const Combat = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const playerData = await getPlayerData();
+        const playerData = await getCharacterData();
         const enemyData = await getEnemyData();
         setPlayer(playerData);
         setEnemy(enemyData);
