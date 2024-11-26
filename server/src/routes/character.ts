@@ -5,27 +5,27 @@ import { authenticate } from './middleware/auth';
 const router = express.Router();
 
 // Create default weapon
-(async () => {
-const existingSword = await Item.findOne({ where: { itemName: "Sword" } });
-if (!existingSword) {
-    await Item.create({
-        itemName: "Sword",
-        type: 1,
-        quantity: 1,
-        damage: 5,
-    });
-}
-})();
+// (async () => {
+// const existingSword = await Item.findOne({ where: { itemName: "Sword" } });
+// if (!existingSword) {
+//     await Item.create({
+//         itemName: "Sword",
+//         type: 1,
+//         quantity: 1,
+//         damage: 5,
+//     });
+// }
+// })();
 
 
 // Create default Character
 const createCharacter = async (req: Request, res: Response): Promise<void> => {
-    const sword = await Item.create({
-        itemName: "Sword",
-        type: 1,
-        quantity: 1,
-        damage: 5,
-    });
+    // const sword = await Item.create({
+    //     itemName: "Sword",
+    //     type: 1,
+    //     quantity: 1,
+    //     damage: 5,
+    // });
     const { id: userId } = req.body.user;
 
     try {
@@ -38,7 +38,7 @@ const createCharacter = async (req: Request, res: Response): Promise<void> => {
             currentWeapon: "Sword",
         });
 
-        await newCharacter.addItem(sword);
+        // await newCharacter.addItem(sword);
 
         res.status(201).json({
             message: 'Character created successfully.',
