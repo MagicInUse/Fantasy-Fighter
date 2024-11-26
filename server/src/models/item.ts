@@ -1,4 +1,5 @@
 import { Sequelize, Model, DataTypes, Optional } from "sequelize"; // Added Sequelize
+import { Character } from "./index";
 
 interface ItemAttributes {
     id: number;
@@ -18,6 +19,8 @@ export class Item extends Model<ItemAttributes, ItemCreationAttributes> implemen
     public quantity!: number;
     public damage?: number;
     public effect?: string;
+
+    public getCharacters!: () => Promise<Character[]>;
 }
 
 export function ItemFactory(sequelize: Sequelize): typeof Item { // Changed typeof Sequelize to Sequelize

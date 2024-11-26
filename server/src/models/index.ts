@@ -39,8 +39,9 @@ Level.hasOne(Enemy, { foreignKey: 'level_id', as: 'enemyDetails' });
 Enemy.belongsTo(Level, { foreignKey: 'level_id', as: 'level' });
 
 // 3. Characters can have Items (Many-to-Many)
-Character.belongsToMany(Item, { through: 'CharacterItems', as: 'items' });
-Item.belongsToMany(Character, { through: 'CharacterItems', as: 'characters' });
+Character.hasMany(Item, { as: 'items', foreignKey: 'characterId' });
+Item.belongsTo(Character, { foreignKey: 'characterId' });
+
 
 // 4. Level has many Items
 Level.hasMany(Item, { foreignKey: 'level_id', as: 'loot' });
