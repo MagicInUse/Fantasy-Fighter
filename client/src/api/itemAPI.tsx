@@ -20,8 +20,8 @@ const getItems = async (): Promise<ItemData[]> => {
     }
 
     const data = await response.json();
-
     return data;
+
   } catch (err) {
     console.log('Error from item API: ', err);
     return Promise.reject('Could not fetch items');
@@ -49,8 +49,8 @@ const postItem = async (item: ItemData): Promise<ItemData> => {
     }
 
     const data = await response.json();
-
     return data;
+
   } catch (err) {
     console.log('Error from item API: ', err);
     return Promise.reject('Could not add item');

@@ -20,7 +20,6 @@ const getLevels = async (): Promise<LevelData[]> => {
     }
 
     const data = await response.json();
-
     return data;
 
   } catch (err) {
@@ -47,8 +46,8 @@ const getLevel = async (level: number): Promise<LevelData> => {
     }
 
     const data = await response.json();
-
     return data;
+
   } catch (err) {
     console.log('Error from level API: ', err);
     return Promise.reject('Could not fetch level');
@@ -73,8 +72,8 @@ const getLevelDetails = async (level: number): Promise<LevelData> => {
     }
 
     const data = await response.json();
-
     return data;
+
   } catch (err) {
     console.log('Error from level API: ', err);
     return Promise.reject('Could not fetch level details');

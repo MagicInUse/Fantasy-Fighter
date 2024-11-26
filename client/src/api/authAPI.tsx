@@ -18,6 +18,7 @@ const login = async (userInfo: UserLogin) => {
     }
 
     return data;
+
   } catch (err) {
     console.log('Error from user login: ', err);
     return Promise.reject('Could not fetch user info');
@@ -42,8 +43,8 @@ const createUser = async (userInfo: UserLogin) => {
     }
 
     return data;
-  }
-  catch (err) {
+
+  } catch (err) {
     console.log('Error from user creation: ', err);
     return Promise.reject('Could not create user');
   }
