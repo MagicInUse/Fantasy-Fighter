@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { CharacterData } from '../interfaces/CharacterData';
 import { EnemyData } from '../interfaces/EnemyData';
 
-import { getCharacterData, getEnemyData } from '../api/combatAPI.tsx';
+import { apiPlayerAttack, apiPlayerDefend, apiPlayerSpell, getCharacterData, getEnemyData } from '../api/combatAPI.tsx';
 
 const Combat = () => {
   const [player, setPlayer] = useState<CharacterData | null>(null);
@@ -24,24 +24,42 @@ const Combat = () => {
     fetchData();
   }, []);
 
-  const handlePlayerAttack = () => {
+  const handlePlayerAttack = async () => {
     if (player && enemy) {
-        // TODO: Implement proper combat logic; complete the placeholders
       console.log(`${player.username} is attacking`);
+      try {
+        const { updatedPlayer, updatedEnemy } = await apiPlayerAttack(player, enemy);
+        setPlayer(updatedPlayer);
+        setEnemy(updatedEnemy);
+      } catch (error) {
+        console.error('Error during player attack:', error);
+      }
     }
   };
 
-  const handlePlayerDefend = () => {
+  const handlePlayerDefend = async () => {
     if (player && enemy) {
-      // Placeholder logic for defending
       console.log(`${player.username} is defending`);
+      try {
+        const { updatedPlayer, updatedEnemy } = await apiPlayerDefend(player, enemy);
+        setPlayer(updatedPlayer);
+        setEnemy(updatedEnemy);
+      } catch (error) {
+        console.error('Error during player defend:', error);
+      }
     }
   };
 
-  const handlePlayerSpell = () => {
+  const handlePlayerSpell = async () => {
     if (player && enemy) {
-      // Placeholder logic for casting a spell
       console.log(`${player.username} is casting a spell`);
+      try {
+        const { updatedPlayer, updatedEnemy } = await apiPlayerSpell(player, enemy);
+        setPlayer(updatedPlayer);
+        setEnemy(updatedEnemy);
+      } catch (error) {
+        console.error('Error during player spell:', error);
+      }
     }
   };
 

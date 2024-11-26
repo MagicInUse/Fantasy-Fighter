@@ -1,6 +1,4 @@
-import { ItemData } from './ItemData';
-
-export interface EnemyData extends ItemData {
+export interface EnemyData {
   name: string;
   sprite: string;
   level: number;
@@ -8,5 +6,4 @@ export interface EnemyData extends ItemData {
   mana: number;
   attack: number;
   defense: number;
-  lootTable: ItemData[];
 }
