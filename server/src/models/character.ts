@@ -29,6 +29,7 @@ export class Character extends Model<CharacterAttributes, CharacterCreationAttri
     public addItem!: (item: Item | Item[]) => Promise<void>;
     public getItems!: () => Promise<Item[]>;
     public removeItem!: (item: Item | Item[]) => Promise<void>;
+    public items?: Item[];
 }
 
 export function CharacterFactory(sequelize: Sequelize): typeof Character {
