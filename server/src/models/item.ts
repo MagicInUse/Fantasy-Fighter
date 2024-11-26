@@ -52,6 +52,7 @@ export function ItemFactory(sequelize: Sequelize): typeof Item { // Changed type
         {
             modelName: 'Item',
             tableName: 'items',
+            timestamps: false,
             sequelize,
         }
     );
