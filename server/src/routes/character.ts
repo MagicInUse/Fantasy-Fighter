@@ -4,28 +4,10 @@ import { authenticate } from './middleware/auth';
 
 const router = express.Router();
 
-// Create default weapon
-// (async () => {
-// const existingSword = await Item.findOne({ where: { itemName: "Sword" } });
-// if (!existingSword) {
-//     await Item.create({
-//         itemName: "Sword",
-//         type: 1,
-//         quantity: 1,
-//         damage: 5,
-//     });
-// }
-// })();
-
 
 // Create default Character
 const createCharacter = async (req: Request, res: Response): Promise<void> => {
-    // const sword = await Item.create({
-    //     itemName: "Sword",
-    //     type: 1,
-    //     quantity: 1,
-    //     damage: 5,
-    // });
+
     // const { id: userId } = req.body.user;
     const userId = 1;
 
@@ -39,7 +21,18 @@ const createCharacter = async (req: Request, res: Response): Promise<void> => {
             currentWeapon: "Sword",
         });
 
-        // await newCharacter.addItem(sword);
+        // Add "Sword" to character inventory
+        const [sword, created] = await Item.findOrCreate({
+            where: { itemName: "Sword" },
+            defaults: {
+                itemName: "Sword",
+                type: 1, // Weapon
+                quantity: 1,
+                damage: Math.floor(Math.random() * (10 - 6 + 1)) + 6, // Random damage 6-10
+            },
+        });
+
+        await newCharacter.addItem(sword);
 
         res.status(201).json({
             message: 'Character created successfully.',
@@ -53,7 +46,7 @@ const createCharacter = async (req: Request, res: Response): Promise<void> => {
 
 // Get users characters and stats
 const userCharacters = async (req: Request, res: Response): Promise<void> => {
-    const { id: userId } = req.body.user;
+    const { id: userId } = req.user;
 
     try {
         const characters = await Character.findAll({ where: { userId } });
@@ -71,11 +64,11 @@ const userCharacters = async (req: Request, res: Response): Promise<void> => {
 };
 
 const getCharacterInventory = async (req: Request, res: Response): Promise<void> => {
-    // const { id: userId } = req.body.user;
-    // const { characterId } = req.params;
+    const { id: userId } = req.user;
+    const { characterId } = req.params;
 
-    const userId = 1;
-    const characterId = 1;
+    // const userId = 1;
+    // const characterId = 1;
 
     try {
         const character = await Character.findOne({ where: { id: characterId, userId }, include: {model:Item, as: "items"} });
