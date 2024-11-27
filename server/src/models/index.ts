@@ -15,9 +15,9 @@ const sequelize = process.env.DB_URL
   : new Sequelize(
     process.env.DB_NAME || '', 
     process.env.DB_USER || '', 
-    process.env.DB_PASSWORD, 
+    process.env.DB_PASSWORD || '', 
     {
-      host: 'localhost',
+      host: process.env.DB_HOST || 'localhost',
       dialect: 'postgres',
         logging: false,
     }
@@ -34,6 +34,15 @@ const sequelize = process.env.DB_URL
 //         logging: false,
 //     }
 // );
+
+// Simple database authentication test
+sequelize.authenticate()
+  .then(() => {
+    console.log('Connection has been established successfully.');
+  })
+  .catch((err) => {
+    console.error('Unable to connect to the database:', err);
+  });
 
 // Initialize all models
 UserFactory(sequelize);
