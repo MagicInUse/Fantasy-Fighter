@@ -23,27 +23,6 @@ const sequelize = process.env.DB_URL
     }
 );
 
-// Old initialization
-// const sequelize = new Sequelize(
-//     process.env.DB_NAME || 'rpg_db',
-//     process.env.DB_USER || 'postgres',
-//     process.env.DB_PASSWORD || 'postgres',
-//     {
-//         host: process.env.DB_HOST || 'localhost',
-//         dialect: 'postgres',
-//         logging: false,
-//     }
-// );
-
-// Simple database authentication test
-sequelize.authenticate()
-  .then(() => {
-    console.log('Connection has been established successfully.');
-  })
-  .catch((err) => {
-    console.error('Unable to connect to the database:', err);
-  });
-
 // Initialize all models
 UserFactory(sequelize);
 CharacterFactory(sequelize);
@@ -64,7 +43,6 @@ Enemy.belongsTo(Level, { foreignKey: 'level_id', as: 'level' });
 // 3. Characters can have Items (Many-to-Many)
 Character.hasMany(Item, { as: 'items', foreignKey: 'characterId' });
 Item.belongsTo(Character, { foreignKey: 'characterId' });
-
 
 // 4. Level has many Items
 Level.hasMany(Item, { foreignKey: 'level_id', as: 'loot' });

@@ -103,6 +103,7 @@ export function CharacterFactory(sequelize: Sequelize): typeof Character {
         {
             modelName: 'Character',
             tableName: 'characters',
+            timestamps: false,
             sequelize,
         }
     );
