@@ -5,8 +5,9 @@ interface ItemAttributes {
     id: number;
     itemName: string;
     description: string;
-    type: number;
     quantity: number;
+    type: number;
+    equipped?: boolean;
     damage?: number;
     effect?: string;
 }
@@ -17,8 +18,9 @@ export class Item extends Model<ItemAttributes, ItemCreationAttributes> implemen
     public id!: number;
     public itemName!: string;
     public description!: string;
-    public type!: number;
     public quantity!: number;
+    public type!: number;
+    public equipped?: boolean;
     public damage?: number;
     public effect?: string;
 
@@ -53,13 +55,17 @@ export function ItemFactory(sequelize: Sequelize): typeof Item { // Changed type
                 type: DataTypes.STRING,
                 allowNull: false,
             },
+            quantity: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+            },
             type: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
             },
-            quantity: {
-                type: DataTypes.INTEGER,
-                allowNull: false,
+            equipped: {
+                type: DataTypes.BOOLEAN,
+                allowNull: true,
             },
             damage: {
                 type: DataTypes.INTEGER,

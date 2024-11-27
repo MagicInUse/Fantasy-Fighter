@@ -5,14 +5,16 @@ import sequelize from "../config/database";
 interface CharacterAttributes {
     id: number;
     userId: number;
+    username: string;
     characterName: string;
+    sprite: string;
     level: number;
     health: number;
     mana: number;
     currentWeapon: string;
     attack: number;
     defense: number;
-    //inventory: ItemData[];
+   // inventory: ItemData[];
     // armor: string; 
 }
 
@@ -21,7 +23,9 @@ interface CharacterCreationAttributes extends Optional<CharacterAttributes, "id"
 export class Character extends Model<CharacterAttributes, CharacterCreationAttributes> implements CharacterAttributes {
     public id!: number;
     public userId!: number;
+    public username!: string;
     public characterName!: string;
+    public sprite!: string;
     public level!: number;
     public health!: number;
     public mana!: number;
@@ -54,7 +58,15 @@ export function CharacterFactory(sequelize: Sequelize): typeof Character {
                     key: 'id',
                 },
             },
+            username: {
+                type: DataTypes.STRING,
+                allowNull: false,
+            },
             characterName: {
+                type: DataTypes.STRING,
+                allowNull: false,
+            },
+            sprite: {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
@@ -84,8 +96,8 @@ export function CharacterFactory(sequelize: Sequelize): typeof Character {
             },
             // inventory: {
             //     type: DataTypes.ARRAY(DataTypes.JSON),
-            //     allowNull: true,
-            // },
+            //      allowNull: true,
+            //  },
             
         },
         {
