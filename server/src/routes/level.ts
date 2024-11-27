@@ -72,6 +72,8 @@ export const createLevels = async (force = true, res: Response): Promise<void> =
             console.log("Items table cleared and sequence reset.");
             await Character.destroy({ where: {} });
             console.log("Characters table cleared.");
+            await Enemy.destroy({ where: {} });
+            console.log("Enemies table cleared.");
         }
 
         // Check if levels already exist
