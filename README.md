@@ -9,6 +9,32 @@ A turn-based RPG featuring a Fantasy protagonist thrown into a world of chaos fe
 
 **so that I can** grow stronger, customize my character, and progress through the game.
 
+## Example Screenshots
+
+1. **Home Page**
+
+   <a href="./screenshots/login.png" target="_blank">
+     <img src="./screenshots/login.png" alt="Home Page" style="max-width: 690px;">
+   </a>
+
+2. **Inventory Screen**
+
+   <a href="./screenshots/inventory.png" target="_blank">
+     <img src="./screenshots/inventory.png" alt="Inventory Screen" style="max-width: 690px;">
+   </a>
+
+   **Inventory Modal**
+
+   <a href="./screenshots/inventory2.png" target="_blank">
+     <img src="./screenshots/inventory2.png" alt="Inventory Modal" style="max-width: 690px;">
+   </a>
+
+3. **Levels Screen**
+
+   <a href="./screenshots/levels.png" target="_blank">
+     <img src="./screenshots/levels.png" alt="Combat Screen" style="max-width: 690px;">
+   </a>
+
 ## Authors
 
 - [Kristenshields](https://github.com/Kristenshields)
