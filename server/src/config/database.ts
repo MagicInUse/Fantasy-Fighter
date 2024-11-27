@@ -6,7 +6,7 @@ import { createItems } from '../routes/inventory';
 // Import and initialize models and associations
 import "../models";
 
-import { Sequelize } from "sequelize";
+import { Sequelize, DataTypes } from "sequelize";
 import { sequelize } from "../models"; // Import the Sequelize instance from models/index.ts
 
 const adminSequelize = new Sequelize(
