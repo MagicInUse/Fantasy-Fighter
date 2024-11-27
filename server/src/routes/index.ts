@@ -11,6 +11,9 @@ const PORT = process.env.PORT || 5001;
 // Middleware
 app.use(express.json());
 
+// Serve static assets
+app.use('/assets', express.static(path.join(__dirname, '../assets')));
+
 // Routes
 import authRoutes from './auth';
 import characterRoutes from './character';

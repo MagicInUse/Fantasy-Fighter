@@ -8,8 +8,8 @@ const router = express.Router();
 // Create default Character
 const createCharacter = async (req: Request, res: Response): Promise<void> => {
 
-    // const { id: userId } = req.body.user;
-    const userId = 1;
+    const { id: userId } = req.user;
+    // const userId = 1;
 
     try {
         const newCharacter = await Character.create({
@@ -21,7 +21,7 @@ const createCharacter = async (req: Request, res: Response): Promise<void> => {
             currentWeapon: "Sword",
             attack: 3,
             defense: 1,
-            username: "defaultUsername",
+            username: req.user.username,
             sprite: "defaultSprite",
         });
 
