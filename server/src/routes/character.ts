@@ -21,6 +21,8 @@ const createCharacter = async (req: Request, res: Response): Promise<void> => {
             currentWeapon: "Sword",
             attack: 3,
             defense: 1,
+            username: "defaultUsername",
+            sprite: "defaultSprite",
         });
 
         // Add "Sword" to character inventory
