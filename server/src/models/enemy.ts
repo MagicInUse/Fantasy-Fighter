@@ -2,9 +2,11 @@ import { Model, DataTypes, Sequelize, Optional } from "sequelize";
 
 interface EnemyAttributes {
     enemy_id: number;
-    type: string;
-    health: number;
+    name: string;
+    sprite: string;
     level_id?: number;
+    type: string;
+    health: number;  
     mana: number;
     attack: number;
     defense: number;
@@ -14,9 +16,11 @@ interface EnemyCreationAttributes extends Optional<EnemyAttributes, "enemy_id"> 
 
 export class Enemy extends Model<EnemyAttributes, EnemyCreationAttributes> implements EnemyAttributes {
     public enemy_id!: number;
-    public type!: string;
-    public health!: number;
+    public name!: string;
+    public sprite!: string;
     public level_id!: number;
+    public type!: string;
+    public health!: number;   
     public mana!: number;
     public attack!: number;
     public defense!: number;
@@ -31,12 +35,12 @@ export function EnemyFactory(sequelize: Sequelize): typeof Enemy {
                 primaryKey: true,
                 autoIncrement: true,
             },
-            type: {
+            name: {
                 type: DataTypes.STRING(50),
                 allowNull: false,
             },
-            health: {
-                type: DataTypes.INTEGER,
+            sprite: {
+                type: DataTypes.STRING(255),
                 allowNull: false,
             },
             level_id: {
@@ -46,6 +50,14 @@ export function EnemyFactory(sequelize: Sequelize): typeof Enemy {
                     key: 'level_id',
                 },
                 onDelete: 'CASCADE',
+            },
+            type: {
+                type: DataTypes.STRING(50),
+                allowNull: false,
+            },
+            health: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
             },
             mana: {
                 type: DataTypes.INTEGER,
