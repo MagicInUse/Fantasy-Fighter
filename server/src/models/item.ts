@@ -21,6 +21,18 @@ export class Item extends Model<ItemAttributes, ItemCreationAttributes> implemen
     public effect?: string;
 
     public getCharacters!: () => Promise<Character[]>;
+    public calculateDamage(): number {
+        switch (this.itemName) {
+            case 'Bow':
+                return Math.floor(Math.random() * 10) + 1;
+            case 'Sword':
+                return Math.floor(Math.random() * 6) + 3;
+            case 'Laser Gun':
+                return Math.floor(Math.random() * 46) + 5;
+            default:
+                return 1;
+        }
+    }
 }
 
 export function ItemFactory(sequelize: Sequelize): typeof Item { // Changed typeof Sequelize to Sequelize

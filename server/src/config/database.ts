@@ -1,5 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
+import { createLevels } from '../routes/level';
+import { createItems } from '../routes/inventory';
 
 // Import and initialize models and associations
 import "../models";
@@ -38,6 +40,10 @@ const adminSequelize = new Sequelize(
         // Sync all models
         await sequelize.sync({ alter: true }); // Sync models with the database
         console.log("All models synced with the database.");
+
+        // Seed data
+        await createItems({} as any, {} as any);
+        await createLevels({} as any, {} as any);
     } catch (err) {
         console.error("Error during database setup:", err);
     } finally {
