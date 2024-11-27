@@ -1,16 +1,81 @@
 import express, { Request, Response } from 'express';
+import { Character, Enemy } from '../models/index';
+import { authenticate } from './middleware/auth';
+
 const router = express.Router();
 
 const combatSessions: { [key: string]: { player: any; enemy: any; turn: string } } = {};
 
+// Fetch player data for combat
+const getPlayerData = async (userId: number): Promise<any> => {
+    try {
+        const character = await Character.findOne({ where: { userId } });
+
+        if (!character) {
+            throw new Error("Character not found.");
+        }
+
+        return character;
+    } catch (error) {
+        console.error("Error fetching player character:", error);
+        throw error;
+    }
+};
+
+// Fetch enemy data for combat
+const getEnemyData = async (levelId: number): Promise<any> => {
+    try {
+        const enemy = await Enemy.findOne({ where: { level_id: levelId } });
+
+        if (!enemy) {
+            throw new Error("Enemy not found.");
+        }
+
+        return enemy;
+    } catch (error) {
+        console.error("Error fetching enemy data:", error);
+        throw error;
+    }
+};
+
+// Start combat session
+const initializeCombat = async (req: Request, res: Response): Promise<void> => {
+    const { level_id } = req.body;
+
+    if (!level_id) { // Add validation for levelId
+        res.status(400).json({ error: "level_id is required." });
+        return;
+    }
+
+    const userId = req.user.id;
+
+    try {
+        const player = await getPlayerData(userId);
+        const enemy = await getEnemyData(level_id);
+
+        const combatId = `combat-${userId}-${level_id}`;
+        combatSessions[combatId] = {
+            player: player.toJSON(),
+            enemy: enemy.toJSON(),
+            turn: "player",
+        };
+
+        res.status(200).json({ message: "Combat session started.", combatId, player, enemy });
+    } catch (error) {
+        console.error("Error initializing combat session:", error);
+        res.status(500).json({ error: "Internal server error." });
+    }
+};
+
+
 // Calculate damage function
 const calculateDamage = (character: any): number => {
     if (!character.currentWeapon) {
-        console.log("Character has no weapon equipped. Using default damage.");
+        console.log("Character has no weapon equipped. Throwing a punch.");
         return character.attack;
     }
 
-    switch (character.currentWeapon.itemName) {
+    switch (character.currentWeapon) {
         case 'Bow':
             return Math.floor(Math.random() * 10) + 1;
         case 'Sword':
@@ -22,137 +87,19 @@ const calculateDamage = (character: any): number => {
     }
 };
 
-// Player attacks with weapon
-const playerAttack = async (req: Request, res: Response): Promise<void> => {
-    const { combatId } = req.body;
-
-    const combat = combatSessions[combatId];
-    if (!combat) {
-        res.status(404).json({ error: "Combat session not found." });
-        return;
-    }
-
-    if (combat.turn !== "player") {
-        res.status(400).json({ error: "It's not your turn." });
-        return;
-    }
-
-    // Calculate damage using the provided calculateDamage function
-    const damage = calculateDamage(combat.player);
-    combat.enemy.health -= (combat.enemy.defense - damage);
-
-    // Check if the enemy is defeated
-    if (combat.enemy.health <= 0) {
-        delete combatSessions[combatId];
-        res.status(200).json({ 
-            message: "Victory! You defeated the enemy.", 
-            updatedPlayer: combat.player, 
-            updatedEnemy: combat.enemy 
-        });
-        return;
-    }
-
-    res.status(200).json({ 
-        message: `You dealt ${damage} damage.`,
-        updatedPlayer: combat.player,
-        updatedEnemy: combat.enemy 
-    });
-
-    // Update turn to enemy
-    combat.turn = "enemy";
-
-    // Execute enemy turn
-    const enemyResult = enemyTurn(combat);
-
-    // If the player is defeated during the enemy's turn
-    if (combat.player.health <= 0) {
-        delete combatSessions[combatId];
-        res.status(200).json(enemyResult);
-        return;
-    }
-
-    // Set turn back to player
-    combat.turn = "player";
-
-    res.status(200).json({
-        message: `Enemy dealt ${damage} damage. ${enemyResult.message}`,
-        updatedPlayer: combat.player,
-        updatedEnemy: combat.enemy,
-    });
-};
-
-// Players casts spell
-const playerSpell = async (req: Request, res: Response): Promise<void> => {
-    const { combatId } = req.body;
-
-    const combat = combatSessions[combatId];
-    if (!combat) {
-        res.status(404).json({ error: "Combat session not found." });
-        return;
-    }
-
-    if (combat.turn !== "player") {
-        res.status(400).json({ error: "It's not your turn." });
-        return;
-    }
-
-    if (combat.player.mana < 10) {
-        res.status(400).json({ error: "Not enough mana to cast a spell." });
-        return;
-    }
-
-    const damage = combat.player.attack * 2;
-    combat.enemy.health -= damage;
-    combat.player.mana -= 10;
-
-    // Check if the enemy is defeated
-    if (combat.enemy.health <= 0) {
-        delete combatSessions[combatId];
-        res.status(200).json({ 
-            message: "Victory! You defeated the enemy with a spell.", 
-            updatedPlayer: combat.player, 
-            updatedEnemy: combat.enemy 
-        });
-        return;
-    }
-
-    res.status(200).json({ 
-        message: `You cast a spell and dealt ${damage} damage.`,
-        updatedPlayer: combat.player,
-        updatedEnemy: combat.enemy 
-    });
-
-    // Update turn to enemy
-    combat.turn = "enemy";
-
-        // Execute enemy turn
-    const enemyResult = enemyTurn(combat);
-
-    // If the player is defeated during the enemy's turn
-    if (combat.player.health <= 0) {
-        delete combatSessions[combatId];
-        res.status(200).json(enemyResult);
-        return;
-    }
-
-    // Set turn back to player
-    combat.turn = "player";
-
-    res.status(200).json({
-        message: `Enemy dealt ${damage} damage. ${enemyResult.message}`,
-        updatedPlayer: combat.player,
-        updatedEnemy: combat.enemy,
-    });
-};
 
 // Enemy attacks player
 const enemyTurn = (combat: any): { message: string; updatedPlayer: any; updatedEnemy: any } => {
     // Determine enemy action (70% attack, 30% defend)
     const action = Math.random() < 0.7 ? "attack" : "defend";
+    
+    if (combat.enemy.defense >= 5) {
+        combat.enemy.defense -= 5; // Reset defense boost
+    }
 
     if (action === "attack") {
-        const damage = calculateDamage(combat.enemy);
-        combat.player.health -= (combat.player.defense - damage);
+        const damage = combat.enemy.attack;
+        combat.player.health -= Math.max(damage - combat.player.defense, 0);
 
         // Check if the player is defeated
         if (combat.player.health <= 0) {
@@ -179,7 +126,183 @@ const enemyTurn = (combat: any): { message: string; updatedPlayer: any; updatedE
 };
 
 
+// Player attacks with weapon
+const playerAttack = async (req: Request, res: Response): Promise<void> => {
+    const { combatId } = req.body;
 
+    const combat = combatSessions[combatId];
+    if (!combat) {
+        res.status(404).json({ error: "Combat session not found." });
+        return;
+    }
+
+    if (combat.turn !== "player") {
+        res.status(400).json({ error: "It's not your turn." });
+        return;
+    }
+
+    // Calculate player damage
+    const damage = calculateDamage(combat.player);
+    const actualDamage = Math.max(damage - combat.enemy.defense, 0);
+    combat.enemy.health -= actualDamage;
+
+    let messages = [`You attacked for ${damage} damage.`];
+
+    // Check if the enemy is defeated
+    if (combat.enemy.health <= 0) {
+        delete combatSessions[combatId];
+        messages.push("Victory! You defeated the enemy.");
+        res.status(200).json({ message: messages.join(' '), updatedPlayer: combat.player, updatedEnemy: combat.enemy });
+        return;
+    }
+
+    // Update turn to enemy
+    combat.turn = "enemy";
+
+    // Execute enemy turn
+    const enemyResult = enemyTurn(combat);
+    messages.push(enemyResult.message);
+
+    // If the player is defeated during the enemy's turn
+    if (combat.player.health <= 0) {
+        delete combatSessions[combatId];
+        messages.push("You have been defeated.");
+    } else {
+        combat.turn = "player";
+    }
+
+    res.status(200).json({
+        message: messages.join(' '),
+        updatedPlayer: combat.player,
+        updatedEnemy: combat.enemy,
+    });
+};
+
+// Players casts spell
+const playerSpell = async (req: Request, res: Response): Promise<void> => {
+    const { combatId } = req.body;
+
+    const combat = combatSessions[combatId];
+    if (!combat) {
+        res.status(404).json({ error: "Combat session not found." });
+        return;
+    }
+
+    if (combat.turn !== "player") {
+        res.status(400).json({ error: "It's not your turn." });
+        return;
+    }
+
+    if (combat.player.mana < 10) {
+        res.status(400).json({ error: "Not enough mana to cast a spell." });
+        return;
+    }
+
+    const damage = combat.player.attack * 2;
+    const actualDamage = Math.max(damage - combat.enemy.defense, 0);
+    combat.enemy.health -= actualDamage;
+    combat.player.mana -= 10;
+
+    let messages = [`You cast a spell and dealt ${damage} damage.`];
+
+    // Check if the enemy is defeated
+    if (combat.enemy.health <= 0) {
+        delete combatSessions[combatId];
+        messages.push("Victory! You defeated the enemy.");
+        res.status(200).json({ message: messages.join(' '), updatedPlayer: combat.player, updatedEnemy: combat.enemy });
+        return;
+    }
+
+    // Update turn to enemy
+    combat.turn = "enemy";
+
+        // Execute enemy turn
+    const enemyResult = enemyTurn(combat);
+    messages.push(enemyResult.message);
+
+    if (combat.player.health <= 0) {
+        delete combatSessions[combatId];
+        messages.push("You have been defeated.");
+    } else {
+        combat.turn = "player";
+    }
+
+    res.status(200).json({
+        message: messages.join(' '),
+        updatedPlayer: combat.player,
+        updatedEnemy: combat.enemy,
+    });
+};
+
+// Player defends
+const playerDefend = async (req: Request, res: Response): Promise<void> => {
+    const { combatId } = req.body;
+
+    const combat = combatSessions[combatId];
+    if (!combat) {
+        res.status(404).json({ error: "Combat session not found." });
+        return;
+    }
+
+    if (combat.turn !== "player") {
+        res.status(400).json({ error: "It's not your turn." });
+        return;
+    }
+
+
+    // Increase player's defense
+    combat.player.defense += 5;
+
+    let messages = [`You defended, increasing your defense to ${combat.player.defense}.`];
+
+    // Update turn to enemy
+    combat.turn = "enemy";
+
+    // Execute enemy turn
+    const enemyResult = enemyTurn(combat);
+    messages.push(enemyResult.message);
+
+    // If the player is defeated during the enemy's turn
+    if (combat.player.health <= 0) {
+        delete combatSessions[combatId];
+        messages.push("You have been defeated.");
+    } else {
+        combat.turn = "player";
+    }
+
+    combat.player.defense -= 5; // Reset defense boost
+        
+    // Set turn back to player
+    combat.turn = "player";
+    
+    res.status(200).json({
+        message: messages.join(' '),
+        updatedPlayer: combat.player,
+        updatedEnemy: combat.enemy,
+    });
+};
+
+
+
+
+
+// Routes
+
+// POST /api/combat/start
+// Start a new combat session
+router.post('/start', authenticate, initializeCombat);
+
+// POST /api/combat/attack
+// Player attacks enemy
+router.post('/attack', authenticate, playerAttack);
+
+// POST /api/combat/spell
+// Player casts spell on enemy
+router.post('/spell', authenticate, playerSpell);
+
+// POST /api/combat/defend
+// Player defends against enemy attack
+router.post('/defend', authenticate, playerDefend);
 
 
 
