@@ -3,7 +3,7 @@ import type { UserLogin } from '../interfaces/UserLogin';
 // POST /api/auth/login endpoint to login user
 const login = async (userInfo: UserLogin) => {
   try {
-    const response = await fetch('/api/auth/login', {
+    const response = await fetch('/auth/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -28,7 +28,7 @@ const login = async (userInfo: UserLogin) => {
 // POST /api/auth/create endpoint to create user
 const createUser = async (userInfo: UserLogin) => {
   try {
-    const response = await fetch('/api/auth/create', {
+    const response = await fetch('/auth/create', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
