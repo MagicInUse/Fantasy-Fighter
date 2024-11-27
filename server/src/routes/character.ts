@@ -37,6 +37,7 @@ const createCharacter = async (req: Request, res: Response): Promise<void> => {
 
         await newCharacter.addItem(sword);
         newCharacter.currentWeapon = sword.itemName;
+        await newCharacter.save();
 
         res.status(201).json({
             message: 'Character created successfully.',
