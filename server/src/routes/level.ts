@@ -64,10 +64,10 @@ const levelData = [
 ];
 
 
-export const createLevels = async (force = true, res: Response): Promise<void> => {
+export const createLevels = async (force = false, res: Response): Promise<void> => {
     // TODO: Remove force query param in production
     try {
-        if (force) {
+        if (force === true) {
             // Clear Levels table and reset its sequence
             // await sequelize.query(`ALTER SEQUENCE "levels_id_seq" RESTART WITH 1`);
             await Level.destroy({ where: {} });
