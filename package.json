@@ -9,10 +9,11 @@
     "server": "npm start --prefix server",
     "dev": "concurrently \"npm run client\" \"npm run server\"",
     "packages": "npm install && cd client && npm install && cd ../server && npm install",
-    "build": "cd client && npm run build && cd .. && cd server && npm run build",
-    "start": "cd client && npm run start && cd .. && cd server && npm run dev"
+    "build": "cd client && npm run build && cd ../server && npm run build",
+    "start": "npm run build && npm run dev"
   },
   "devDependencies": {
+    "@types/node": "^22.10.0",
     "concurrently": "^6.5.1"
   },
   "keywords": [],
