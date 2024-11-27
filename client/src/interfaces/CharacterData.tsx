@@ -6,6 +6,7 @@ export interface CharacterData extends ItemData {
   level: number;
   health: number;
   mana: number;
+  currentWeapon: ItemData;
   attack: number;
   defense: number;
   inventory: ItemData[];
