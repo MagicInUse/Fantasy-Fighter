@@ -10,16 +10,30 @@ import { Item, ItemFactory } from "./item";
 import { Level, LevelFactory } from "./level";
 
 // Initialize Sequelize instance
-const sequelize = new Sequelize(
-    process.env.DB_NAME || 'rpg_db',
-    process.env.DB_USER || 'postgres',
-    process.env.DB_PASSWORD || 'postgres',
+const sequelize = process.env.DB_URL
+  ? new Sequelize(process.env.DB_URL)
+  : new Sequelize(
+    process.env.DB_NAME || '', 
+    process.env.DB_USER || '', 
+    process.env.DB_PASSWORD, 
     {
-        host: process.env.DB_HOST || 'localhost',
-        dialect: 'postgres',
+      host: 'localhost',
+      dialect: 'postgres',
         logging: false,
     }
 );
+
+// Old initialization
+// const sequelize = new Sequelize(
+//     process.env.DB_NAME || 'rpg_db',
+//     process.env.DB_USER || 'postgres',
+//     process.env.DB_PASSWORD || 'postgres',
+//     {
+//         host: process.env.DB_HOST || 'localhost',
+//         dialect: 'postgres',
+//         logging: false,
+//     }
+// );
 
 // Initialize all models
 UserFactory(sequelize);
