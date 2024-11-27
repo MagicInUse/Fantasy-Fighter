@@ -18,10 +18,11 @@ const levelData = [
         locked: false,
         enemy: {
             type: "Forest Ent",
-            health: 200,
+            sprite: '/assets/forestEnt.gif',
+            health: 20,
             mana: 50,
-            attack: 15,
-            defense: 10,
+            attack: 5,
+            defense: 0,
         },
     },
     {
@@ -35,6 +36,7 @@ const levelData = [
         locked: true,
         enemy: {
             type: "Robot",
+            sprite: '/assets/redRobot.gif',
             health: 150,
             mana: 30,
             attack: 25,
@@ -52,6 +54,7 @@ const levelData = [
         locked: true,
         enemy: {
             type: "Zombie",
+            sprite: '/assets/zombie.png',
             health: 100,
             mana: 0,
             attack: 10,
@@ -118,12 +121,13 @@ export const createLevels = async (force = true, res: Response): Promise<void> =
                 await Enemy.create({
                     ...level.enemy,
                     level_id: newLevel.level_id,
-                    mana: 0,
-                    attack: 0,
-                    defense: 0,
-                    sprite: 'default_sprite',
+                    sprite: level.enemy.sprite,
                     name: level.enemy.type,
-                })
+                    health: level.enemy.health,
+                    mana: level.enemy.mana,
+                    attack: level.enemy.attack,
+                    defense: level.enemy.defense, // Added defense attribute
+                });
             }
         }
 
