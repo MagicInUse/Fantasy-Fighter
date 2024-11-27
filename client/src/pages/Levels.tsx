@@ -19,17 +19,17 @@ const GameLevels: React.FC = () => {
 
   const handlePlay = (level: LevelData) => {
     // TODO: Implement play functionality
-    console.log(`Playing level ${level.levelNumber}`);
+    console.log(`Playing level ${level.level_id}`);
   };
 
   return (
     <div className="container mt-3">
       <div className="row">
         {levels.map((level) => (
-          <div key={level.levelNumber} className="col-12 col-md-6 col-lg-4">
+          <div key={level.level_id} className="col-12 col-md-6 col-lg-4">
             <Level
-              levelNumber={level.levelNumber}
-              levelName={level.levelName}
+              levelNumber={level.level_id}
+              levelName={level.level_name}
               description={level.description}
               complete={level.complete}
               locked={level.locked}
