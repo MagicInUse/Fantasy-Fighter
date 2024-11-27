@@ -22,7 +22,7 @@ const calculateDamage = (character: any): number => {
     }
 };
 
-
+// Player attacks with weapon
 const playerAttack = async (req: Request, res: Response): Promise<void> => {
     const { combatId } = req.body;
 
@@ -39,7 +39,7 @@ const playerAttack = async (req: Request, res: Response): Promise<void> => {
 
     // Calculate damage using the provided calculateDamage function
     const damage = calculateDamage(combat.player);
-    combat.enemy.health -= (damage - combat.enemy.defense);
+    combat.enemy.health -= (combat.enemy.defense - damage);
 
     // Check if the enemy is defeated
     if (combat.enemy.health <= 0) {
@@ -52,16 +52,36 @@ const playerAttack = async (req: Request, res: Response): Promise<void> => {
         return;
     }
 
-    // Update turn to enemy
-    combat.turn = "enemy";
-
     res.status(200).json({ 
         message: `You dealt ${damage} damage.`,
         updatedPlayer: combat.player,
         updatedEnemy: combat.enemy 
     });
+
+    // Update turn to enemy
+    combat.turn = "enemy";
+
+    // Execute enemy turn
+    const enemyResult = enemyTurn(combat);
+
+    // If the player is defeated during the enemy's turn
+    if (combat.player.health <= 0) {
+        delete combatSessions[combatId];
+        res.status(200).json(enemyResult);
+        return;
+    }
+
+    // Set turn back to player
+    combat.turn = "player";
+
+    res.status(200).json({
+        message: `Enemy dealt ${damage} damage. ${enemyResult.message}`,
+        updatedPlayer: combat.player,
+        updatedEnemy: combat.enemy,
+    });
 };
 
+// Players casts spell
 const playerSpell = async (req: Request, res: Response): Promise<void> => {
     const { combatId } = req.body;
 
@@ -104,7 +124,62 @@ const playerSpell = async (req: Request, res: Response): Promise<void> => {
 
     // Update turn to enemy
     combat.turn = "enemy";
+
+        // Execute enemy turn
+    const enemyResult = enemyTurn(combat);
+
+    // If the player is defeated during the enemy's turn
+    if (combat.player.health <= 0) {
+        delete combatSessions[combatId];
+        res.status(200).json(enemyResult);
+        return;
+    }
+
+    // Set turn back to player
+    combat.turn = "player";
+
+    res.status(200).json({
+        message: `Enemy dealt ${damage} damage. ${enemyResult.message}`,
+        updatedPlayer: combat.player,
+        updatedEnemy: combat.enemy,
+    });
 };
+
+// Enemy attacks player
+const enemyTurn = (combat: any): { message: string; updatedPlayer: any; updatedEnemy: any } => {
+    // Determine enemy action (70% attack, 30% defend)
+    const action = Math.random() < 0.7 ? "attack" : "defend";
+
+    if (action === "attack") {
+        const damage = calculateDamage(combat.enemy);
+        combat.player.health -= (combat.player.defense - damage);
+
+        // Check if the player is defeated
+        if (combat.player.health <= 0) {
+            return { 
+                message: `Enemy attacked for ${damage} damage and defeated you!`, 
+                updatedPlayer: combat.player, 
+                updatedEnemy: combat.enemy 
+            };
+        }
+
+        return { 
+            message: `Enemy attacked for ${damage} damage.`,
+            updatedPlayer: combat.player,
+            updatedEnemy: combat.enemy 
+        };
+    } else {
+        combat.enemy.defense += 5; // Temporary defense boost
+        return { 
+            message: "Enemy defended, increasing defense by 5.",
+            updatedPlayer: combat.player,
+            updatedEnemy: combat.enemy 
+        };
+    }
+};
+
+
+
 
 
 
