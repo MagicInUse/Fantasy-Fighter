@@ -16,12 +16,14 @@ import characterRoutes from './character';
 import inventoryRoutes from './inventory';
 import combatRoutes from './combat';
 import levelRoutes from './level';
+import enemyRoutes from './enemy';
 
 app.use('/auth', authRoutes);
 app.use('/api/character', characterRoutes);
 app.use('/api/inventory', inventoryRoutes);
 app.use('/api/combat', combatRoutes);
 app.use('/api/level', levelRoutes);
+app.use('/api/enemy', enemyRoutes);
 
 // Route testing
 app.get('/', (req: Request, res: Response) => {
