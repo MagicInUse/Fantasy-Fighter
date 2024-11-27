@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+import path from 'path';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -25,9 +26,17 @@ app.use('/api/combat', combatRoutes);
 app.use('/api/level', levelRoutes);
 app.use('/api/enemy', enemyRoutes);
 
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, '../../client/dist')));
+
 // Route testing
 app.get('/', (req: Request, res: Response) => {
     res.send('Welcome to the RPG Backend!');
+});
+
+// The "catchall" handler: for any request that doesn't match one above, send back React's index.html file.
+app.get('*', (req: Request, res: Response) => {
+    res.sendFile(path.join(__dirname, '../../client/dist/index.html'));
 });
 
 app.listen(PORT, () => {
