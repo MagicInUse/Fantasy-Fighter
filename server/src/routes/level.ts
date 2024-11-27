@@ -55,56 +55,53 @@ const levelData = [
 ];
 
 
-const createLevels = async (req: Request, res: Response): Promise<void> => {
-  // TODO: Remove force query param in production
-  const force = req.query.force === 'true';
+export const createLevels = async (force = true, res: Response): Promise<void> => {
+    // TODO: Remove force query param in production
+    try {
+        if (force) {
+            await Level.destroy({ where: {} });
+            console.log("Levels table cleared. Safe to reseed.");
+        }
 
-  try {
-      if (force) {
-          await Level.destroy({ where: {} });
-          console.log("Levels table cleared. Safe to reseed.");
-      }
+        // Check if levels already exist
+        const existingLevelsCount = await Level.count();
+        if (existingLevelsCount > 0) {
+            console.log("Levels have already been seeded.");
+            return;
+        }
 
-      // Check if levels already exist
-      const existingLevelsCount = await Level.count();
-      if (existingLevelsCount > 0) {
-          res.status(400).json({ error: "Levels have already been seeded." });
-          return;
-      }
+        // Iterate through level data to create levels and associated loot
+        for (const level of levelData) {
+            // Create the level
+            const newLevel = await Level.create({
+                level_name: level.level_name,
+                description: level.description,
+                complete: level.complete,
+                locked: level.locked,
+            });
 
-      // Iterate through level data to create levels and associated loot
-      for (const level of levelData) {
-          // Create the level
-          const newLevel = await Level.create({
-              level_name: level.level_name,
-              description: level.description,
-              complete: level.complete,
-              locked: level.locked,
-          });
+            // Create and associate loot items
+            if (level.loot_table && level.loot_table.length > 0) {
+                const loot = level.loot_table.map((item) => ({
+                    ...item,
+                    level_id: newLevel.level_id,
+                }));
+                await Item.bulkCreate(loot, { validate: true });
+            }
 
-          // Create and associate loot items
-          if (level.loot_table && level.loot_table.length > 0) {
-              const loot = level.loot_table.map((item) => ({
-                  ...item,
-                  level_id: newLevel.level_id,
-              }));
-              await Item.bulkCreate(loot, { validate: true });
-          }
+            // Create and associate enemy
+            if (level.enemy) {
+                await Enemy.create({
+                    ...level.enemy,
+                    level_id: newLevel.level_id,
+                })
+            }
+        }
 
-          // Create and associate enemy
-          if (level.enemy) {
-              await Enemy.create({
-                  ...level.enemy,
-                  level_id: newLevel.level_id,
-              })
-          }
-      }
-
-      res.status(201).json({ message: "Levels and loot seeded successfully." });
-  } catch (error) {
-      console.error("Error creating levels:", error);
-      res.status(500).json({ error: "Internal server error." });
-  }
+        console.log("Levels and loot seeded successfully.");
+    } catch (error) {
+        console.error("Error creating levels:", error);
+    }
 };
 
 // Get single level by id
@@ -171,7 +168,7 @@ router.get('/all', getAllLevels);
 
 // POST /api/level/seed
 // or POST /api/level/seed?force=true to force reseed
-router.post('/seed',  createLevels);
+// router.post('/seed',  createLevels);
 
 // GET /api/level/:id
 router.get('/:id', getLevelById);
