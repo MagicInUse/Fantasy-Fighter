@@ -10,6 +10,9 @@ interface CharacterAttributes {
     health: number;
     mana: number;
     currentWeapon: string;
+    attack: number;
+    defense: number;
+    //inventory: ItemData[];
     // armor: string; 
 }
 
@@ -23,6 +26,9 @@ export class Character extends Model<CharacterAttributes, CharacterCreationAttri
     public health!: number;
     public mana!: number;
     public currentWeapon!: string;
+    public attack!: number;
+    public defense!: number;
+    //public inventory!: ItemData[];
     // public armor!: string;
 
     // Association Methods
@@ -68,6 +74,19 @@ export function CharacterFactory(sequelize: Sequelize): typeof Character {
                 type: DataTypes.STRING,
                 allowNull: true,
             },
+            attack: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+            },
+            defense: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+            },
+            // inventory: {
+            //     type: DataTypes.ARRAY(DataTypes.JSON),
+            //     allowNull: true,
+            // },
+            
         },
         {
             modelName: 'Character',
