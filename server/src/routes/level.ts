@@ -65,16 +65,27 @@ export const createLevels = async (force = true, res: Response): Promise<void> =
     // TODO: Remove force query param in production
     try {
         if (force) {
+            // Clear Levels table and reset its sequence
+            // await sequelize.query(`ALTER SEQUENCE "levels_id_seq" RESTART WITH 1`);
             await Level.destroy({ where: {} });
-            console.log("Levels table cleared. Safe to reseed.");
-            await Item.destroy({ where: {} }); // Clear all rows in the table
-            await sequelize.query(`ALTER SEQUENCE "items_id_seq" RESTART WITH 1`); // Reset auto-increment
+            console.log("Levels table cleared and sequence reset.");
+        
+            // Clear Items table and reset its sequence
+            // await sequelize.query(`ALTER SEQUENCE "items_id_seq" RESTART WITH 1`);
+            await Item.destroy({ where: {} });
             console.log("Items table cleared and sequence reset.");
+        
+            // Clear Characters table and reset its sequence
+            // await sequelize.query(`ALTER SEQUENCE "characters_id_seq" RESTART WITH 1`);
             await Character.destroy({ where: {} });
-            console.log("Characters table cleared.");
+            console.log("Characters table cleared and sequence reset.");
+        
+            // Clear Enemies table and reset its sequence
+            // await sequelize.query(`ALTER SEQUENCE "enemies_id_seq" RESTART WITH 1`);
             await Enemy.destroy({ where: {} });
-            console.log("Enemies table cleared.");
+            console.log("Enemies table cleared and sequence reset.");
         }
+        
 
         // Check if levels already exist
         const existingLevelsCount = await Level.count();
@@ -110,6 +121,8 @@ export const createLevels = async (force = true, res: Response): Promise<void> =
                     mana: 0,
                     attack: 0,
                     defense: 0,
+                    sprite: 'default_sprite',
+                    name: level.enemy.type,
                 })
             }
         }
