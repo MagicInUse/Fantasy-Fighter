@@ -4,7 +4,6 @@ interface EnemyAttributes {
     enemy_id: number;
     type: string;
     health: number;
-    damage: number;
     level_id?: number;
     mana: number;
     attack: number;
@@ -17,7 +16,6 @@ export class Enemy extends Model<EnemyAttributes, EnemyCreationAttributes> imple
     public enemy_id!: number;
     public type!: string;
     public health!: number;
-    public damage!: number;
     public level_id!: number;
     public mana!: number;
     public attack!: number;
@@ -38,10 +36,6 @@ export function EnemyFactory(sequelize: Sequelize): typeof Enemy {
                 allowNull: false,
             },
             health: {
-                type: DataTypes.INTEGER,
-                allowNull: false,
-            },
-            damage: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
             },

@@ -16,6 +16,7 @@ interface ItemCreationAttributes extends Optional<ItemAttributes, "id"> {}
 export class Item extends Model<ItemAttributes, ItemCreationAttributes> implements ItemAttributes {
     public id!: number;
     public itemName!: string;
+    public description!: string;
     public type!: number;
     public quantity!: number;
     public damage?: number;
@@ -45,6 +46,10 @@ export function ItemFactory(sequelize: Sequelize): typeof Item { // Changed type
                 autoIncrement: true,
             },
             itemName: {
+                type: DataTypes.STRING,
+                allowNull: false,
+            },
+            description: {
                 type: DataTypes.STRING,
                 allowNull: false,
             },

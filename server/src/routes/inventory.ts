@@ -5,8 +5,8 @@ const router = express.Router();
 // Item seed data
 export const createItems = async (req: Request, res: Response): Promise<void> => {
     const itemData = [
-        { id: 1, itemName: 'Bow', type: 1, quantity: 1, damage: Math.floor(Math.random() * 10) + 1 },
-        { id: 2, itemName: 'Sword', type: 2, quantity: 1, damage: Math.floor(Math.random() * 6) + 3 }
+        { id: 1, itemName: 'Bow', description: 'A ranged weapon that fires iron-tipped arrows', type: 1, quantity: 1, damage: Math.floor(Math.random() * 10) + 1 },
+        { id: 2, itemName: 'Sword', description: 'A sharp blade used for combat.', type: 2, quantity: 1, damage: Math.floor(Math.random() * 6) + 3 }
     ];
 
     try {
@@ -17,10 +17,10 @@ export const createItems = async (req: Request, res: Response): Promise<void> =>
         }
 
         await Item.bulkCreate(itemData);
-        res.status(201).json({ message: 'Items created successfully.' });
+        console.log('Items created successfully.');
     } catch (error) {
         console.error('Error seeding item:', error);
-        res.status(500).json({ error: 'Internal server error.' });
+        console.log('Internal server error.');
     }
 };
 

@@ -19,6 +19,8 @@ const createCharacter = async (req: Request, res: Response): Promise<void> => {
             health: 100,
             mana: 50,
             currentWeapon: "Sword",
+            attack: 3,
+            defense: 1,
         });
 
         // Add "Sword" to character inventory
@@ -26,6 +28,7 @@ const createCharacter = async (req: Request, res: Response): Promise<void> => {
             where: { itemName: "Sword" },
             defaults: {
                 itemName: "Sword",
+                description: "A sharp blade used for combat.",
                 type: 1, // Weapon
                 quantity: 1,
                 damage: Math.floor(Math.random() * (10 - 6 + 1)) + 6, // Random damage 6-10
@@ -33,6 +36,7 @@ const createCharacter = async (req: Request, res: Response): Promise<void> => {
         });
 
         await newCharacter.addItem(sword);
+        newCharacter.currentWeapon = sword.itemName;
 
         res.status(201).json({
             message: 'Character created successfully.',

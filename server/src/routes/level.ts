@@ -1,5 +1,5 @@
 import express, { Request, Response, NextFunction } from 'express';
-import { Level, Item, Enemy } from '../models/index';
+import { Level, Item, Enemy, sequelize, Character } from '../models/index';
 import { authenticate, authenticateLevelAccess } from './middleware/auth';
 
 const router = express.Router();
@@ -7,51 +7,57 @@ const router = express.Router();
 
 // Seed level data
 const levelData = [
-  {
-      level_name: "Forest Ent's Grove",
-      loot_table: [
-          { itemName: "Wooden Shield", type: 3, quantity: 1, effect: "Increases defense by 5" },
-          { itemName: "Magic Sap", type: 2, quantity: 3, effect: "Restores 20 HP" },
-      ],
-      description: "A peaceful grove inhabited by a powerful Forest Ent.",
-      complete: false,
-      locked: false,
-      enemy: {
-          type: "Forest Ent",
-          health: 200,
-          damage: 15,
-      },
-  },
-  {
-      level_name: "Robot Factory",
-      loot_table: [
-          { itemName: "Laser Gun", type: 1, quantity: 1, damage: 50 },
-          { itemName: "Robot Parts", type: 3, quantity: 5 },
-      ],
-      description: "An abandoned factory crawling with malfunctioning robots.",
-      complete: false,
-      locked: true,
-      enemy: {
-          type: "Robot",
-          health: 150,
-          damage: 25,
-      },
-  },
-  {
-      level_name: "Zombie Outbreak",
-      loot_table: [
-          { itemName: "Rusty Axe", type: 1, quantity: 1, damage: 25 },
-          { itemName: "Zombie Flesh", type: 3, quantity: 2 },
-      ],
-      description: "A dark and desolate town overrun by zombies.",
-      complete: false,
-      locked: true,
-      enemy: {
-          type: "Zombie",
-          health: 100,
-          damage: 10,
-      },
-  },
+    {
+        level_name: "Forest Ent's Grove",
+        loot_table: [
+            { itemName: "Wooden Shield", type: 3, quantity: 1, effect: "Increases defense by 5", description: "A sturdy wooden shield." },
+            { itemName: "Magic Sap", type: 2, quantity: 3, effect: "Restores 20 HP", description: "A magical sap that heals wounds." },
+        ],
+        description: "A peaceful grove inhabited by a powerful Forest Ent.",
+        complete: false,
+        locked: false,
+        enemy: {
+            type: "Forest Ent",
+            health: 200,
+            mana: 50,
+            attack: 15,
+            defense: 10,
+        },
+    },
+    {
+        level_name: "Robot Factory",
+        loot_table: [
+            { itemName: "Laser Gun", type: 1, quantity: 1, damage: 50, description: "A powerful laser gun." },
+            { itemName: "Robot Parts", type: 3, quantity: 5, description: "Parts from a broken robot." },
+        ],
+        description: "An abandoned factory crawling with malfunctioning robots.",
+        complete: false,
+        locked: true,
+        enemy: {
+            type: "Robot",
+            health: 150,
+            mana: 30,
+            attack: 25,
+            defense: 20,
+        },
+    },
+    {
+        level_name: "Zombie Outbreak",
+        loot_table: [
+            { itemName: "Rusty Axe", type: 1, quantity: 1, damage: 25, description: "An old and rusty axe." },
+            { itemName: "Zombie Flesh", type: 3, quantity: 2, description: "Flesh from a zombie." },
+        ],
+        description: "A dark and desolate town overrun by zombies.",
+        complete: false,
+        locked: true,
+        enemy: {
+            type: "Zombie",
+            health: 100,
+            mana: 0,
+            attack: 10,
+            defense: 5,
+        },
+    },
 ];
 
 
@@ -61,6 +67,11 @@ export const createLevels = async (force = true, res: Response): Promise<void> =
         if (force) {
             await Level.destroy({ where: {} });
             console.log("Levels table cleared. Safe to reseed.");
+            await Item.destroy({ where: {} }); // Clear all rows in the table
+            await sequelize.query(`ALTER SEQUENCE "items_id_seq" RESTART WITH 1`); // Reset auto-increment
+            console.log("Items table cleared and sequence reset.");
+            await Character.destroy({ where: {} });
+            console.log("Characters table cleared.");
         }
 
         // Check if levels already exist
@@ -94,6 +105,9 @@ export const createLevels = async (force = true, res: Response): Promise<void> =
                 await Enemy.create({
                     ...level.enemy,
                     level_id: newLevel.level_id,
+                    mana: 0,
+                    attack: 0,
+                    defense: 0,
                 })
             }
         }
