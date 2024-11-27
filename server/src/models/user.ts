@@ -45,6 +45,7 @@ export function UserFactory(sequelize: Sequelize): typeof User {
         {
             modelName: "User",
             tableName: "users",
+            timestamps: false,
             sequelize,
         }
     );
