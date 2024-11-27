@@ -4,6 +4,7 @@ import { Character } from "./index";
 interface ItemAttributes {
     id: number;
     itemName: string;
+    description: string;
     type: number;
     quantity: number;
     damage?: number;
