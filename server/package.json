@@ -5,8 +5,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon --exec ts-node src/routes/index.ts",
-    "build": "tsc",
-    "dev": "cd ../dist && node index.js"
+    "build": "npx tsc",
+    "dev": "node dist/routes/index.js --ignore client"
   },
   "keywords": [],
   "author": "",
