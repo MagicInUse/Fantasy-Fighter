@@ -63,7 +63,8 @@ export const getEnemyData = async (): Promise<EnemyData> => {
   }
 
   try {
-    const response = await fetch('/api/enemy', {
+    // TODO: fix this call to grab the enemy data and use the /api/enemy/type/:type endpoint
+    const response = await fetch('/api/enemy/all', {
       headers: {
         Authorization: `Bearer ${AuthService.getToken()}`,
       },
