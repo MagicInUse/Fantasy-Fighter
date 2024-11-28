@@ -1,28 +1,41 @@
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 import { CharacterData } from '../interfaces/CharacterData';
 import { EnemyData } from '../interfaces/EnemyData';
+import { LevelData } from '../interfaces/LevelData';
 
-import { apiPlayerAttack, apiPlayerDefend, apiPlayerSpell, getCharacterData, getEnemyData } from '../api/combatAPI.tsx';
+import { apiPlayerAttack, apiPlayerDefend, apiPlayerSpell, createCharacterData, getCharacterData, getEnemyData } from '../api/combatAPI';
+import { getLevelDetails } from '../api/levelAPI';
 
 const Combat = () => {
+  const { level_id } = useParams<{ level_id: string }>();
   const [player, setPlayer] = useState<CharacterData | null>(null);
   const [enemy, setEnemy] = useState<EnemyData | null>(null);
+  const [level, setLevel] = useState<LevelData | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const playerData = await getCharacterData();
+        let playerData = await getCharacterData();
+        
+        if (!playerData) {
+          await createCharacterData();
+          playerData = await getCharacterData();
+        }
+
         const enemyData = await getEnemyData();
+        const levelData = await getLevelDetails(Number(level_id));
         setPlayer(playerData);
         setEnemy(enemyData);
+        setLevel(levelData);
       } catch (error) {
-        console.error('Error fetching player & enemy data:', error);
+        console.error('Error fetching data:', error);
       }
     };
 
     fetchData();
-  }, []);
+  }, [level_id]);
 
   const handlePlayerAttack = async () => {
     if (player && enemy) {
@@ -69,7 +82,7 @@ const Combat = () => {
 
   return (
     <div className="combat-container">
-      {player && enemy ? (
+      {player && enemy && level ? (
         <>
           <div className="player-info">
             <h2>{player.username}</h2>
@@ -82,6 +95,10 @@ const Combat = () => {
             <img src={enemy.sprite} alt={enemy.name} />
             <p>Health: {enemy.health}</p>
             <p>Mana: {enemy.mana}</p>
+          </div>
+          <div className="level-info">
+            <h2>{level.level_name}</h2>
+            <p>{level.description}</p>
           </div>
           <div className="combat-actions">
             <button className="btn btn-danger" onClick={handlePlayerAttack}>Attack</button>

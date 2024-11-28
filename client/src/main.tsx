@@ -29,7 +29,7 @@ const routes: RouteObject[] = [
         element: <Levels />,
       },
       {
-        path: '/combat',
+        path: '/combat/:level_id',
         element: <Combat />,
       },
       {

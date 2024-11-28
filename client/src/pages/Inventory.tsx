@@ -3,18 +3,24 @@ import { useEffect, useState } from 'react';
 import Item from '../components/Item';
 import { ItemData } from '../interfaces/ItemData';
 
+import { getItems } from '../api/itemAPI';
+
 const Inventory = () => {
   const [allItems, setAllItems] = useState<ItemData[]>([]);
 
   useEffect(() => {
+    const fetchItems = async () => {
+      const fetchedItems: ItemData[] = await getItems();
+      setAllItems(fetchedItems);
+    };
+    fetchItems();
     // TODO: Get with Hailey for fetch requests of all user items from the server
-    const fetchedItems: ItemData[] = [
-      { id: 1, itemName: 'Bow', description: 'A short bow.', type: 1, equipped: true, quantity: 1, damage: Math.floor(Math.random() * 10) + 1 },
-      { id: 2, itemName: 'Sword', description: 'A short sword.', type: 1, equipped: false, quantity: 1, damage: Math.floor(Math.random() * 6) + 3 },
-      { id: 3, itemName: 'Health Potion', description: 'A swirling green liquid.', type: 2, quantity: 5, effect: 'Heals 10 health' },
-      { id: 4, itemName: 'Mana Potion', description: 'A thick blue substance.', type: 3, quantity: 5, effect: 'Restores 10 mana' },
-    ];
-    setAllItems(fetchedItems);
+    // const fetchedItems: ItemData[] = [
+    //   { id: 1, itemName: 'Bow', description: 'A short bow.', type: 1, equipped: true, quantity: 1, damage: Math.floor(Math.random() * 10) + 1 },
+    //   { id: 2, itemName: 'Sword', description: 'A short sword.', type: 1, equipped: false, quantity: 1, damage: Math.floor(Math.random() * 6) + 3 },
+    //   { id: 3, itemName: 'Health Potion', description: 'A swirling green liquid.', type: 2, quantity: 5, effect: 'Heals 10 health' },
+    //   { id: 4, itemName: 'Mana Potion', description: 'A thick blue substance.', type: 3, quantity: 5, effect: 'Restores 10 mana' },
+    // ];
   }, []);
 
   const handleUpdateItem = (updatedItem: ItemData | null) => {

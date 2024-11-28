@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { LevelData } from '../interfaces/LevelData';
 import Level from '../components/Level';
@@ -7,10 +8,10 @@ import { getLevels } from '../api/levelAPI';
 
 const GameLevels: React.FC = () => {
   const [levels, setLevels] = React.useState<LevelData[]>([]);
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     const fetchLevels = async () => {
-      // TODO: Fetch levels from the server
       const levelsData = await getLevels();
       setLevels(levelsData);
     };
@@ -19,8 +20,7 @@ const GameLevels: React.FC = () => {
   }, []);
 
   const handlePlay = (level: LevelData) => {
-    // TODO: Implement play functionality
-    console.log(`Playing level ${level.level_id}`);
+    navigate(`/combat/${level.level_id}`);
   };
 
   return (
