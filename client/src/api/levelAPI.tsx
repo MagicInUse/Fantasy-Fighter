@@ -2,7 +2,7 @@ import type { LevelData } from '../interfaces/LevelData';
 
 import AuthService from '../utils/auth';
 
-// GET /api/level endpoint to get all levels
+// GET /api/level/all endpoint to get all levels
 const getLevels = async (): Promise<LevelData[]> => {
   if (!AuthService.loggedIn()) {
     return Promise.reject('User is not authenticated');
