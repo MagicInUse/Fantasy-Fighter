@@ -27,8 +27,8 @@ const Combat = () => {
         }
 
         // Fetch enemy data and level details
-        const enemyData = await getEnemyData();
         const levelData = await getLevelDetails(Number(level_id));
+        const enemyData = await getEnemyData();
 
         // Set state with fetched data
         setPlayer(playerData);
