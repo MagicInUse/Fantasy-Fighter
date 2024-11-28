@@ -81,3 +81,90 @@ export const getEnemyData = async (type: string): Promise<EnemyData> => {
     return Promise.reject('Could not fetch enemy data');
   }
 };
+
+// POST /api/combat/attack endpoint to handle player attacking enemy
+export const apiPlayerAttack = async (combatId: string): Promise<{ updatedPlayer: CharacterData, updatedEnemy: EnemyData }> => {
+  if (!AuthService.loggedIn()) {
+    return Promise.reject('User is not authenticated');
+  }
+
+  try {
+    const response = await fetch('/api/combat/attack', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${AuthService.getToken()}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ combatId }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Could not attack enemy');
+    }
+
+    const data = await response.json();
+    return { updatedPlayer: data.updatedPlayer, updatedEnemy: data.updatedEnemy };
+
+  } catch (err) {
+    console.log('Error from combat API: ', err);
+    return Promise.reject('Could not attack enemy');
+  }
+};
+
+// POST /api/combat/defend endpoint to handle player defending against enemy
+export const apiPlayerDefend = async (combatId: string): Promise<{ updatedPlayer: CharacterData, updatedEnemy: EnemyData }> => {
+  if (!AuthService.loggedIn()) {
+    return Promise.reject('User is not authenticated');
+  }
+
+  try {
+    const response = await fetch('/api/combat/defend', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${AuthService.getToken()}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ combatId }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Could not defend against enemy');
+    }
+
+    const data = await response.json();
+    return { updatedPlayer: data.updatedPlayer, updatedEnemy: data.updatedEnemy };
+
+  } catch (err) {
+    console.log('Error from combat API: ', err);
+    return Promise.reject('Could not defend against enemy');
+  }
+};
+
+// POST /api/combat/spell endpoint to handle player casting a spell on enemy
+export const apiPlayerSpell = async (combatId: string): Promise<{ updatedPlayer: CharacterData, updatedEnemy: EnemyData }> => {
+  if (!AuthService.loggedIn()) {
+    return Promise.reject('User is not authenticated');
+  }
+
+  try {
+    const response = await fetch('/api/combat/spell', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${AuthService.getToken()}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ combatId }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Could not cast spell on enemy');
+    }
+
+    const data = await response.json();
+    return { updatedPlayer: data.updatedPlayer, updatedEnemy: data.updatedEnemy };
+
+  } catch (err) {
+    console.log('Error from combat API: ', err);
+    return Promise.reject('Could not cast spell on enemy');
+  }
+};

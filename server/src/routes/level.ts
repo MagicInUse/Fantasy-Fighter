@@ -64,29 +64,32 @@ const levelData = [
 ];
 
 
-export const createLevels = async (force = false, res: Response): Promise<void> => {
+export const createLevels = async (force = true, res: Response): Promise<void> => {
     // TODO: Remove force query param in production
     try {
         if (force === true) {
-            // Clear Levels table and reset its sequence
-            // await sequelize.query(`ALTER SEQUENCE "levels_id_seq" RESTART WITH 1`);
-            await Level.destroy({ where: {} });
-            console.log("Levels table cleared and sequence reset.");
-        
-            // Clear Items table and reset its sequence
-            // await sequelize.query(`ALTER SEQUENCE "items_id_seq" RESTART WITH 1`);
-            await Item.destroy({ where: {} });
-            console.log("Items table cleared and sequence reset.");
-        
-            // Clear Characters table and reset its sequence
-            // await sequelize.query(`ALTER SEQUENCE "characters_id_seq" RESTART WITH 1`);
-            await Character.destroy({ where: {} });
-            console.log("Characters table cleared and sequence reset.");
-        
-            // Clear Enemies table and reset its sequence
-            // await sequelize.query(`ALTER SEQUENCE "enemies_id_seq" RESTART WITH 1`);
-            await Enemy.destroy({ where: {} });
-            console.log("Enemies table cleared and sequence reset.");
+            await sequelize.query(`DO $$ BEGIN
+                EXECUTE (SELECT string_agg('DROP TABLE IF EXISTS ' || tablename || ' CASCADE;', ' '))
+                FROM pg_tables
+                WHERE schemaname = 'public';
+            END $$;`);
+            
+            await sequelize.query(`DO $$ BEGIN
+                EXECUTE COALESCE(
+                    (
+                        SELECT string_agg('ALTER SEQUENCE ' || sequencename || ' RESTART WITH 1;', ' ')
+                        FROM pg_sequences 
+                        WHERE sequencename LIKE '%_seq'
+                    ),
+                    ''
+                );
+            END $$;`);
+            
+            console.log("All tables dropped and sequences reset.");
+            
+            // Re-sync models to recreate tables
+            await sequelize.sync();
+            console.log("Models synced after dropping tables.");
         }
         
 

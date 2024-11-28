@@ -43,7 +43,7 @@ const adminSequelize = new Sequelize(
 
         // Seed data
         await createItems({} as any, {} as any);
-        await createLevels({} as any, {} as any);
+        await createLevels(true, {} as any);
     } catch (err) {
         console.error("Error during database setup:", err);
     } finally {
