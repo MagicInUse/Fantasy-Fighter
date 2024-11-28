@@ -5,7 +5,7 @@ import { CharacterData } from '../interfaces/CharacterData';
 import { EnemyData } from '../interfaces/EnemyData';
 import { LevelData } from '../interfaces/LevelData';
 
-import { apiPlayerAttack, apiPlayerDefend, apiPlayerSpell, createCharacterData, getCharacterData, getEnemyData } from '../api/combatAPI';
+import AuthService from '../utils/auth';
 import { getLevelDetails } from '../api/levelAPI';
 
 const Combat = () => {
@@ -13,48 +13,57 @@ const Combat = () => {
   const [player, setPlayer] = useState<CharacterData | null>(null);
   const [enemy, setEnemy] = useState<EnemyData | null>(null);
   const [level, setLevel] = useState<LevelData | null>(null);
+  const [combatId, setCombatId] = useState<string | null>(null);
+  const [message, setMessage] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch player data
-        let playerData = await getCharacterData();
-        
-        // If player data doesn't exist, create a new character and fetch the data again
-        if (!playerData) {
-          await createCharacterData();
-          playerData = await getCharacterData();
-          console.log(playerData);
-        }
-
         // Fetch level details
-        // TODO: write a new interface for detailed level information
-        // then update the getLevelDetails function to return that interface
         const levelData = await getLevelDetails(Number(level_id));
 
-        // Fetch enemy data based on the enemy type from level details
-        // TODO: update the getEnemyData function to accept a type parameter from level details
-        const enemyData = await getEnemyData("Forest Ent");
+        // Initialize combat session
+        const response = await fetch('/api/combat/start', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${AuthService.getToken()}`,
+          },
+          body: JSON.stringify({ level_id: Number(level_id) }),
+        });
+        const { message, combatId, player, enemy } = await response.json();
 
         // Set state with fetched data
-        setPlayer(playerData);
+        setPlayer(player);
         setLevel(levelData);
-        setEnemy(enemyData);
+        setEnemy(enemy);
+        setCombatId(combatId);
+        setMessage(message);
+        console.log(message);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
 
     fetchData();
-  }, [level_id]);
+  }, []);
 
   const handlePlayerAttack = async () => {
-    if (player && enemy) {
+    if (player && enemy && combatId) {
       console.log(`${player.username} is attacking`);
       try {
-        const { updatedPlayer, updatedEnemy } = await apiPlayerAttack(player, enemy);
+        const response = await fetch('/api/combat/attack', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${AuthService.getToken()}`,
+          },
+          body: JSON.stringify({ combatId }),
+        });
+        const { updatedPlayer, updatedEnemy, message } = await response.json();
         setPlayer(updatedPlayer);
         setEnemy(updatedEnemy);
+        console.log(message);
       } catch (error) {
         console.error('Error during player attack:', error);
       }
@@ -62,12 +71,21 @@ const Combat = () => {
   };
 
   const handlePlayerDefend = async () => {
-    if (player && enemy) {
+    if (player && enemy && combatId) {
       console.log(`${player.username} is defending`);
       try {
-        const { updatedPlayer, updatedEnemy } = await apiPlayerDefend(player, enemy);
+        const response = await fetch('/api/combat/defend', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${AuthService.getToken()}`,
+          },
+          body: JSON.stringify({ combatId }),
+        });
+        const { updatedPlayer, updatedEnemy, message } = await response.json();
         setPlayer(updatedPlayer);
         setEnemy(updatedEnemy);
+        console.log(message);
       } catch (error) {
         console.error('Error during player defend:', error);
       }
@@ -75,12 +93,21 @@ const Combat = () => {
   };
 
   const handlePlayerSpell = async () => {
-    if (player && enemy) {
+    if (player && enemy && combatId) {
       console.log(`${player.username} is casting a spell`);
       try {
-        const { updatedPlayer, updatedEnemy } = await apiPlayerSpell(player, enemy);
+        const response = await fetch('/api/combat/spell', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${AuthService.getToken()}`,
+          },
+          body: JSON.stringify({ combatId }),
+        });
+        const { updatedPlayer, updatedEnemy, message } = await response.json();
         setPlayer(updatedPlayer);
         setEnemy(updatedEnemy);
+        console.log(message);
       } catch (error) {
         console.error('Error during player spell:', error);
       }
@@ -95,6 +122,9 @@ const Combat = () => {
     <div className="combat-container">
       {player && enemy && level ? (
         <>
+          <div className="message text-center">
+            <p>{message}</p>
+          </div>
           <div className="player-info">
             <h2>{player.username}</h2>
             <img src={player.sprite} alt={player.username} />
