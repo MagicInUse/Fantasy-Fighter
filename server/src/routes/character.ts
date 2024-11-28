@@ -4,53 +4,6 @@ import { authenticate } from './middleware/auth';
 
 const router = express.Router();
 
-
-// Create default Character
-const createCharacter = async (req: Request, res: Response): Promise<void> => {
-
-    const { id: userId } = req.user;
-    // const userId = 1;
-
-    try {
-        const newCharacter = await Character.create({
-            userId,
-            characterName: "Hero",
-            level: 1,
-            health: 100,
-            mana: 50,
-            currentWeapon: "Sword",
-            attack: 3,
-            defense: 1,
-            username: req.user.username,
-            sprite: "defaultSprite",
-        });
-
-        // Add "Sword" to character inventory
-        const [sword, created] = await Item.findOrCreate({
-            where: { itemName: "Sword" },
-            defaults: {
-                itemName: "Sword",
-                description: "A sharp blade used for combat.",
-                type: 1, // Weapon
-                quantity: 1,
-                damage: Math.floor(Math.random() * (10 - 6 + 1)) + 6, // Random damage 6-10
-            },
-        });
-
-        await newCharacter.addItem(sword);
-        newCharacter.currentWeapon = sword.itemName;
-        await newCharacter.save();
-
-        res.status(201).json({
-            message: 'Character created successfully.',
-            character: newCharacter,
-        });
-    } catch (error) {
-        console.error('Error creating character:', error);
-        res.status(500).json({ error: 'Internal server error.' });
-    }
-};
-
 // Get users characters and stats
 const userCharacters = async (req: Request, res: Response): Promise<void> => {
     const { id: userId } = req.user;
@@ -92,11 +45,9 @@ const getCharacterInventory = async (req: Request, res: Response): Promise<void>
     
 };
 
-
-
 // POST /api/character
 // Create character
-router.post('/', authenticate, createCharacter);
+// router.post('/', authenticate, createCharacter);
 
 // GET /api/character
 // Get character stats

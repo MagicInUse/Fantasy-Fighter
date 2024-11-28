@@ -1,7 +1,7 @@
 import express, { NextFunction } from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { User } from '../models/index';
+import { User, Item, Character } from '../models/index';
 
 const router = express.Router();
 const SECRET_KEY = process.env.JWT_SECRET || 'secret';
@@ -28,9 +28,40 @@ router.post('/create', (req, res, next): void => {
         level: 1,
       });
 
+      // Create default Character for the new user
+      const newCharacter = await Character.create({
+        userId: newUser.id,
+        characterName: "Hero",
+        level: 1,
+        health: 100,
+        mana: 50,
+        currentWeapon: "Sword",
+        attack: 3,
+        defense: 1,
+        username: newUser.username,
+        sprite: "defaultSprite",
+      });
+
+      // Optionally add default items to the character
+      const [sword, created] = await Item.findOrCreate({
+        where: { itemName: "Sword" },
+        defaults: {
+          itemName: "Sword",
+          description: "A sharp blade used for combat.",
+          type: 1, // Weapon
+          quantity: 1,
+          damage: Math.floor(Math.random() * (10 - 6 + 1)) + 6, // Random damage 6-10
+        },
+      });
+
+      await newCharacter.addItem(sword);
+      newCharacter.currentWeapon = sword.itemName;
+      await newCharacter.save();
+
       res.status(201).json({
-        message: 'User registered successfully.',
+        message: 'User and character created successfully.',
         user: { id: newUser.id, username: newUser.username },
+        character: newCharacter,
       });
     } catch (error) {
       console.error('Error during registration:', error);
