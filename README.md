@@ -1,5 +1,5 @@
 # Fantasy Fighter
-A turn-based RPG featuring a Fantasy protagonist thrown into a world of chaos featuring aliens, zombies and much more! This full-stack application uses the ***PERN*** (PostgreSQL, Express, React, and Node.js) technology stack. The application also uses Typescript, Bootstrap, and JWTs (JSON Web Tokens) with local storage. Find the deployed app on [Render]()!
+A turn-based RPG featuring a Fantasy protagonist thrown into a world of chaos featuring aliens, zombies and much more! This full-stack application uses the ***PERN*** (PostgreSQL, Express, React, and Node.js) technology stack. The application also uses Typescript, Bootstrap, and JWTs (JSON Web Tokens) with local storage. Find the deployed app on [Render](https://project-2-c43n.onrender.com/)!
 
 ## User Story
 
