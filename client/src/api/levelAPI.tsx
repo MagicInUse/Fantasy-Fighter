@@ -1,4 +1,4 @@
-import type { LevelData } from '../interfaces/LevelData';
+import type { LevelData, LevelDetailsData } from '../interfaces/LevelData';
 
 import AuthService from '../utils/auth';
 
@@ -55,7 +55,7 @@ const getLevel = async (level: number): Promise<LevelData> => {
 };
 
 // GET /api/level/:id/details endpoint to get level details
-const getLevelDetails = async (level: number): Promise<LevelData> => {
+const getLevelDetails = async (level: number): Promise<LevelDetailsData> => {
   if (!AuthService.loggedIn()) {
     return Promise.reject('User is not authenticated');
   }
