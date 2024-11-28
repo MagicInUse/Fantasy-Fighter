@@ -17,15 +17,20 @@ const Combat = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // Fetch player data
         let playerData = await getCharacterData();
         
+        // If player data doesn't exist, create a new character and fetch the data again
         if (!playerData) {
           await createCharacterData();
           playerData = await getCharacterData();
         }
 
+        // Fetch enemy data and level details
         const enemyData = await getEnemyData();
         const levelData = await getLevelDetails(Number(level_id));
+
+        // Set state with fetched data
         setPlayer(playerData);
         setEnemy(enemyData);
         setLevel(levelData);
