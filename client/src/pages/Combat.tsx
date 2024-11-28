@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 
 import { CharacterData } from '../interfaces/CharacterData';
 import { EnemyData } from '../interfaces/EnemyData';
-import { LevelData } from '../interfaces/LevelData';
+import { LevelDetailsData } from '../interfaces/LevelData';
 
 import AuthService from '../utils/auth';
 import { getLevelDetails } from '../api/levelAPI';
@@ -12,7 +12,7 @@ const Combat = () => {
   const { level_id } = useParams<{ level_id: string }>();
   const [player, setPlayer] = useState<CharacterData | null>(null);
   const [enemy, setEnemy] = useState<EnemyData | null>(null);
-  const [level, setLevel] = useState<LevelData | null>(null);
+  const [level, setLevel] = useState<LevelDetailsData | null>(null);
   const [combatId, setCombatId] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
 
@@ -31,9 +31,10 @@ const Combat = () => {
           },
           body: JSON.stringify({ level_id: Number(level_id) }),
         });
+        // Destructure response data
         const { message, combatId, player, enemy } = await response.json();
 
-        // Set state with fetched data
+        // Set state with response data
         setPlayer(player);
         setLevel(levelData);
         setEnemy(enemy);
