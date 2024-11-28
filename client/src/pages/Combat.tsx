@@ -24,16 +24,22 @@ const Combat = () => {
         if (!playerData) {
           await createCharacterData();
           playerData = await getCharacterData();
+          console.log(playerData);
         }
 
-        // Fetch enemy data and level details
+        // Fetch level details
+        // TODO: write a new interface for detailed level information
+        // then update the getLevelDetails function to return that interface
         const levelData = await getLevelDetails(Number(level_id));
-        const enemyData = await getEnemyData();
+
+        // Fetch enemy data based on the enemy type from level details
+        // TODO: update the getEnemyData function to accept a type parameter from level details
+        const enemyData = await getEnemyData("Forest Ent");
 
         // Set state with fetched data
         setPlayer(playerData);
-        setEnemy(enemyData);
         setLevel(levelData);
+        setEnemy(enemyData);
       } catch (error) {
         console.error('Error fetching data:', error);
       }

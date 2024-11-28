@@ -56,15 +56,14 @@ export const createCharacterData = async (): Promise<CharacterData> => {
   }
 };
 
-// GET /api/enemy endpoint to get enemy data
-export const getEnemyData = async (): Promise<EnemyData> => {
+// GET /api/enemy/type/:type endpoint to get enemy data by type
+export const getEnemyData = async (type: string): Promise<EnemyData> => {
   if (!AuthService.loggedIn()) {
     return Promise.reject('User is not authenticated');
   }
 
   try {
-    // TODO: fix this call to grab the enemy data and use the /api/enemy/type/:type endpoint
-    const response = await fetch('/api/enemy/all', {
+    const response = await fetch(`/api/enemy/type/${type}`, {
       headers: {
         Authorization: `Bearer ${AuthService.getToken()}`,
       },
@@ -83,7 +82,6 @@ export const getEnemyData = async (): Promise<EnemyData> => {
   }
 };
 
-// TODO: Implement the combat logic functions, be it here or server side
 // POST /api/combat/attack endpoint to handle player attacking enemy
 export const apiPlayerAttack = async (player: CharacterData, enemy: EnemyData): Promise<{ updatedPlayer: CharacterData, updatedEnemy: EnemyData }> => {
   if (!AuthService.loggedIn()) {
