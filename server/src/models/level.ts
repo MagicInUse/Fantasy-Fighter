@@ -4,7 +4,7 @@ import sequelize from '../config/database';
 interface LevelAttributes {
     level_id: number;
     level_name: string;
-    loot_table: object | null;
+    loot_table: object[] | null; // Changed from object | null to object[] | null
     description: string | null;
     complete: boolean;
     locked: boolean;
@@ -15,7 +15,7 @@ interface LevelCreationAttributes extends Optional<LevelAttributes, "level_id"> 
 export class Level extends Model<LevelAttributes, LevelCreationAttributes> implements LevelAttributes {
     public level_id!: number;
     public level_name!: string;
-    public loot_table!: object | null;
+    public loot_table!: object[] | null;
     public description!: string | null;
     public complete!: boolean;
     public locked!: boolean;
