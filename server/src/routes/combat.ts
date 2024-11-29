@@ -1,10 +1,10 @@
 import express, { Request, Response } from 'express';
-import { Character, Enemy } from '../models/index';
+import { Character, Enemy, Level, Item } from '../models/index'; // Added Level
 import { authenticate } from './middleware/auth';
 
 const router = express.Router();
 
-const combatSessions: { [key: string]: { player: any; enemy: any; turn: string } } = {};
+const combatSessions: { [key: string]: { player: any; enemy: any; level_id: number; turn: string } } = {};
 
 // Fetch player data for combat
 const getPlayerData = async (userId: number): Promise<any> => {
@@ -57,6 +57,7 @@ const initializeCombat = async (req: Request, res: Response): Promise<void> => {
         combatSessions[combatId] = {
             player: player.toJSON(),
             enemy: enemy.toJSON(),
+            level_id,
             turn: "player",
         };
 
@@ -76,12 +77,15 @@ const calculateDamage = (character: any): number => {
     }
 
     switch (character.currentWeapon) {
-        case 'Bow':
-            return Math.floor(Math.random() * 10) + 1;
+        case "Hero's Sword":
+            const heroSwordBaseDmg = Math.floor(Math.random() * 11) + 5;
+            return heroSwordBaseDmg > 13 ? Math.floor(heroSwordBaseDmg * 1.5) : heroSwordBaseDmg;
         case 'Sword':
-            return Math.floor(Math.random() * 6) + 3;
+            const swordBaseDmg = Math.floor(Math.random() * 6) + 3;
+            return swordBaseDmg > 8 ? Math.floor(swordBaseDmg * 1.5) : swordBaseDmg;
         case 'Laser Gun':
-            return Math.floor(Math.random() * 46) + 5;
+            const laserGunBaseDmg = Math.floor(Math.random() * 46) + 5;
+            return laserGunBaseDmg > 40 ? Math.floor(laserGunBaseDmg * 1.5) : laserGunBaseDmg;
         default:
             return 1;
     }
@@ -150,6 +154,42 @@ const playerAttack = async (req: Request, res: Response): Promise<void> => {
 
     // Check if the enemy is defeated
     if (combat.enemy.health <= 0) {
+        // Update character level, level completion, and unlock next level
+        try {
+            const { level_id, player } = combatSessions[combatId];
+            const level = await Level.findOne({ where: { level_id } });
+
+            interface LootItem {
+                itemName: string;
+                [key: string]: any; // Allows for additional properties
+            }
+
+            if (level && !level.complete) {
+                const character = await Character.findOne({ where: { id: player.id } });
+                if (character) {
+                    character.level += 1;
+                    level.complete = true;
+                    const loot = level.loot_table ? (level.loot_table[0] as { itemName: string }).itemName : null;
+                    if (loot) {
+                        character.currentWeapon = loot;
+                    }
+                    character.attack += 9;
+                    await character.save();
+                    await level.save();
+
+                    // Unlock the next level
+                    const nextLevelId = level.level_id + 1;
+                    const nextLevel = await Level.findOne({ where: { level_id: nextLevelId } });
+                    if (nextLevel && nextLevel.locked) {
+                        nextLevel.locked = false;
+                        await nextLevel.save();
+                    }
+                }
+            }
+        } catch (error) {
+            console.error("Error updating character level, level completion, and unlocking next level:", error);
+        }
+
         delete combatSessions[combatId];
         messages.push("Victory! You defeated the enemy.");
         res.status(200).json({ message: messages.join(' '), updatedPlayer: combat.player, updatedEnemy: combat.enemy });
@@ -207,6 +247,37 @@ const playerSpell = async (req: Request, res: Response): Promise<void> => {
 
     // Check if the enemy is defeated
     if (combat.enemy.health <= 0) {
+        // Update character level, level completion, and unlock next level
+        try {
+            const { level_id, player } = combatSessions[combatId];
+            const level = await Level.findOne({ where: { level_id } });
+
+            interface LootItem {
+                itemName: string;
+                [key: string]: any; // Allows for additional properties
+            }
+
+            if (level && !level.complete) {
+                const character = await Character.findOne({ where: { id: player.id } });
+                if (character) {
+                    character.level += 1;
+                    level.complete = true;
+                    await character.save();
+                    await level.save();
+
+                    // Unlock the next level
+                    const nextLevelId = level.level_id + 1;
+                    const nextLevel = await Level.findOne({ where: { level_id: nextLevelId } });
+                    if (nextLevel && nextLevel.locked) {
+                        nextLevel.locked = false;
+                        await nextLevel.save();
+                    }
+                }
+            }
+        } catch (error) {
+            console.error("Error updating character level, level completion, and unlocking next level:", error);
+        }
+
         delete combatSessions[combatId];
         messages.push("Victory! You defeated the enemy.");
         res.status(200).json({ message: messages.join(' '), updatedPlayer: combat.player, updatedEnemy: combat.enemy });
@@ -274,6 +345,44 @@ const playerDefend = async (req: Request, res: Response): Promise<void> => {
         
     // Set turn back to player
     combat.turn = "player";
+
+    if (combat.enemy.health <= 0) {
+        // Update character level, level completion, and unlock next level
+        try {
+            const { level_id, player } = combatSessions[combatId];
+            const level = await Level.findOne({ where: { level_id } });
+
+            interface LootItem {
+                itemName: string;
+                [key: string]: any; // Allows for additional properties
+            }
+
+            if (level && !level.complete) {
+                const character = await Character.findOne({ where: { id: player.id } });
+                if (character) {
+                    character.level += 1;
+                    level.complete = true;
+                    await character.save();
+                    await level.save();
+
+                    // Unlock the next level
+                    const nextLevelId = level.level_id + 1;
+                    const nextLevel = await Level.findOne({ where: { level_id: nextLevelId } });
+                    if (nextLevel && nextLevel.locked) {
+                        nextLevel.locked = false;
+                        await nextLevel.save();
+                    }
+                }
+            }
+        } catch (error) {
+            console.error("Error updating character level, level completion, and unlocking next level:", error);
+        }
+
+        delete combatSessions[combatId];
+        messages.push("Victory! You defeated the enemy.");
+        res.status(200).json({ message: messages.join(' '), updatedPlayer: combat.player, updatedEnemy: combat.enemy });
+        return;
+    }
     
     res.status(200).json({
         message: messages.join(' '),
@@ -281,6 +390,7 @@ const playerDefend = async (req: Request, res: Response): Promise<void> => {
         updatedEnemy: combat.enemy,
     });
 };
+
 
 
 
@@ -300,10 +410,10 @@ router.post('/attack', authenticate, playerAttack);
 // Player casts spell on enemy
 router.post('/spell', authenticate, playerSpell);
 
+
 // POST /api/combat/defend
 // Player defends against enemy attack
 router.post('/defend', authenticate, playerDefend);
-
 
 
 
