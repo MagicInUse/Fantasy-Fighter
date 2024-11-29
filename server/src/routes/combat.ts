@@ -84,8 +84,11 @@ const calculateDamage = (character: any): number => {
             const swordBaseDmg = Math.floor(Math.random() * 6) + 3;
             return swordBaseDmg > 8 ? Math.floor(swordBaseDmg * 1.5) : swordBaseDmg;
         case 'Laser Gun':
-            const laserGunBaseDmg = Math.floor(Math.random() * 46) + 5;
-            return laserGunBaseDmg > 40 ? Math.floor(laserGunBaseDmg * 1.5) : laserGunBaseDmg;
+            const laserGunBaseDmg = Math.floor(Math.random() * 37) + 5;
+            return laserGunBaseDmg > 32 ? Math.floor(laserGunBaseDmg * 1.5) : laserGunBaseDmg;
+        case 'Chainsaw':
+            const chainsawBaseDmg = Math.floor(Math.random() * 49) + 20;
+            return chainsawBaseDmg > 40 ? Math.floor(chainsawBaseDmg * 1.5) : chainsawBaseDmg;
         default:
             return 1;
     }
@@ -173,7 +176,9 @@ const playerAttack = async (req: Request, res: Response): Promise<void> => {
                     if (loot) {
                         character.currentWeapon = loot;
                     }
-                    character.attack += 9;
+                    character.attack += 12;
+                    character.mana += 10;
+                    character.health += 20;
                     await character.save();
                     await level.save();
 
@@ -262,6 +267,13 @@ const playerSpell = async (req: Request, res: Response): Promise<void> => {
                 if (character) {
                     character.level += 1;
                     level.complete = true;
+                    const loot = level.loot_table ? (level.loot_table[0] as { itemName: string }).itemName : null;
+                    if (loot) {
+                        character.currentWeapon = loot;
+                    }
+                    character.attack += 12;
+                    character.mana += 10;
+                    character.health += 20;
                     await character.save();
                     await level.save();
 
@@ -346,6 +358,7 @@ const playerDefend = async (req: Request, res: Response): Promise<void> => {
     // Set turn back to player
     combat.turn = "player";
 
+    // Check if the enemy is defeated
     if (combat.enemy.health <= 0) {
         // Update character level, level completion, and unlock next level
         try {
@@ -362,6 +375,13 @@ const playerDefend = async (req: Request, res: Response): Promise<void> => {
                 if (character) {
                     character.level += 1;
                     level.complete = true;
+                    const loot = level.loot_table ? (level.loot_table[0] as { itemName: string }).itemName : null;
+                    if (loot) {
+                        character.currentWeapon = loot;
+                    }
+                    character.attack += 12;
+                    character.mana += 10;
+                    character.health += 20;
                     await character.save();
                     await level.save();
 
