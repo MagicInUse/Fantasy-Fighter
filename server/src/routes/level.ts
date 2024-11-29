@@ -10,7 +10,7 @@ const levelData = [
     {
         level_name: "Forest Ent's Grove",
         loot_table: [
-            { itemName: "Wooden Shield", type: 3, quantity: 1, effect: "Increases defense by 5", description: "A sturdy wooden shield." },
+            { itemName: "Hero's Sword", type: 3, quantity: 1, effect: "Increases defense by 5", description: "A sturdy wooden shield." },
             { itemName: "Magic Sap", type: 2, quantity: 3, effect: "Restores 20 HP", description: "A magical sap that heals wounds." },
         ],
         description: "A peaceful grove inhabited by a powerful Forest Ent.",
@@ -116,7 +116,19 @@ export const createLevels = async (force = true, res: Response): Promise<void> =
                     ...item,
                     level_id: newLevel.level_id,
                 }));
-                await Item.bulkCreate(loot, { validate: true });
+                const createdItems = await Item.bulkCreate(loot, { validate: true });
+
+                // Update the Level's loot_table field
+                await newLevel.update({
+                    loot_table: createdItems.map(item => ({
+                        itemName: item.itemName,
+                        type: item.type,
+                        quantity: item.quantity,
+                        damage: item.damage,
+                        effect: item.effect,
+                        description: item.description,
+                    })),
+                });
             }
 
             // Create and associate enemy

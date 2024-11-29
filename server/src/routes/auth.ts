@@ -39,7 +39,7 @@ router.post('/create', (req, res, next): void => {
         attack: 3,
         defense: 1,
         username: newUser.username,
-        sprite: "defaultSprite",
+        sprite: "../assets/heroBlue.gif",
       });
 
       // Optionally add default items to the character
