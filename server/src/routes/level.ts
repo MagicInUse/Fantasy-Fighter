@@ -28,7 +28,7 @@ const levelData = [
     {
         level_name: "Robot Factory",
         loot_table: [
-            { itemName: "Laser Gun", type: 1, quantity: 1, damage: 50, description: "A powerful laser gun." },
+            { itemName: "Laser Gun", type: 1, quantity: 1, damage: 25, description: "A powerful laser gun." },
             { itemName: "Robot Parts", type: 3, quantity: 5, description: "Parts from a broken robot." },
         ],
         description: "An abandoned factory crawling with malfunctioning robots.",
@@ -37,27 +37,27 @@ const levelData = [
         enemy: {
             type: "Robot",
             sprite: '/assets/redRobot.gif',
-            health: 150,
+            health: 100,
             mana: 30,
             attack: 25,
-            defense: 20,
+            defense: 10,
         },
     },
     {
         level_name: "Zombie Outbreak",
         loot_table: [
-            { itemName: "Rusty Axe", type: 1, quantity: 1, damage: 25, description: "An old and rusty axe." },
+            { itemName: "Chainsaw", type: 1, quantity: 1, damage: 50, description: "An old chainsaw, it still rumbles as if brand new." },
             { itemName: "Zombie Flesh", type: 3, quantity: 2, description: "Flesh from a zombie." },
         ],
         description: "A dark and desolate town overrun by zombies.",
         complete: false,
         locked: true,
         enemy: {
-            type: "Zombie",
+            type: "Zombie Brute",
             sprite: '/assets/zombie.png',
-            health: 100,
+            health: 350,
             mana: 0,
-            attack: 10,
+            attack: 20,
             defense: 5,
         },
     },
