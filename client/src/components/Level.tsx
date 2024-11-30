@@ -22,7 +22,7 @@ const Level: React.FC<LevelProps> = ({ levelNumber, levelName, description, comp
 
   return (
     <div className={`border p-4 mb-4 rounded text-center shadow-lg ${getClassNames()}`}>
-      <h3>{levelNumber} {levelName}</h3>
+      <h3>{levelNumber} - {levelName}</h3>
       <p>{description}</p>
       <p>{complete ? 'Complete' : 'Incomplete'}</p>
       <button className="btn btn-light" onClick={onPlay} disabled={locked}>
