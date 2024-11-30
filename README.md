@@ -32,8 +32,14 @@ A turn-based RPG featuring a Fantasy protagonist thrown into a world of chaos fe
 3. **Levels Screen**
 
    <a href="./screenshots/levels.png" target="_blank">
-     <img src="./screenshots/levels.png" alt="Combat Screen" style="max-width: 690px;">
+     <img src="./screenshots/levels.png" alt="Levels Screen" style="max-width: 690px;">
    </a>
+
+4. **Combat GUI**
+
+    <a href="./screenshots/combat.png" target="_blank">
+      <img src="./screenshots/combat.png" alt="Combat Screen" style="max-width: 690px;">
+    </a>
 
 ## Authors
 

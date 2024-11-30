@@ -43,11 +43,7 @@ const Combat = () => {
         const { message, combatId, player, enemy } = await response.json();
 
         // Set state with response data
-        setPlayer({
-          ...player,
-          health: ensureNonNegative(player.health),
-          mana: ensureNonNegative(player.mana),
-        });
+        setPlayer(player);
         setPlayerMaxHealth(player.health);
         setPlayerMaxMana(player.mana);
         setEnemy(enemy);
@@ -191,6 +187,9 @@ const Combat = () => {
     return (current / max) * 100;
   };
 
+  // Change to 'https://project-2-c43n.onrender.com/' for deployment and 'http://localhost:5001' for local development
+  const baseUrl = 'https://project-2-c43n.onrender.com/';
+
   return (
     <div className="combat-container text-center mt-3">
       {player && enemy && level ? (
@@ -198,7 +197,7 @@ const Combat = () => {
           <div className="battlefield card w-50 m-auto d-flex flex-row justify-content-between">
             <div className="player-info p-5 details-card">
               <h2>{player.username}</h2>
-              <img src={`${player.sprite}`} alt={player.username} className="m-3"/>
+              <img src={`${baseUrl}${player.sprite}`} alt={player.username} className="m-3"/>
               <div className="progress mb-2 position-relative custom-progress-bar">
                 <div
                   className="progress-bar bg-success"
@@ -228,7 +227,7 @@ const Combat = () => {
             </div>
             <div className="enemy-info p-5 details-card">
               <h2>{enemy.name}</h2>
-              <img src={`${enemy.sprite}`} alt={enemy.name} className="m-3"/>
+              <img src={`${baseUrl}${enemy.sprite}`} alt={enemy.name} className="m-3"/>
               <div className="progress mb-2 position-relative custom-progress-bar">
                 <div
                   className="progress-bar bg-success"
