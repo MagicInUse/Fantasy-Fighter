@@ -7,7 +7,7 @@ const router = express.Router();
 const combatSessions: { [key: string]: { player: any; enemy: any; level_id: number; turn: string } } = {};
 
 // Fetch player data for combat
-const getPlayerData = async (userId: number): Promise<any> => {
+export const getPlayerData = async (userId: number): Promise<any> => {
     try {
         const character = await Character.findOne({ where: { userId } });
 
