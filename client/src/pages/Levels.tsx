@@ -23,10 +23,21 @@ const GameLevels: React.FC = () => {
     navigate(`/combat/${level.level_id}`);
   };
 
+  // Sort levels: complete first, incomplete second, locked third
+  const sortedLevels = levels.sort((a, b) => {
+    if (a.locked !== b.locked) {
+      return a.locked ? 1 : -1;
+    }
+    if (a.complete !== b.complete) {
+      return a.complete ? -1 : 1;
+    }
+    return 0;
+  });
+
   return (
     <div className="container mt-3">
       <div className="row">
-        {levels.map((level) => (
+        {sortedLevels.map((level) => (
           <div key={level.level_id} className="col-12 col-md-6 col-lg-4">
             <Level
               levelNumber={level.level_id}
