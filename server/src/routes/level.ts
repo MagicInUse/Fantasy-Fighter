@@ -10,7 +10,7 @@ const levelData = [
     {
         level_name: "Forest Ent's Grove",
         loot_table: [
-            { itemName: "Hero's Sword", type: 3, quantity: 1, effect: "Increases defense by 5", description: "A sturdy wooden shield." },
+            { itemName: "Hero's Sword", type: 1, quantity: 1, damage: 20, description: "A sturdy wooden shield." },
             { itemName: "Magic Sap", type: 2, quantity: 3, effect: "Restores 20 HP", description: "A magical sap that heals wounds." },
         ],
         description: "A peaceful grove inhabited by a powerful Forest Ent.",
@@ -19,16 +19,16 @@ const levelData = [
         enemy: {
             type: "Forest Ent",
             sprite: '/assets/forestEnt.gif',
-            health: 20,
+            health: 30,
             mana: 50,
-            attack: 5,
+            attack: 10,
             defense: 0,
         },
     },
     {
         level_name: "Robot Factory",
         loot_table: [
-            { itemName: "Laser Gun", type: 1, quantity: 1, damage: 25, description: "A powerful laser gun." },
+            { itemName: "Laser Gun", type: 1, quantity: 1, damage: 35, description: "A powerful laser gun." },
             { itemName: "Robot Parts", type: 3, quantity: 5, description: "Parts from a broken robot." },
         ],
         description: "An abandoned factory crawling with malfunctioning robots.",
@@ -37,16 +37,16 @@ const levelData = [
         enemy: {
             type: "Robot",
             sprite: '/assets/redRobot.gif',
-            health: 100,
+            health: 120,
             mana: 30,
-            attack: 25,
-            defense: 10,
+            attack: 20,
+            defense: 5,
         },
     },
     {
         level_name: "Zombie Outbreak",
         loot_table: [
-            { itemName: "Chainsaw", type: 1, quantity: 1, damage: 50, description: "An old chainsaw, it still rumbles as if brand new." },
+            { itemName: "Chainsaw", type: 1, quantity: 1, damage: 60, description: "An old chainsaw, it still rumbles as if brand new." },
             { itemName: "Zombie Flesh", type: 3, quantity: 2, description: "Flesh from a zombie." },
         ],
         description: "A dark and desolate town overrun by zombies.",
@@ -55,16 +55,16 @@ const levelData = [
         enemy: {
             type: "Zombie Brute",
             sprite: '/assets/zombie.png',
-            health: 350,
+            health: 360,
             mana: 0,
-            attack: 20,
-            defense: 5,
+            attack: 30,
+            defense: 10,
         },
     },
     {
         level_name: "Alien Mayhem",
         loot_table: [
-            { itemName: "Ray Gun", type: 1, quantity: 1, damage: 75, description: "A ray gun from outer space." },
+            { itemName: "Ray Gun", type: 1, quantity: 1, damage: 85, description: "A ray gun from outer space." },
             { itemName: "Alien Blood", type: 3, quantity: 3, description: "Blood from an alien." },
         ],
         description: "A spaceship filled with hostile aliens.",
@@ -73,16 +73,16 @@ const levelData = [
         enemy: {
             type: "Alien",
             sprite: '/assets/placeHolder.png',
-            health: 200,
+            health: 400,
             mana: 100,
-            attack: 30,
+            attack: 35,
             defense: 15,
         },
     },
     {
         level_name: "Ghost Ship",
         loot_table: [
-            { itemName: "Phantom Blade", type: 1, quantity: 1, damage: 100, description: "A blade that can cut through ghosts." },
+            { itemName: "Phantom Blade", type: 1, quantity: 1, damage: 110, description: "A blade that can cut through ghosts." },
             { itemName: "Ghostly Essence", type: 2, quantity: 1, effect: "Restores 100 HP", description: "An essence from a ghost." },
         ],
         description: "A haunted ship filled with ghostly apparitions.",
@@ -91,16 +91,16 @@ const levelData = [
         enemy: {
             type: "Ghost Captain",
             sprite: '/assets/placeHolder.png',
-            health: 150,
+            health: 450,
             mana: 50,
             attack: 40,
-            defense: 10,
+            defense: 20,
         },
     },
     {
         level_name: "Underwater Abyss",
         loot_table: [
-            { itemName: "Trident", type: 1, quantity: 1, damage: 125, description: "A trident from the depths of the ocean." },
+            { itemName: "Trident", type: 1, quantity: 1, damage: 140, description: "A trident from the depths of the ocean." },
             { itemName: "Sea Shells", type: 3, quantity: 5, effect: "Increases defense by 15", description: "Shells from the ocean floor." },
         ],
         description: "An underwater abyss filled with dangerous sea creatures.",
@@ -109,16 +109,16 @@ const levelData = [
         enemy: {
             type: "Kraken",
             sprite: '/assets/placeHolder.png',
-            health: 300,
+            health: 500,
             mana: 50,
             attack: 45,
-            defense: 20,
+            defense: 25,
         },
     },
     {
         level_name: "Lava Caverns",
         loot_table: [
-            { itemName: "Fire Staff", type: 1, quantity: 1, damage: 150, description: "A staff that controls fire." },
+            { itemName: "Fire Staff", type: 1, quantity: 1, damage: 170, description: "A staff that controls fire." },
             { itemName: "Lava Rock", type: 3, quantity: 3, effect: "Increases attack by 10", description: "A rock from the depths of the earth." },
         ],
         description: "A dangerous cavern filled with molten lava.",
@@ -127,16 +127,16 @@ const levelData = [
         enemy: {
             type: "Ember Lord",
             sprite: '/assets/placeHolder.png',
-            health: 250,
+            health: 550,
             mana: 100,
             attack: 50,
-            defense: 15,
+            defense: 30,
         },
     },
     {
         level_name: "Giant's Peak",
         loot_table: [
-            { itemName: "Giant's Club", type: 1, quantity: 1, damage: 200, description: "A club used by giants." },
+            { itemName: "Giant's Club", type: 1, quantity: 1, damage: 210, description: "A club used by giants." },
             { itemName: "Giant's Tooth", type: 3, quantity: 2, effect: "Increases health by 50", description: "A tooth from a giant." },
         ],
         description: "A mountain peak inhabited by a powerful Giant.",
@@ -145,16 +145,16 @@ const levelData = [
         enemy: {
             type: "Giant",
             sprite: '/assets/placeHolder.png',
-            health: 400,
+            health: 600,
             mana: 50,
-            attack: 60,
-            defense: 25,
+            attack: 55,
+            defense: 35,
         },
     },
     {
         level_name: "Ice Fortress",
         loot_table: [
-            { itemName: "Ice Bow", type: 1, quantity: 1, damage: 175, description: "A bow that shoots ice arrows." },
+            { itemName: "Ice Bow", type: 1, quantity: 1, damage: 220, description: "A bow that shoots ice arrows." },
             { itemName: "Ice Shards", type: 3, quantity: 5, effect: "Increases mana by 20", description: "Shards of ice from a frozen fortress." },
         ],
         description: "A frozen fortress inhabited by a powerful Ice Queen.",
@@ -163,17 +163,16 @@ const levelData = [
         enemy: {
             type: "Ice Queen",
             sprite: '/assets/placeHolder.png',
-            health: 300,
+            health: 650,
             mana: 200,
-            attack: 40,
-            defense: 10,
+            attack: 60,
+            defense: 40,
         },
     },
-
     {
         level_name: "Dragon's Lair",
         loot_table: [
-            { itemName: "Dragon Spear", type: 1, quantity: 1, damage: 250, description: "A spear that can pierce dragon scales." },
+            { itemName: "Dragon Spear", type: 1, quantity: 1, damage: 260, description: "A spear that can pierce dragon scales." },
             { itemName: "Dragon Scale", type: 3, quantity: 3, effect: "Increases defense by 20", description: "A scale from a dragon." },
         ],
         description: "A fiery lair inhabited by a powerful Dragon.",
@@ -182,16 +181,14 @@ const levelData = [
         enemy: {
             type: "Dragon",
             sprite: '/assets/placeHolder.png',
-            health: 500,
+            health: 700,
             mana: 100,
-            attack: 75,
-            defense: 30,
+            attack: 65,
+            defense: 45,
         },
-    
     },
-
-
 ];
+
 
 
 export const createLevels = async (force = true, res: Response): Promise<void> => {
