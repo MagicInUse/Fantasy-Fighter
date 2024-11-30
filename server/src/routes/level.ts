@@ -1,6 +1,7 @@
 import express, { Request, Response, NextFunction } from 'express';
 import { Level, Item, Enemy, sequelize, Character } from '../models/index';
 import { authenticate, authenticateLevelAccess } from './middleware/auth';
+import { getPlayerData } from './combat';
 
 const router = express.Router();
 
@@ -300,18 +301,37 @@ const getLevelById = async ( req: Request, res: Response, next: NextFunction): P
 
 // Get all levels
 const getAllLevels = async (req: Request, res: Response): Promise<void> => {
-  try {
-      const levels = await Level.findAll(); // Fetch all levels
-      res.status(200).json(levels);
-  } catch (error) {
-      console.error('Error fetching levels:', error);
-      res.status(500).json({ error: 'Internal server error.' });
-  }
+    try {
+        const levels = await Level.findAll();
+        console.log("Levels:", levels);
+        const userId = req.user.id;
+
+        const character = await Character.findOne({ where: { userId } });
+        if (!character) {
+            res.status(404).json({ error: "Character not found." });
+            return;
+        }
+
+        const userLevel = character.dataValues.level;
+        console.log("User level:", userLevel);
+
+        const updatedLevels = levels.map(level => ({
+            ...level.toJSON(),
+            complete: userLevel > level.level_id,
+            locked: userLevel < level.level_id,
+        }));
+        console.log("Updated levels:", updatedLevels);
+        res.status(200).json( updatedLevels );
+    } catch (error) {
+        console.error("Error fetching levels:", error);
+        res.status(500).json({ error: "Internal server error." });
+    }
 };
 
 // Get by id & include loot and enemy
 const getLevelWithDetails = async (req: Request, res: Response): Promise<void> => {
   const { id } = req.params;
+
 
   try {
       const level = await Level.findByPk(id, {
@@ -339,7 +359,7 @@ const getLevelWithDetails = async (req: Request, res: Response): Promise<void> =
 // TODO: Add get enemy for level by id
 
 // GET /api/level/all
-router.get('/all', getAllLevels);
+router.get('/all', authenticate, getAllLevels);
 
 // POST /api/level/seed
 // or POST /api/level/seed?force=true to force reseed
