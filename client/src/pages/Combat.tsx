@@ -7,7 +7,6 @@ import { LevelDetailsData } from '../interfaces/LevelData';
 
 import AuthService from '../utils/auth';
 import { getLevelDetails } from '../api/levelAPI';
-import { apiPlayerHeal } from '../api/combatAPI'; // Add import
 
 const Combat = () => {
   const { level_id } = useParams<{ level_id: string }>();
@@ -269,7 +268,7 @@ const Combat = () => {
             <button className="btn btn-danger mx-2" onClick={handlePlayerAttack}>Attack</button>
             <button className="btn btn-info mx-2" onClick={handlePlayerDefend}>Defend</button>
             <button className="btn btn-success mx-2" onClick={handlePlayerSpell}>Spell</button>
-            <button className="btn btn-secondary mx-2" onClick={handlePlayerHeal}>Heal</button> {/* New Heal button */}
+            <button className="btn btn-secondary mx-2" onClick={handlePlayerHeal}>Heal</button>
             <button className="btn btn-warning mx-2" onClick={handlePlayerFlee}>Flee</button>
           </div>
         </>
