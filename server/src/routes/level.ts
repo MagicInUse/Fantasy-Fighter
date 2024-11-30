@@ -303,25 +303,25 @@ const getLevelById = async ( req: Request, res: Response, next: NextFunction): P
 const getAllLevels = async (req: Request, res: Response): Promise<void> => {
     try {
         const levels = await Level.findAll();
-        console.log("Levels:", levels);
         const userId = req.user.id;
+        console.log("User ID:", userId);
 
         const character = await Character.findOne({ where: { userId } });
+        console.log("Character:", character);
         if (!character) {
             res.status(404).json({ error: "Character not found." });
             return;
         }
 
         const userLevel = character.dataValues.level;
-        console.log("User level:", userLevel);
 
-        const updatedLevels = levels.map(level => ({
-            ...level.toJSON(),
-            complete: userLevel > level.level_id,
-            locked: userLevel < level.level_id,
+        const updatedLevels = await Promise.all(levels.map(async level => {
+            level.complete = userLevel > level.level_id;
+            level.locked = userLevel < level.level_id;
+            await level.save();
+            return level.toJSON();
         }));
-        console.log("Updated levels:", updatedLevels);
-        res.status(200).json( updatedLevels );
+        res.status(200).json(updatedLevels);
     } catch (error) {
         console.error("Error fetching levels:", error);
         res.status(500).json({ error: "Internal server error." });
