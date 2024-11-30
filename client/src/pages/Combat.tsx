@@ -122,34 +122,32 @@ const Combat = () => {
     <div className="combat-container">
       {player && enemy && level ? (
         <>
-          <div className="level-info text-center card w-50 m-auto mt-4 mb-4">
-            <h2>{level.level_name}</h2>
-            <p>{level.description}</p>
+          <div className="battlefield card w-50 m-auto d-flex flex-row justify-content-between text-center">
+            <div className="player-info p-5">
+              <h2>{player.username}</h2>
+              <img src={`${player.sprite}`} alt={player.username} className="m-3"/>
+              <p>Health: {player.health}</p>
+              <p>Mana: {player.mana}</p>
+            </div>
+            <div className="enemy-info p-5">
+              <h2>{enemy.name}</h2>
+              <img src={enemy.sprite} alt={enemy.name} className="m-3"/>
+              <p>Health: {enemy.health}</p>
+              <p>Mana: {enemy.mana}</p>
+            </div>
           </div>
-          <div className="message h2 text-center card w-50 m-auto mt-4 pt-2">
+          <div className="message h2 text-center card w-50 m-auto pt-2">
             <p>{message}</p>
           </div>
-          <div className="player-info">
-            <h2>{player.username}</h2>
-            <img src={`${player.sprite}`} alt={player.username} />
-            <p>Health: {player.health}</p>
-            <p>Mana: {player.mana}</p>
-          </div>
-          <div className="enemy-info">
-            <h2>{enemy.name}</h2>
-            <img src={enemy.sprite} alt={enemy.name} />
-            <p>Health: {enemy.health}</p>
-            <p>Mana: {enemy.mana}</p>
-          </div>
-          <div className="combat-actions">
-            <button className="btn btn-danger" onClick={handlePlayerAttack}>Attack</button>
-            <button className="btn btn-info" onClick={handlePlayerDefend}>Defend</button>
-            <button className="btn btn-success" onClick={handlePlayerSpell}>Spell</button>
-            <button className="btn btn-warning" onClick={handlePlayerFlee}>Flee</button>
+          <div className="combat-actions text-center mt-4">
+            <button className="btn btn-danger mx-2" onClick={handlePlayerAttack}>Attack</button>
+            <button className="btn btn-info mx-2" onClick={handlePlayerDefend}>Defend</button>
+            <button className="btn btn-success mx-2" onClick={handlePlayerSpell}>Spell</button>
+            <button className="btn btn-warning mx-2" onClick={handlePlayerFlee}>Flee</button>
           </div>
         </>
       ) : (
-        <p>Loading... If taking too long, try logging out and back in.</p>
+        <p>Loading...</p>
       )}
     </div>
   );
