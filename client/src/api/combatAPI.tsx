@@ -168,3 +168,33 @@ export const apiPlayerSpell = async (combatId: string): Promise<{ updatedPlayer:
     return Promise.reject('Could not cast spell on enemy');
   }
 };
+
+// POST /api/combat/heal endpoint to handle player casting a heal spell
+export const apiPlayerHeal = async (combatId: string): Promise<{ updatedPlayer: CharacterData, updatedEnemy: EnemyData }> => {
+  if (!AuthService.loggedIn()) {
+    return Promise.reject('User is not authenticated');
+  }
+
+  try {
+    const response = await fetch('/api/combat/heal', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${AuthService.getToken()}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ combatId }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || 'Could not cast heal spell');
+    }
+
+    const data = await response.json();
+    return { updatedPlayer: data.updatedPlayer, updatedEnemy: data.updatedEnemy };
+
+  } catch (err) {
+    console.log('Error from combat API: ', err);
+    return Promise.reject('Could not cast heal spell');
+  }
+};
