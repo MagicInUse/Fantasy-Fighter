@@ -79,8 +79,8 @@ const handleEnemyDefeat = async (combatId: string, combat: any, messages: string
             if (character) {
                 character.level += 1;
                 level.complete = true;
-                character.attack += 15;
-                character.mana += 15;
+                character.attack += 20;
+                character.mana += 5;
                 character.health += 30;
 
                 const newWeaponName = level.loot_table ? (level.loot_table[0] as { itemName: string }).itemName : null;
@@ -356,6 +356,58 @@ const playerDefend = async (req: Request, res: Response): Promise<void> => {
     });
 };
 
+// Add heal spell function
+const playerHeal = async (req: Request, res: Response): Promise<void> => {
+    const { combatId } = req.body;
+    const userId = req.user.id;
+
+    const combat = combatSessions[combatId];
+    if (!combat) {
+        res.status(404).json({ error: "Combat session not found." });
+        return;
+    }
+
+    if (combat.turn !== "player") {
+        res.status(400).json({ error: "It's not your turn." });
+        return;
+    }
+
+    if (combat.player.mana < 5) {
+        res.status(400).json({ error: "Not enough mana to cast heal." });
+        return;
+    }
+
+    const player = await getPlayerData(userId);
+
+    const maxHealth = player.health;
+    const healAmount = Math.floor(maxHealth * 0.6);
+    combat.player.health = Math.min(combat.player.health + healAmount, maxHealth);
+    combat.player.mana -= 5;
+
+    let messages = [`You cast a heal spell and restored ${healAmount} health.`];
+
+    // Update turn to enemy
+    combat.turn = "enemy";
+
+    // Execute enemy turn
+    const enemyResult = enemyTurn(combat);
+    messages.push(enemyResult.message);
+
+    // Check if the player is defeated during enemy's turn
+    if (combat.player.health <= 0) {
+        delete combatSessions[combatId];
+        messages.push("You have been defeated.");
+    } else {
+        combat.turn = "player";
+    }
+
+    res.status(200).json({
+        message: messages.join(' '),
+        updatedPlayer: combat.player,
+        updatedEnemy: combat.enemy,
+    });
+};
+
 // Routes
 
 // POST /api/combat/start
@@ -374,5 +426,8 @@ router.post('/spell', authenticate, playerSpell);
 // POST /api/combat/defend
 // Player defends against enemy attack
 router.post('/defend', authenticate, playerDefend);
+
+// Add route for heal spell
+router.post('/heal', authenticate, playerHeal);
 
 export default router;
