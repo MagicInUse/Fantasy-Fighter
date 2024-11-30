@@ -61,6 +61,136 @@ const levelData = [
             defense: 5,
         },
     },
+    {
+        level_name: "Alien Mayhem",
+        loot_table: [
+            { itemName: "Ray Gun", type: 1, quantity: 1, damage: 75, description: "A ray gun from outer space." },
+            { itemName: "Alien Blood", type: 3, quantity: 3, description: "Blood from an alien." },
+        ],
+        description: "A spaceship filled with hostile aliens.",
+        complete: false,
+        locked: true,
+        enemy: {
+            type: "Alien",
+            sprite: '/assets/placeHolder.png',
+            health: 200,
+            mana: 100,
+            attack: 30,
+            defense: 15,
+        },
+    },
+    {
+        level_name: "Ghost Ship",
+        loot_table: [
+            { itemName: "Phantom Blade", type: 1, quantity: 1, damage: 100, description: "A blade that can cut through ghosts." },
+            { itemName: "Ghostly Essence", type: 2, quantity: 1, effect: "Restores 100 HP", description: "An essence from a ghost." },
+        ],
+        description: "A haunted ship filled with ghostly apparitions.",
+        complete: false,
+        locked: true,
+        enemy: {
+            type: "Ghost Captain",
+            sprite: '/assets/placeHolder.png',
+            health: 150,
+            mana: 50,
+            attack: 40,
+            defense: 10,
+        },
+    },
+    {
+        level_name: "Underwater Abyss",
+        loot_table: [
+            { itemName: "Trident", type: 1, quantity: 1, damage: 125, description: "A trident from the depths of the ocean." },
+            { itemName: "Sea Shells", type: 3, quantity: 5, effect: "Increases defense by 15", description: "Shells from the ocean floor." },
+        ],
+        description: "An underwater abyss filled with dangerous sea creatures.",
+        complete: false,
+        locked: true,
+        enemy: {
+            type: "Kraken",
+            sprite: '/assets/placeHolder.png',
+            health: 300,
+            mana: 50,
+            attack: 45,
+            defense: 20,
+        },
+    },
+    {
+        level_name: "Lava Caverns",
+        loot_table: [
+            { itemName: "Fire Staff", type: 1, quantity: 1, damage: 150, description: "A staff that controls fire." },
+            { itemName: "Lava Rock", type: 3, quantity: 3, effect: "Increases attack by 10", description: "A rock from the depths of the earth." },
+        ],
+        description: "A dangerous cavern filled with molten lava.",
+        complete: false,
+        locked: true,
+        enemy: {
+            type: "Ember Lord",
+            sprite: '/assets/placeHolder.png',
+            health: 250,
+            mana: 100,
+            attack: 50,
+            defense: 15,
+        },
+    },
+    {
+        level_name: "Giant's Peak",
+        loot_table: [
+            { itemName: "Giant's Club", type: 1, quantity: 1, damage: 200, description: "A club used by giants." },
+            { itemName: "Giant's Tooth", type: 3, quantity: 2, effect: "Increases health by 50", description: "A tooth from a giant." },
+        ],
+        description: "A mountain peak inhabited by a powerful Giant.",
+        complete: false,
+        locked: true,
+        enemy: {
+            type: "Giant",
+            sprite: '/assets/placeHolder.png',
+            health: 400,
+            mana: 50,
+            attack: 60,
+            defense: 25,
+        },
+    },
+    {
+        level_name: "Ice Fortress",
+        loot_table: [
+            { itemName: "Ice Bow", type: 1, quantity: 1, damage: 175, description: "A bow that shoots ice arrows." },
+            { itemName: "Ice Shards", type: 3, quantity: 5, effect: "Increases mana by 20", description: "Shards of ice from a frozen fortress." },
+        ],
+        description: "A frozen fortress inhabited by a powerful Ice Queen.",
+        complete: false,
+        locked: true,
+        enemy: {
+            type: "Ice Queen",
+            sprite: '/assets/placeHolder.png',
+            health: 300,
+            mana: 200,
+            attack: 40,
+            defense: 10,
+        },
+    },
+
+    {
+        level_name: "Dragon's Lair",
+        loot_table: [
+            { itemName: "Dragon Spear", type: 1, quantity: 1, damage: 250, description: "A spear that can pierce dragon scales." },
+            { itemName: "Dragon Scale", type: 3, quantity: 3, effect: "Increases defense by 20", description: "A scale from a dragon." },
+        ],
+        description: "A fiery lair inhabited by a powerful Dragon.",
+        complete: false,
+        locked: true,
+        enemy: {
+            type: "Dragon",
+            sprite: '/assets/placeHolder.png',
+            health: 500,
+            mana: 100,
+            attack: 75,
+            defense: 30,
+        },
+    
+    },
+
+
 ];
 
 
