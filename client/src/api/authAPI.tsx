@@ -14,14 +14,13 @@ const login = async (userInfo: UserLogin) => {
     const data = await response.json();
 
     if (!response.ok) {
-      throw new Error('User information not retrieved, check network tab!');
+      throw new Error(`Failed to login with credentials`);
     }
 
     return data;
 
   } catch (err) {
-    console.log('Error from user login: ', err);
-    return Promise.reject('Could not fetch user info');
+    return Promise.reject(err);
   }
 };
 
@@ -39,14 +38,13 @@ const createUser = async (userInfo: UserLogin) => {
     const data = await response.json();
 
     if (!response.ok) {
-      throw new Error('User information not retrieved, check network tab!');
+      throw new Error(`Failed to create new user`);
     }
 
     return data;
 
   } catch (err) {
-    console.log('Error from user creation: ', err);
-    return Promise.reject('Could not create user');
+    return Promise.reject(err);
   }
 };
 
