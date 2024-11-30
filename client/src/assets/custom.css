@@ -2,7 +2,18 @@
   min-width: 300px;
 }
 
+.battlefield {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  min-width: 800px;
+  padding: 20px;
+}
+
 .custom-progress-bar {
     height: 2rem; /* Adjust the height as needed */
     font-size: 1.25rem;
+    font-weight: bold;
+    text-shadow: #222 3px 3px 5px;
   }

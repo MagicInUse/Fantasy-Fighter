@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-
+import { useLocation } from 'react-router-dom';
 import auth from '../utils/auth';
 
 const Navbar = () => {
   const [loginCheck, setLoginCheck] = useState(false);
+  const location = useLocation();
 
   const checkLogin = () => {
     if (auth.loggedIn()) {
@@ -13,11 +14,12 @@ const Navbar = () => {
 
   useEffect(() => {
     checkLogin();
-  }, [loginCheck]);
+  }, []);
+
+  const isCombatRoute = /^\/combat\/\d+$/.test(location.pathname);
 
   return (
     <div>
-      <h1></h1>
       <div>
         {!loginCheck ? (
           <div className="d-flex flex-column align-items-center">
@@ -44,6 +46,7 @@ const Navbar = () => {
                 onClick={() => {
                   window.location.assign('/inventory');
                 }}
+                disabled={isCombatRoute}
               >
                 Inventory
               </button>
