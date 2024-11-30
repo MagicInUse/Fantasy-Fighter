@@ -1,0 +1,8 @@
+.details-card {
+  min-width: 300px;
+}
+
+.custom-progress-bar {
+    height: 2rem; /* Adjust the height as needed */
+    font-size: 1.25rem;
+  }
