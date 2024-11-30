@@ -79,13 +79,30 @@ const handleEnemyDefeat = async (combatId: string, combat: any, messages: string
             if (character) {
                 character.level += 1;
                 level.complete = true;
-                const loot = level.loot_table ? (level.loot_table[0] as { itemName: string }).itemName : null;
-                if (loot) {
-                    character.currentWeapon = loot;
-                }
                 character.attack += 15;
                 character.mana += 15;
                 character.health += 30;
+
+                const newWeaponName = level.loot_table ? (level.loot_table[0] as { itemName: string }).itemName : null;
+                if (newWeaponName) {
+                    //TODO: Get inventory item pushing working
+                    const loot = await Item.findOne({ where: { itemName: newWeaponName } });
+                    if (loot) {
+                        // Convert loot to plain object
+                        const lootItem = loot.toJSON();
+
+                        // Initialize inventory if undefined
+                        character.inventory = character.inventory || [];
+
+                        // Add loot item to inventory as a plain object
+                        character.inventory.push(lootItem);
+
+                        // Equip the new weapon
+                        character.currentWeapon = newWeaponName;
+                        combat.player.currentWeapon = newWeaponName;
+                    }
+                }
+
                 await character.save();
                 await level.save();
 
