@@ -14,7 +14,7 @@ const Navbar = () => {
 
   useEffect(() => {
     checkLogin();
-  }, [loginCheck]);
+  }, []);
 
   const isCombatRoute = /^\/combat\/\d+$/.test(location.pathname);
 
