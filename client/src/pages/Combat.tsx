@@ -40,7 +40,6 @@ const Combat = () => {
         setEnemy(enemy);
         setCombatId(combatId);
         setMessage(message);
-        console.log(message);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -64,7 +63,7 @@ const Combat = () => {
         const { updatedPlayer, updatedEnemy, message } = await response.json();
         setPlayer(updatedPlayer);
         setEnemy(updatedEnemy);
-        console.log(message);
+        setMessage(message);
       } catch (error) {
         console.error('Error during player attack:', error);
       }
@@ -86,7 +85,7 @@ const Combat = () => {
         const { updatedPlayer, updatedEnemy, message } = await response.json();
         setPlayer(updatedPlayer);
         setEnemy(updatedEnemy);
-        console.log(message);
+        setMessage(message);
       } catch (error) {
         console.error('Error during player defend:', error);
       }
@@ -108,7 +107,7 @@ const Combat = () => {
         const { updatedPlayer, updatedEnemy, message } = await response.json();
         setPlayer(updatedPlayer);
         setEnemy(updatedEnemy);
-        console.log(message);
+        setMessage(message);
       } catch (error) {
         console.error('Error during player spell:', error);
       }
@@ -123,12 +122,16 @@ const Combat = () => {
     <div className="combat-container">
       {player && enemy && level ? (
         <>
-          <div className="message text-center">
+          <div className="level-info text-center card w-50 m-auto mt-4 mb-4">
+            <h2>{level.level_name}</h2>
+            <p>{level.description}</p>
+          </div>
+          <div className="message h2 text-center card w-50 m-auto mt-4 pt-2">
             <p>{message}</p>
           </div>
           <div className="player-info">
             <h2>{player.username}</h2>
-            <img src={player.sprite} alt={player.username} />
+            <img src={`${player.sprite}`} alt={player.username} />
             <p>Health: {player.health}</p>
             <p>Mana: {player.mana}</p>
           </div>
@@ -138,10 +141,6 @@ const Combat = () => {
             <p>Health: {enemy.health}</p>
             <p>Mana: {enemy.mana}</p>
           </div>
-          <div className="level-info">
-            <h2>{level.level_name}</h2>
-            <p>{level.description}</p>
-          </div>
           <div className="combat-actions">
             <button className="btn btn-danger" onClick={handlePlayerAttack}>Attack</button>
             <button className="btn btn-info" onClick={handlePlayerDefend}>Defend</button>
@@ -150,7 +149,7 @@ const Combat = () => {
           </div>
         </>
       ) : (
-        <p>Loading...</p>
+        <p>Loading... If taking too long, try logging out and back in.</p>
       )}
     </div>
   );
