@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider, RouteObject } from 'react-router-d
 
 import 'bootswatch/dist/spacelab/bootstrap.min.css';
 import '../src/assets/topography.css';
+import '../src/assets/custom.css';
 
 
 import App from './App.tsx';
