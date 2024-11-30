@@ -187,8 +187,8 @@ const Combat = () => {
     return (current / max) * 100;
   };
 
-  // Change to 'https://project-2-c43n.onrender.com/' for deployment and 'http://localhost:5001' for local development
-  const baseUrl = 'https://project-2-c43n.onrender.com/';
+  // Change to 'https://project-2-c43n.onrender.com' for deployment and 'http://localhost:5001' for local development
+  const baseUrl = 'https://project-2-c43n.onrender.com';
 
   return (
     <div className="combat-container text-center mt-3">
