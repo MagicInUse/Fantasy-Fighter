@@ -268,7 +268,10 @@ const Combat = () => {
           </div>
         </>
       ) : (
-        <p>Loading...</p>
+        <div className="text-center">
+          <p>Loading...</p>
+          <p>If loading takes longer than 10 seconds, log out and log back in.</p>
+        </div>
       )}
     </div>
   );
