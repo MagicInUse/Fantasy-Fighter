@@ -50,11 +50,7 @@ const Combat = () => {
         });
         setPlayerMaxHealth(player.health);
         setPlayerMaxMana(player.mana);
-        setEnemy({
-          ...enemy,
-          health: ensureNonNegative(enemy.health),
-          mana: ensureNonNegative(enemy.mana),
-        });
+        setEnemy(enemy);
         setEnemyMaxHealth(enemy.health);
         setEnemyMaxMana(enemy.mana);
         setLevel(levelData);
@@ -232,7 +228,7 @@ const Combat = () => {
             </div>
             <div className="enemy-info p-5 details-card">
               <h2>{enemy.name}</h2>
-              <img src={enemy.sprite} alt={enemy.name} className="m-3"/>
+              <img src={`${enemy.sprite}`} alt={enemy.name} className="m-3"/>
               <div className="progress mb-2 position-relative custom-progress-bar">
                 <div
                   className="progress-bar bg-success"
