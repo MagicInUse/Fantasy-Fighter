@@ -2,6 +2,20 @@ import { Sequelize, Model, DataTypes, Optional } from "sequelize"; // Added Sequ
 import { Item } from "./index";
 import sequelize from "../config/database";
 
+// Define a plain interface for inventory items
+interface InventoryItem {
+    id: number;
+    itemName: string;
+    type: number;
+    quantity: number;
+    damage?: number;
+    effect?: string;
+    description: string;
+    equipped?: boolean | null;
+    characterId?: number | null;
+    level_id?: number | null;
+}
+
 interface CharacterAttributes {
     id: number;
     userId: number;
@@ -14,7 +28,7 @@ interface CharacterAttributes {
     currentWeapon: string;
     attack: number;
     defense: number;
-   // inventory: ItemData[];
+    inventory: InventoryItem[];
     // armor: string; 
 }
 
@@ -32,7 +46,7 @@ export class Character extends Model<CharacterAttributes, CharacterCreationAttri
     public currentWeapon!: string;
     public attack!: number;
     public defense!: number;
-    //public inventory!: ItemData[];
+    public inventory!: InventoryItem[];
     // public armor!: string;
 
     // Association Methods
@@ -94,11 +108,10 @@ export function CharacterFactory(sequelize: Sequelize): typeof Character {
                 type: DataTypes.INTEGER,
                 allowNull: false,
             },
-            // inventory: {
-            //     type: DataTypes.ARRAY(DataTypes.JSON),
-            //      allowNull: true,
-            //  },
-            
+            inventory: {
+                type: DataTypes.JSONB,
+                allowNull: true,
+            },
         },
         {
             modelName: 'Character',
