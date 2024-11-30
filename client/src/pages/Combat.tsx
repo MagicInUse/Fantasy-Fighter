@@ -7,6 +7,7 @@ import { LevelDetailsData } from '../interfaces/LevelData';
 
 import AuthService from '../utils/auth';
 import { getLevelDetails } from '../api/levelAPI';
+import { apiPlayerHeal } from '../api/combatAPI'; // Add import
 
 const Combat = () => {
   const { level_id } = useParams<{ level_id: string }>();
@@ -158,6 +159,35 @@ const Combat = () => {
     }
   };
 
+  const handlePlayerHeal = async () => {
+    if (player && enemy && combatId) {
+      try {
+        const response = await fetch('/api/combat/heal', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${AuthService.getToken()}`,
+          },
+          body: JSON.stringify({ combatId }),
+        });
+        const { updatedPlayer, updatedEnemy, message } = await response.json();
+        setPlayer({
+          ...updatedPlayer,
+          health: ensureNonNegative(updatedPlayer.health),
+          mana: ensureNonNegative(updatedPlayer.mana),
+        });
+        setEnemy({
+          ...updatedEnemy,
+          health: ensureNonNegative(updatedEnemy.health),
+          mana: ensureNonNegative(updatedEnemy.mana),
+        });
+        setMessage(message);
+      } catch (error) {
+        console.error('Error during player heal:', error);
+      }
+    }
+  };
+
   const handlePlayerFlee = () => {
     window.location.assign('/levels');
   };
@@ -239,6 +269,7 @@ const Combat = () => {
             <button className="btn btn-danger mx-2" onClick={handlePlayerAttack}>Attack</button>
             <button className="btn btn-info mx-2" onClick={handlePlayerDefend}>Defend</button>
             <button className="btn btn-success mx-2" onClick={handlePlayerSpell}>Spell</button>
+            <button className="btn btn-secondary mx-2" onClick={handlePlayerHeal}>Heal</button> {/* New Heal button */}
             <button className="btn btn-warning mx-2" onClick={handlePlayerFlee}>Flee</button>
           </div>
         </>
