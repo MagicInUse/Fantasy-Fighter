@@ -12,6 +12,10 @@
   background-size: 90%;
 }
 
+.text-shadow {
+  text-shadow: 2px 2px 3.5px rgba(0, 0, 0, 1);
+}
+
 .custom-progress-bar {
     height: 2rem; /* Adjust the height as needed */
     font-size: 1.25rem;
