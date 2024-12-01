@@ -68,7 +68,7 @@ const levelData: LevelSeedData[] = [
             attack: 20,
             defense: 5,
         },
-        background_sprite: "/assets/retroForest.png",
+        background_sprite: "/assets/robotFactory.png",
     },
     {
         level_name: "Zombie Outbreak",
@@ -87,7 +87,7 @@ const levelData: LevelSeedData[] = [
             attack: 30,
             defense: 10,
         },
-        background_sprite: "/assets/retroForest.png",
+        background_sprite: "/assets/zombieOutbreak.png",
     },
     {
         level_name: "Alien Mayhem",
@@ -100,13 +100,13 @@ const levelData: LevelSeedData[] = [
         locked: true,
         enemy: {
             type: "Alien",
-            sprite: '/assets/placeHolder.png',
+            sprite: '/assets/hangingHorror.png',
             health: 400,
             mana: 100,
             attack: 35,
             defense: 15,
         },
-        background_sprite: "/assets/retroForest.png",
+        background_sprite: "/assets/alienMayhem.png",
     },
     {
         level_name: "Ghost Ship",
@@ -119,13 +119,13 @@ const levelData: LevelSeedData[] = [
         locked: true,
         enemy: {
             type: "Ghost Captain",
-            sprite: '/assets/placeHolder.png',
+            sprite: '/assets/ghostCaptain.png',
             health: 450,
             mana: 50,
             attack: 40,
             defense: 20,
         },
-        background_sprite: "/assets/retroForest.png",
+        background_sprite: "/assets/ghostShip.png",
     },
     {
         level_name: "Underwater Abyss",
@@ -138,13 +138,13 @@ const levelData: LevelSeedData[] = [
         locked: true,
         enemy: {
             type: "Kraken",
-            sprite: '/assets/placeHolder.png',
+            sprite: '/assets/abyssKraken.png',
             health: 500,
             mana: 50,
             attack: 45,
             defense: 25,
         },
-        background_sprite: "/assets/retroForest.png",
+        background_sprite: "/assets/underwaterAbyss.png",
     },
     {
         level_name: "Lava Caverns",
@@ -157,13 +157,13 @@ const levelData: LevelSeedData[] = [
         locked: true,
         enemy: {
             type: "Ember Lord",
-            sprite: '/assets/placeHolder.png',
+            sprite: '/assets/emberLord.png',
             health: 550,
             mana: 100,
             attack: 50,
             defense: 30,
         },
-        background_sprite: "/assets/retroForest.png",
+        background_sprite: "/assets/lavaCaverns.png",
     },
     {
         level_name: "Giant's Peak",
@@ -176,13 +176,13 @@ const levelData: LevelSeedData[] = [
         locked: true,
         enemy: {
             type: "Giant",
-            sprite: '/assets/placeHolder.png',
+            sprite: '/assets/evilGiant.png',
             health: 600,
             mana: 50,
             attack: 55,
             defense: 35,
         },
-        background_sprite: "/assets/retroForest.png",
+        background_sprite: "/assets/giantsPeak.png",
     },
     {
         level_name: "Ice Fortress",
@@ -195,13 +195,13 @@ const levelData: LevelSeedData[] = [
         locked: true,
         enemy: {
             type: "Ice Queen",
-            sprite: '/assets/placeHolder.png',
+            sprite: '/assets/iceQueen.png',
             health: 650,
             mana: 200,
             attack: 60,
             defense: 40,
         },
-        background_sprite: "/assets/retroForest.png",
+        background_sprite: "/assets/iceFortress.png",
     },
     {
         level_name: "Dragon's Lair",
@@ -214,13 +214,13 @@ const levelData: LevelSeedData[] = [
         locked: true,
         enemy: {
             type: "Dragon",
-            sprite: '/assets/placeHolder.png',
+            sprite: '/assets/evilDragon.png',
             health: 700,
             mana: 100,
             attack: 65,
             defense: 45,
         },
-        background_sprite: "/assets/retroForest.png",
+        background_sprite: "/assets/dragonsLair.png",
     },
 ];
 

@@ -229,7 +229,7 @@ const Combat = () => {
             </div>
             <div className="enemy-info p-5 details-card">
               <h2 className="text-shadow">{enemy.name}</h2>
-              <img src={`${baseUrl}${enemy.sprite}`} alt={enemy.name} className="m-3"/>
+              <img src={`${baseUrl}${enemy.sprite}`} alt={enemy.name} className="m-3 enemy-sprite"/>
               <div className="progress mb-2 position-relative custom-progress-bar">
                 <div
                   className="progress-bar bg-success"
