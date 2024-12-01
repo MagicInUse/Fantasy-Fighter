@@ -7,7 +7,7 @@ export interface LevelData extends ItemData {
   description: string;
   complete: boolean;
   locked: boolean;
-  background_sprite: string;
+  background_sprite: string | null;
 }
 
 export interface LevelDetailsData extends ItemData {
@@ -19,4 +19,5 @@ export interface LevelDetailsData extends ItemData {
   locked: boolean;
   loot: ItemData[];
   enemyDetails: object;
+  background_sprite: string | null;
 }
