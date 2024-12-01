@@ -7,4 +7,5 @@ export interface ItemData {
     equipped?: boolean;
     damage?: number;
     effect?: string;
+    characterId?: number;
 }
