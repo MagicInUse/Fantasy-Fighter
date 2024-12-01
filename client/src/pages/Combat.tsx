@@ -198,7 +198,7 @@ const Combat = () => {
           style={{ backgroundImage: level ? `url(${baseUrl}${level.background_sprite})` : 'none' }}
           >
             <div className="player-info p-5 details-card">
-              <h2>{player.username}</h2>
+              <h2 className="text-shadow">{player.username}</h2>
               <img src={`${baseUrl}${player.sprite}`} alt={player.username} className="m-3"/>
               <div className="progress mb-2 position-relative custom-progress-bar">
                 <div
@@ -228,7 +228,7 @@ const Combat = () => {
               </div>
             </div>
             <div className="enemy-info p-5 details-card">
-              <h2>{enemy.name}</h2>
+              <h2 className="text-shadow">{enemy.name}</h2>
               <img src={`${baseUrl}${enemy.sprite}`} alt={enemy.name} className="m-3"/>
               <div className="progress mb-2 position-relative custom-progress-bar">
                 <div
