@@ -7,13 +7,21 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  min-width: 800px;
+  min-width: 1000px;
+  max-width: 1000px;
   padding: 20px;
-  background-size: 90%;
+  background-size: 125%;
+  background-repeat: no-repeat;
+  background-position: bottom;
 }
 
 .text-shadow {
   text-shadow: 2px 2px 3.5px rgba(0, 0, 0, 1);
+}
+
+.enemy-sprite {
+  width: 200px;
+  height: 200px;
 }
 
 .custom-progress-bar {
