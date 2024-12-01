@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
-import { Item } from '../models/index';
+import { Item, Character } from '../models/index';
+import { authenticate } from './middleware/auth';
 
 const router = express.Router();
 
@@ -28,11 +29,26 @@ export const createItems = async (req: Request, res: Response): Promise<void> =>
     }
 };
 
+const getCharacterInventory = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const character = await Character.findOne({ where: { id: req.user.id } });
+        if (!character) {
+            res.status(404).json({ message: 'Character not found' });
+            return;
+        }
+        const inventory = await character.getItems();
+        res.json(inventory);
+    } catch (error) {
+        console.error('Error fetching character inventory:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+router.get('/inventory/:playerId', getCharacterInventory);
+
 // GET /api/inventory 
 // Gets all inventory items
-router.get('/', (req, res) => {
-    res.json(itemData);
-});
+router.get('/', authenticate, getCharacterInventory);
 
 // POST /api/inventory 
 // Add item to inventory

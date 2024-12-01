@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import { Character, Enemy, Level, Item } from '../models/index'; // Added Level
 import { authenticate } from './middleware/auth';
+import { ItemFactory } from '../models/item'; // Import ItemFactory
 
 const router = express.Router();
 
@@ -96,17 +97,22 @@ const handleEnemyDefeat = async (combatId: string, combat: any, messages: string
 
                 const newWeaponName = level.loot_table ? (level.loot_table[0] as { itemName: string }).itemName : null;
                 if (newWeaponName) {
-                    //TODO: Get inventory item pushing working
                     const loot = await Item.findOne({ where: { itemName: newWeaponName } });
                     if (loot) {
-                        // Convert loot to plain object
-                        const lootItem = loot.toJSON();
+                        // Create and persist the new weapon
+                        const newWeapon = await ItemFactory(loot.sequelize).create({
+                            itemName: loot.itemName,
+                            description: loot.description,
+                            quantity: loot.quantity,
+                            type: loot.type,
+                            equipped: loot.equipped,
+                            damage: loot.damage,
+                            effect: loot.effect,
+                            characterId: character.id,
+                        });
 
-                        // Initialize inventory if undefined
-                        character.inventory = character.inventory || [];
-
-                        // Add loot item to inventory as a plain object
-                        character.inventory.push(lootItem);
+                        const inventory = await character.getItems();
+                        console.log('Inventory:', inventory.map(item => item.toJSON()));
 
                         // Equip the new weapon
                         character.currentWeapon = newWeaponName;
