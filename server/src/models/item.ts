@@ -10,6 +10,7 @@ interface ItemAttributes {
     equipped?: boolean;
     damage?: number;
     effect?: string;
+    characterId?: number;
 }
 
 interface ItemCreationAttributes extends Optional<ItemAttributes, "id"> {}
@@ -23,6 +24,7 @@ export class Item extends Model<ItemAttributes, ItemCreationAttributes> implemen
     public equipped?: boolean;
     public damage?: number;
     public effect?: string;
+    public characterId?: number;
 
     public getCharacters!: () => Promise<Character[]>;
 }
@@ -62,6 +64,16 @@ export function ItemFactory(sequelize: Sequelize): typeof Item { // Changed type
             effect: {
                 type: DataTypes.STRING,
                 allowNull: true,
+            },
+            characterId: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                references: {
+                    model: 'characters',
+                    key: 'id',
+                },
+                onUpdate: 'CASCADE',
+                onDelete: 'SET NULL',
             },
         },
         {
