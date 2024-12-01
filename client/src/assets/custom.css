@@ -9,6 +9,7 @@
   align-items: center;
   min-width: 800px;
   padding: 20px;
+  background-size: 90%;
 }
 
 .custom-progress-bar {

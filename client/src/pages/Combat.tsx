@@ -188,13 +188,15 @@ const Combat = () => {
   };
 
   // Change to 'https://project-2-c43n.onrender.com' for deployment and 'http://localhost:5001' for local development
-  const baseUrl = 'https://project-2-c43n.onrender.com';
+  const baseUrl = 'http://localhost:5001';
 
   return (
     <div className="combat-container text-center mt-3">
       {player && enemy && level ? (
         <>
-          <div className="battlefield card w-50 m-auto d-flex flex-row justify-content-between">
+          <div className="battlefield card w-50 m-auto d-flex flex-row justify-content-between"
+          style={{ backgroundImage: level ? `url(${baseUrl}${level.background_sprite})` : 'none' }}
+          >
             <div className="player-info p-5 details-card">
               <h2>{player.username}</h2>
               <img src={`${baseUrl}${player.sprite}`} alt={player.username} className="m-3"/>

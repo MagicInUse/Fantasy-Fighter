@@ -5,9 +5,33 @@ import { getPlayerData } from './combat';
 
 const router = express.Router();
 
+// Define an interface for level data entries
+interface LevelSeedData {
+    level_name: string;
+    loot_table: {
+        itemName: string;
+        type: number;
+        quantity: number;
+        damage?: number;
+        effect?: string;
+        description: string;
+    }[];
+    description: string;
+    complete: boolean;
+    locked: boolean;
+    enemy: {
+        type: string;
+        sprite: string;
+        health: number;
+        mana: number;
+        attack: number;
+        defense: number;
+    };
+    background_sprite: string;
+}
 
-// Seed level data
-const levelData = [
+// Type the levelData array
+const levelData: LevelSeedData[] = [
     {
         level_name: "Forest Ent's Grove",
         loot_table: [
@@ -25,7 +49,7 @@ const levelData = [
             attack: 10,
             defense: 0,
         },
-        background_sprite: '/assets/',
+        background_sprite: "/assets/retroForest.png",
     },
     {
         level_name: "Robot Factory",
@@ -44,8 +68,7 @@ const levelData = [
             attack: 20,
             defense: 5,
         },
-        background_sprite: '/assets/',
-
+        background_sprite: "/assets/retroForest.png",
     },
     {
         level_name: "Zombie Outbreak",
@@ -64,8 +87,7 @@ const levelData = [
             attack: 30,
             defense: 10,
         },
-        background_sprite: '/assets/',
-
+        background_sprite: "/assets/retroForest.png",
     },
     {
         level_name: "Alien Mayhem",
@@ -84,8 +106,7 @@ const levelData = [
             attack: 35,
             defense: 15,
         },
-        background_sprite: '/assets/',
-
+        background_sprite: "/assets/retroForest.png",
     },
     {
         level_name: "Ghost Ship",
@@ -104,8 +125,7 @@ const levelData = [
             attack: 40,
             defense: 20,
         },
-        background_sprite: '/assets/',
-
+        background_sprite: "/assets/retroForest.png",
     },
     {
         level_name: "Underwater Abyss",
@@ -124,8 +144,7 @@ const levelData = [
             attack: 45,
             defense: 25,
         },
-        background_sprite: '/assets/',
-
+        background_sprite: "/assets/retroForest.png",
     },
     {
         level_name: "Lava Caverns",
@@ -144,8 +163,7 @@ const levelData = [
             attack: 50,
             defense: 30,
         },
-        background_sprite: '/assets/',
-
+        background_sprite: "/assets/retroForest.png",
     },
     {
         level_name: "Giant's Peak",
@@ -164,8 +182,7 @@ const levelData = [
             attack: 55,
             defense: 35,
         },
-        background_sprite: '/assets/',
-
+        background_sprite: "/assets/retroForest.png",
     },
     {
         level_name: "Ice Fortress",
@@ -184,8 +201,7 @@ const levelData = [
             attack: 60,
             defense: 40,
         },
-        background_sprite: '/assets/',
-
+        background_sprite: "/assets/retroForest.png",
     },
     {
         level_name: "Dragon's Lair",
@@ -204,8 +220,7 @@ const levelData = [
             attack: 65,
             defense: 45,
         },
-        background_sprite: '/assets/',
-
+        background_sprite: "/assets/retroForest.png",
     },
 ];
 
@@ -238,7 +253,6 @@ export const createLevels = async (force = true, res: Response): Promise<void> =
             await sequelize.sync();
             console.log("Models synced after dropping tables.");
         }
-        
 
         // Check if levels already exist
         const existingLevelsCount = await Level.count();
@@ -255,6 +269,7 @@ export const createLevels = async (force = true, res: Response): Promise<void> =
                 description: level.description,
                 complete: level.complete,
                 locked: level.locked,
+                background_sprite: level.background_sprite,
             });
 
             // Create and associate loot items
@@ -323,10 +338,9 @@ const getAllLevels = async (req: Request, res: Response): Promise<void> => {
     try {
         const levels = await Level.findAll();
         const userId = req.user.id;
-        console.log("User ID:", userId);
+
 
         const character = await Character.findOne({ where: { userId } });
-        console.log("Character:", character);
         if (!character) {
             res.status(404).json({ error: "Character not found." });
             return;
