@@ -183,7 +183,11 @@ const enemyTurn = (combat: any): { message: string; updatedPlayer: any; updatedE
 
     if (action === "attack") {
         const damage = combat.enemy.attack;
-        combat.player.health -= Math.max(damage - combat.player.defense, 0);
+        const variation = damage * 0.2;
+        const minDamage = Math.floor(damage - variation);
+        const maxDamage = Math.ceil(damage + variation);
+        const actualDamage = Math.floor(Math.random() * (maxDamage - minDamage + 1)) + minDamage;
+        combat.player.health -= Math.max(actualDamage - combat.player.defense, 0);
 
         // Check if the player is defeated
         if (combat.player.health <= 0) {
