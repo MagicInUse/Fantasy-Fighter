@@ -8,7 +8,10 @@ interface ModalProps {
   onClose: () => void;
 }
 
+// ModalComponent is a reusable modal dialog component that displays a title, body content, and an exit button.
+// It also closes when clicking outside the modal.
 const ModalComponent: React.FC<ModalProps> = ({ title, body, exitButton, show, onClose }) => {
+  // Handle clicks outside the modal to close it
   const handleClickOutside = (event: MouseEvent) => {
     const modal = document.querySelector('.modal-dialog');
     if (modal && !modal.contains(event.target as Node)) {
@@ -16,6 +19,7 @@ const ModalComponent: React.FC<ModalProps> = ({ title, body, exitButton, show, o
     }
   };
 
+  // Add or remove event listener for clicks outside the modal
   useEffect(() => {
     if (show) {
       document.addEventListener('mousedown', handleClickOutside);
@@ -33,6 +37,7 @@ const ModalComponent: React.FC<ModalProps> = ({ title, body, exitButton, show, o
 
   return (
     <>
+      {/* Bootstrap Modal */}
       <div className="modal-backdrop show"></div>
       <div className="modal d-block" tabIndex={-1} role="dialog">
         <div className="modal-dialog" role="document">

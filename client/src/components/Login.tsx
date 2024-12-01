@@ -14,7 +14,7 @@ const Login = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [alertMessage, setAlertMessage] = useState<string>('');
 
-
+    // Handle input changes for login data
     const handleChange = (
         e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
         ) => {
@@ -25,36 +25,42 @@ const Login = () => {
         });
     };
 
+    // Handle input changes for confirm password field
     const handleConfirmPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
         setConfirmPassword(e.target.value);
     };
 
+    // Handle form submission for login or user creation
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
 
+        // Check if passwords match when creating a new user
         if (newUser && loginData.password !== confirmPassword) {
             setAlertMessage('Error: Passwords do not match');
             return;
         }
 
+        // Handle login for existing user
         if (!newUser) {
             try {
-                pushLogin(loginData);
+                await pushLogin(loginData);
             } catch (err) {
                 setAlertMessage(`${err}`);
             }
         }
 
+        // Handle user creation and login for new user
         if (newUser) {
             try {
                 await createUser(loginData);
-                pushLogin(loginData);
+                await pushLogin(loginData);
             } catch (err) {
                 setAlertMessage(`${err}`);
             }
         }
     };
 
+    // Function to handle login and set authentication token
     const pushLogin = async (loginData: UserLogin) => {
         try {
             const data = await login(loginData);

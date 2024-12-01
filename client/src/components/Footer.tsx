@@ -1,9 +1,13 @@
 import { useState } from 'react';
+
 import ModalComponent from './Modal';
 
+// Footer component that includes buttons for "About" and "Make it your own!".
+// The "About" button opens a modal with information about the developers.
 const Footer = () => {
   const [showModal, setShowModal] = useState(false);
 
+  // Configuration for the "About" modal
   const aboutModal = {
     title: 'About',
     body: (
@@ -35,10 +39,12 @@ const Footer = () => {
 
   return (
     <footer className="d-flex justify-content-between align-items-center fixed-bottom p-3">
+      {/* Button that opens the "About" modal */}
       <button className="btn btn-dark" type="button" onClick={() => setShowModal(true)}>
         About
       </button>
-      <button className="btn btn-dark" type="button" onClick={() => { window.location.assign('https://github.com/MagicInUse/Project-2'); }}>
+      {/* Button that links to the GitHub repository */}
+      <button className="btn btn-dark" type="button" onClick={() => { window.location.assign('https://github.com/MagicInUse/Fantasy-Fighter'); }}>
         Make it your own!
       </button>
       <ModalComponent {...aboutModal} />

@@ -8,6 +8,7 @@ const getItems = async (): Promise<ItemData[]> => {
     return Promise.reject('User is not authenticated');
   }
 
+  // Fetch all items with user authentication
   try {
     const response = await fetch('/api/inventory', {
       headers: {
@@ -34,6 +35,7 @@ const postItem = async (item: ItemData): Promise<ItemData> => {
     return Promise.reject('User is not authenticated');
   }
 
+  // Add item with user authentication
   try {
     const response = await fetch('/api/inventory', {
       method: 'POST',

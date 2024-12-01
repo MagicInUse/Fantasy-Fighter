@@ -6,7 +6,6 @@ import 'bootswatch/dist/spacelab/bootstrap.min.css';
 import '../src/assets/topography.css';
 import '../src/assets/custom.css';
 
-
 import App from './App.tsx';
 
 import ErrorPage from './pages/ErrorPage.tsx';
@@ -15,6 +14,7 @@ import Levels from './pages/Levels.tsx';
 import Combat from './pages/Combat.tsx';
 import Inventory from './pages/Inventory.tsx';
 
+// Define the routes for the application
 const routes: RouteObject[] = [
   {
     path: '/',
@@ -41,8 +41,10 @@ const routes: RouteObject[] = [
   },
 ];
 
+// Create the router instance with the defined routes
 const router = createBrowserRouter(routes);
 
+// Get the root element from the DOM and render the application
 const rootElement = document.getElementById('root');
 if (rootElement) {
   ReactDOM.createRoot(rootElement).render(
