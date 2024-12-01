@@ -12,7 +12,7 @@ Fantasy Fighter includes authentication using JWT, ensuring secure user sessions
 
 The project follows a well-organized folder structure that adheres to the separation of concerns design principle, promoting maintainability and scalability. The application is deployed on Render, making it accessible with live data and ensuring a reliable gaming experience.
 
-The game's UI is not only polished but also highly responsive, adapting to different screen sizes and devices. The interactive elements respond to user input, providing an engaging and dynamic experience. Whether players are battling fierce enemies, managing their inventory, or exploring new levels, the game offers a captivating and enjoyable experience.
+The game's UI is not only polished but also responsive, adapting to different screen sizes and devices. The interactive elements respond to user input, providing an engaging and dynamic experience. Whether players are battling fierce enemies, managing their inventory, or exploring new levels, the game offers a captivating and enjoyable experience.
 
 Fantasy Fighter meets high-quality coding standards, including proper file structure, naming conventions, indentation, and comprehensive comments. The game is a testament to the power of modern web technologies, delivering an exciting and immersive RPG experience that keeps players coming back for more.
 
