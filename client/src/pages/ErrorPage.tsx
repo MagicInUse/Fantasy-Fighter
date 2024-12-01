@@ -1,3 +1,4 @@
+// A generic 404 error page
 const ErrorPage = () => {
   const handleGoBack = () => {
     window.history.back();

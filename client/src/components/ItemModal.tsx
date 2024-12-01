@@ -12,7 +12,10 @@ interface ItemModalProps {
 
 // TODO: BUG: Modal closes when clicking outside of the modal, but not when using either X or Close button.
 
+// ItemModal is a reusable modal dialog component for displaying item details.
+// It includes an equip/use button and an exit button. The modal closes when clicking outside of it.
 const ItemModal: React.FC<ItemModalProps> = ({ title, body, equipButton, exitButton, show, onEquip, onClose }) => {
+  // Handle clicks outside the modal to close it
   const handleClickOutside = (event: MouseEvent) => {
     const modal = document.querySelector('.modal-dialog');
     if (modal && !modal.contains(event.target as Node)) {
@@ -20,6 +23,7 @@ const ItemModal: React.FC<ItemModalProps> = ({ title, body, equipButton, exitBut
     }
   };
 
+  // Add or remove event listener for clicks outside the modal
   useEffect(() => {
     if (show) {
       document.addEventListener('mousedown', handleClickOutside);
@@ -37,6 +41,7 @@ const ItemModal: React.FC<ItemModalProps> = ({ title, body, equipButton, exitBut
 
   return (
     <>
+    {/* Modified Bootstrap modal to handle item equip / use */}
       <div className="modal-backdrop show"></div>
       <div className="modal d-block" tabIndex={-1} role="dialog">
         <div className="modal-dialog" role="document">

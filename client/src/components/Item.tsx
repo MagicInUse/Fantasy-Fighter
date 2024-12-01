@@ -7,9 +7,12 @@ interface ItemProps {
   onUpdate: (updatedItem: ItemData | null) => void;
 }
 
+// Item component represents a single item in the game.
+// It displays the item name and quantity, and opens a modal with item details when clicked.
 const Item: React.FC<ItemProps> = ({ item, onUpdate }) => {
   const [showModal, setShowModal] = useState(false);
 
+  // Determine the background color based on the item type
   const getColor = () => {
     switch (item.type) {
       case 1: return 'darkred';
@@ -19,10 +22,12 @@ const Item: React.FC<ItemProps> = ({ item, onUpdate }) => {
     }
   };
 
+  // Determine the border outline based on whether the item is equipped
   const getOutline = () => {
     return item.equipped ? '3px solid gold' : 'none';
   };
 
+  // Handle equipping or using the item
   const handleEquip = () => {
     if (item.type === 1) {
       // Equip or Unequip the item
@@ -37,38 +42,43 @@ const Item: React.FC<ItemProps> = ({ item, onUpdate }) => {
     setShowModal(false);
   };
 
+  // Handle closing the modal
   const handleClose = () => {
     setShowModal(false);
   };
 
   return (
-    <div 
-      className="text-center d-flex align-items-center justify-content-center" 
-      style={{ backgroundColor: getColor(), border: getOutline(), width: '100%', height: '100%' }}
-      onClick={() => setShowModal(true)}
-    >
-      <h4 className="text-white text-center">
-        {item.itemName}
-        {item.type !== 1 && ` (${item.quantity})`}
-      </h4>
-      {showModal && (
-        <ItemModal 
-          title={`${item.itemName}${item.type !== 1 ? ` (${item.quantity})` : ''}`} 
-          body={
-            <div>
-              <p>{item.description}</p>
-              {item.damage ? <p>Damage: {item.damage}</p> : null}
-              {item.effect ? <p>Effect: {item.effect}</p> : null}
-            </div>
-          } 
-          equipButton={item.type === 1 ? (item.equipped ? "Unequip" : "Equip") : item.quantity > 0 ? "Use" : null} 
-          exitButton="Close" 
-          show={showModal} 
-          onEquip={handleEquip} 
-          onClose={handleClose} 
-        />
-      )}
-    </div>
+    <>
+    {/* Display the item name and (if not weapon [type 1]) quantity, and open the modal when clicked */}
+      <div 
+        className="text-center d-flex align-items-center justify-content-center" 
+        style={{ backgroundColor: getColor(), border: getOutline(), width: '100%', height: '100%' }}
+        onClick={() => setShowModal(true)}
+      >
+        <h4 className="text-white text-center">
+          {item.itemName}
+          {item.type !== 1 && ` (${item.quantity})`}
+        </h4>
+        {showModal && (
+          // Display the item modal when the modal state is true
+          <ItemModal 
+            title={`${item.itemName}${item.type !== 1 ? ` (${item.quantity})` : ''}`} 
+            body={
+              <div>
+                <p>{item.description}</p>
+                {item.damage ? <p>Damage: {item.damage}</p> : null}
+                {item.effect ? <p>Effect: {item.effect}</p> : null}
+              </div>
+            } 
+            equipButton={item.type === 1 ? (item.equipped ? "Unequip" : "Equip") : item.quantity > 0 ? "Use" : null} 
+            exitButton="Close" 
+            show={showModal} 
+            onEquip={handleEquip} 
+            onClose={handleClose} 
+          />
+        )}
+      </div>
+    </>
   );
 };
 

@@ -9,7 +9,10 @@ import AuthService from '../utils/auth';
 import { getLevelDetails } from '../api/levelAPI';
 
 const Combat = () => {
+  // Get level_id from URL params
   const { level_id } = useParams<{ level_id: string }>();
+  
+  // Initialize state variables
   const [player, setPlayer] = useState<CharacterData | null>(null);
   const [enemy, setEnemy] = useState<EnemyData | null>(null);
   const [level, setLevel] = useState<LevelDetailsData | null>(null);
@@ -20,6 +23,8 @@ const Combat = () => {
   const [enemyMaxHealth, setEnemyMaxHealth] = useState<number>(0);
   const [enemyMaxMana, setEnemyMaxMana] = useState<number>(0);
 
+  // Ensure the value given is non-negative, returning 0 if it is
+  // Used for health and mana values
   const ensureNonNegative = (value: number): number => {
     return value < 0 ? 0 : value;
   };
@@ -60,6 +65,7 @@ const Combat = () => {
     fetchData();
   }, [level_id]);
 
+  // POST /api/combat/attack endpoint to handle player attacking enemy
   const handlePlayerAttack = async () => {
     if (player && enemy && combatId) {
       console.log(`${player.username} is attacking`);
@@ -90,6 +96,7 @@ const Combat = () => {
     }
   };
 
+  // POST /api/combat/defend endpoint to handle player defending against enemy
   const handlePlayerDefend = async () => {
     if (player && enemy && combatId) {
       console.log(`${player.username} is defending`);
@@ -120,6 +127,7 @@ const Combat = () => {
     }
   };
 
+  // POST /api/combat/spell endpoint to handle player casting a spell on enemy
   const handlePlayerSpell = async () => {
     if (player && enemy && combatId) {
       console.log(`${player.username} is casting a spell`);
@@ -150,6 +158,7 @@ const Combat = () => {
     }
   };
 
+  // POST /api/combat/heal endpoint to handle player healing themselves
   const handlePlayerHeal = async () => {
     if (player && enemy && combatId) {
       try {
@@ -179,27 +188,30 @@ const Combat = () => {
     }
   };
 
+  // Flee back to the levels page
   const handlePlayerFlee = () => {
     window.location.assign('/levels');
   };
 
+  // Calculate the percentage of current value to max value
+  // Used for health and mana bars visual representation
   const calculatePercentage = (current: number, max: number) => {
     return (current / max) * 100;
   };
-
-  // Use 'https://project-2-c43n.onrender.com/' for deployed site and 'http://localhost:5001' for local development
-  // const baseUrl = '';
 
   return (
     <div className="combat-container text-center mt-3">
       {player && enemy && level ? (
         <>
+          {/* Battlefield container */}
           <div className="battlefield card w-50 m-auto d-flex flex-row justify-content-between"
           style={{ backgroundImage: level ? `url(${level.background_sprite})` : 'none' }}
           >
+            {/* Player info section */}
             <div className="player-info p-5 details-card">
               <h2 className="text-shadow-bold">{player.username}</h2>
               <img src={`${player.sprite}`} alt={player.username} className="m-3"/>
+              {/* Player health bar */}
               <div className="progress mb-2 position-relative custom-progress-bar">
                 <div
                   className="progress-bar bg-success"
@@ -213,6 +225,7 @@ const Combat = () => {
                   Health: {player.health}
                 </span>
               </div>
+              {/* Player mana bar */}
               <div className="progress position-relative custom-progress-bar">
                 <div
                   className="progress-bar bg-primary"
@@ -227,9 +240,11 @@ const Combat = () => {
                 </span>
               </div>
             </div>
+            {/* Enemy info section */}
             <div className="enemy-info p-5 details-card">
               <h2 className="text-shadow-bold">{enemy.name}</h2>
               <img src={`${enemy.sprite}`} alt={enemy.name} className="m-3 enemy-sprite"/>
+              {/* Enemy health bar */}
               <div className="progress mb-2 position-relative custom-progress-bar">
                 <div
                   className="progress-bar bg-success"
@@ -243,6 +258,7 @@ const Combat = () => {
                   Health: {enemy.health}
                 </span>
               </div>
+              {/* Enemy mana bar */}
               <div className="progress position-relative custom-progress-bar">
                 <div
                   className="progress-bar bg-primary"
@@ -258,9 +274,11 @@ const Combat = () => {
               </div>
             </div>
           </div>
+          {/* Message display */}
           <div className="message h2 text-center card w-50 m-auto mt-4 pt-2">
             <p>{message}</p>
           </div>
+          {/* Combat action buttons */}
           <div className="combat-actions text-center mt-4">
             <button className="btn btn-danger mx-2" onClick={handlePlayerAttack}>Attack</button>
             <button className="btn btn-info mx-2" onClick={handlePlayerDefend}>Defend</button>
@@ -270,10 +288,13 @@ const Combat = () => {
           </div>
         </>
       ) : (
-        <div className="text-center">
-          <p>Loading...</p>
-          <p>If loading takes longer than 10 seconds, log out and log back in.</p>
-        </div>
+        <>
+          {/* Loading message */}
+          <div className="text-center">
+            <p>Loading...</p>
+            <p>If loading takes longer than 10 seconds, log out and log back in.</p>
+          </div>
+        </>
       )}
     </div>
   );

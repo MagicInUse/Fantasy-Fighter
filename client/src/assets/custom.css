@@ -1,7 +1,7 @@
+/* Not sure where this is used, but I don't want to delete it */
 .details-card {
   min-width: 300px;
 }
-
 
 /* Login component */
 .login-card {
@@ -24,22 +24,26 @@
   background-size: cover;
 }
 
+/* A slightly more unique shadow for text because I couldn't quite find a bootstrap equiv */
 .text-shadow {
   text-shadow: 2px 2px 3.5px rgba(0, 0, 0, 1);
 }
 
+/* For Character / Enemy names on combat page */
 .text-shadow-bold {
   text-shadow: 5px 5px 8px rgba(0, 0, 0, 1), -5px -5px 8px rgba(0, 0, 0, 1);
 }
 
+/* Limit sprite size */
 .enemy-sprite {
   width: 200px;
   height: 200px;
 }
 
+/* For bigger text on health / mana bars */
 .custom-progress-bar {
-    height: 2rem; /* Adjust the height as needed */
-    font-size: 1.25rem;
-    font-weight: bold;
-    text-shadow: #222 3px 3px 5px;
-  }
+  height: 2rem;
+  font-size: 1.25rem;
+  font-weight: bold;
+  text-shadow: #222 3px 3px 5px;
+}

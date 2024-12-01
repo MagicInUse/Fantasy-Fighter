@@ -8,6 +8,7 @@ const getLevels = async (): Promise<LevelData[]> => {
     return Promise.reject('User is not authenticated');
   }
 
+  // Fetch all levels with user authentication
   try {
     const response = await fetch('/api/level/all', {
       headers: {
@@ -34,6 +35,7 @@ const getLevel = async (level: number): Promise<LevelData> => {
     return Promise.reject('User is not authenticated');
   }
 
+  // Fetch level by id with user authentication
   try {
     const response = await fetch(`/api/level/${level}`, {
       headers: {
@@ -60,6 +62,7 @@ const getLevelDetails = async (level: number): Promise<LevelDetailsData> => {
     return Promise.reject('User is not authenticated');
   }
 
+  // Fetch level details by id with user authentication
   try {
     const response = await fetch(`/api/level/${level}/details`, {
       headers: {

@@ -9,6 +9,7 @@ export const getCharacterData = async (): Promise<CharacterData> => {
     return Promise.reject('User is not authenticated');
   }
 
+  // Fetch player data from the server with user authentication
   try {
     const response = await fetch('/api/character', {
       headers: {
@@ -35,6 +36,7 @@ export const createCharacterData = async (): Promise<CharacterData> => {
     return Promise.reject('User is not authenticated');
   }
 
+  // Create player data on the server with user authentication
   try {
     const response = await fetch('/api/character', {
       method: 'POST',
@@ -62,6 +64,7 @@ export const getEnemyData = async (type: string): Promise<EnemyData> => {
     return Promise.reject('User is not authenticated');
   }
 
+  // Fetch enemy data from the server based on type with user authentication
   try {
     const response = await fetch(`/api/enemy/type/${type}`, {
       headers: {
@@ -88,6 +91,7 @@ export const apiPlayerAttack = async (combatId: string): Promise<{ updatedPlayer
     return Promise.reject('User is not authenticated');
   }
 
+  // Send attack request to the server with user authentication
   try {
     const response = await fetch('/api/combat/attack', {
       method: 'POST',
@@ -103,6 +107,7 @@ export const apiPlayerAttack = async (combatId: string): Promise<{ updatedPlayer
     }
 
     const data = await response.json();
+    // Return updated player and enemy data
     return { updatedPlayer: data.updatedPlayer, updatedEnemy: data.updatedEnemy };
 
   } catch (err) {
@@ -117,6 +122,7 @@ export const apiPlayerDefend = async (combatId: string): Promise<{ updatedPlayer
     return Promise.reject('User is not authenticated');
   }
 
+  // Send defend request to the server with user authentication
   try {
     const response = await fetch('/api/combat/defend', {
       method: 'POST',
@@ -132,6 +138,7 @@ export const apiPlayerDefend = async (combatId: string): Promise<{ updatedPlayer
     }
 
     const data = await response.json();
+    // Return updated player and enemy data
     return { updatedPlayer: data.updatedPlayer, updatedEnemy: data.updatedEnemy };
 
   } catch (err) {
@@ -146,6 +153,7 @@ export const apiPlayerSpell = async (combatId: string): Promise<{ updatedPlayer:
     return Promise.reject('User is not authenticated');
   }
 
+  // Send spell request to the server with user authentication
   try {
     const response = await fetch('/api/combat/spell', {
       method: 'POST',
@@ -161,6 +169,7 @@ export const apiPlayerSpell = async (combatId: string): Promise<{ updatedPlayer:
     }
 
     const data = await response.json();
+    // Return updated player and enemy data
     return { updatedPlayer: data.updatedPlayer, updatedEnemy: data.updatedEnemy };
 
   } catch (err) {
@@ -175,6 +184,7 @@ export const apiPlayerHeal = async (combatId: string): Promise<{ updatedPlayer: 
     return Promise.reject('User is not authenticated');
   }
 
+  // Send heal request to the server with user authentication
   try {
     const response = await fetch('/api/combat/heal', {
       method: 'POST',
@@ -191,6 +201,7 @@ export const apiPlayerHeal = async (combatId: string): Promise<{ updatedPlayer: 
     }
 
     const data = await response.json();
+    // Return updated player and enemy data
     return { updatedPlayer: data.updatedPlayer, updatedEnemy: data.updatedEnemy };
 
   } catch (err) {
