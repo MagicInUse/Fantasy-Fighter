@@ -79,9 +79,20 @@ const handleEnemyDefeat = async (combatId: string, combat: any, messages: string
             if (character) {
                 character.level += 1;
                 level.complete = true;
-                character.attack += 20;
-                character.mana += 5;
-                character.health += 30;
+                const attackIncrements = [3, 5, 8, 12, 15];
+                const attackThresholds = [20, 25, 35, 50];
+                for (let i = 0; i < attackThresholds.length; i++) {
+                    if (character.attack < attackThresholds[i]) {
+                        character.attack += attackIncrements[i];
+                        break;
+                    }
+                }
+                if (character.attack >= 50) {
+                    character.attack += attackIncrements[4];
+                }
+                character.defense = Math.min(character.defense + 4, 20);
+                character.mana = character.mana < 50 ? character.mana + 10 : Math.min(character.mana + 5, 100);
+                character.health += Math.min(70, 30 + Math.floor((character.health - 100) / 50) * 10);
 
                 const newWeaponName = level.loot_table ? (level.loot_table[0] as { itemName: string }).itemName : null;
                 if (newWeaponName) {
@@ -172,7 +183,11 @@ const enemyTurn = (combat: any): { message: string; updatedPlayer: any; updatedE
 
     if (action === "attack") {
         const damage = combat.enemy.attack;
-        combat.player.health -= Math.max(damage - combat.player.defense, 0);
+        const variation = damage * 0.2;
+        const minDamage = Math.floor(damage - variation);
+        const maxDamage = Math.ceil(damage + variation);
+        const actualDamage = Math.floor(Math.random() * (maxDamage - minDamage + 1)) + minDamage;
+        combat.player.health -= Math.max(actualDamage - combat.player.defense, 0);
 
         // Check if the player is defeated
         if (combat.player.health <= 0) {
@@ -380,7 +395,10 @@ const playerHeal = async (req: Request, res: Response): Promise<void> => {
     const player = await getPlayerData(userId);
 
     const maxHealth = player.health;
-    const healAmount = Math.floor(maxHealth * 0.6);
+    let healAmount = Math.floor(maxHealth * (0.35 + Math.random() * 0.3));
+    if (Math.random() < 0.1) {
+        healAmount *= 2;
+    }
     combat.player.health = Math.min(combat.player.health + healAmount, maxHealth);
     combat.player.mana -= 5;
 

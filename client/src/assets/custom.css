@@ -2,6 +2,14 @@
   min-width: 300px;
 }
 
+
+/* Login component */
+.login-card {
+  min-width: 400px;
+}
+
+
+/* Combat */
 .battlefield {
   display: flex;
   flex-direction: row;
