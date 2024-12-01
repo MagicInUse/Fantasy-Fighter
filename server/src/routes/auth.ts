@@ -39,7 +39,7 @@ router.post('/create', (req, res, next): void => {
         attack: 15,
         defense: 1,
         username: newUser.username,
-        sprite: "/assets/heroblue.gif",
+        sprite: "/assets/heroBlue.gif",
         inventory: [],
       });
 
