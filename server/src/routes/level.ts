@@ -25,6 +25,7 @@ const levelData = [
             attack: 10,
             defense: 0,
         },
+        background_sprite: '/assets/',
     },
     {
         level_name: "Robot Factory",
@@ -43,6 +44,8 @@ const levelData = [
             attack: 20,
             defense: 5,
         },
+        background_sprite: '/assets/',
+
     },
     {
         level_name: "Zombie Outbreak",
@@ -61,6 +64,8 @@ const levelData = [
             attack: 30,
             defense: 10,
         },
+        background_sprite: '/assets/',
+
     },
     {
         level_name: "Alien Mayhem",
@@ -79,6 +84,8 @@ const levelData = [
             attack: 35,
             defense: 15,
         },
+        background_sprite: '/assets/',
+
     },
     {
         level_name: "Ghost Ship",
@@ -97,6 +104,8 @@ const levelData = [
             attack: 40,
             defense: 20,
         },
+        background_sprite: '/assets/',
+
     },
     {
         level_name: "Underwater Abyss",
@@ -115,6 +124,8 @@ const levelData = [
             attack: 45,
             defense: 25,
         },
+        background_sprite: '/assets/',
+
     },
     {
         level_name: "Lava Caverns",
@@ -133,6 +144,8 @@ const levelData = [
             attack: 50,
             defense: 30,
         },
+        background_sprite: '/assets/',
+
     },
     {
         level_name: "Giant's Peak",
@@ -151,6 +164,8 @@ const levelData = [
             attack: 55,
             defense: 35,
         },
+        background_sprite: '/assets/',
+
     },
     {
         level_name: "Ice Fortress",
@@ -169,6 +184,8 @@ const levelData = [
             attack: 60,
             defense: 40,
         },
+        background_sprite: '/assets/',
+
     },
     {
         level_name: "Dragon's Lair",
@@ -187,6 +204,8 @@ const levelData = [
             attack: 65,
             defense: 45,
         },
+        background_sprite: '/assets/',
+
     },
 ];
 
