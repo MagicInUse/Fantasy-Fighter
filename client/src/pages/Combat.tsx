@@ -187,19 +187,19 @@ const Combat = () => {
     return (current / max) * 100;
   };
 
-  // Change to 'https://project-2-c43n.onrender.com' for deployment and 'http://localhost:5001' for local development
-  const baseUrl = 'https://project-2-c43n.onrender.com';
+  // Use 'https://project-2-c43n.onrender.com/' for deployed site and 'http://localhost:5001' for local development
+  // const baseUrl = '';
 
   return (
     <div className="combat-container text-center mt-3">
       {player && enemy && level ? (
         <>
           <div className="battlefield card w-50 m-auto d-flex flex-row justify-content-between"
-          style={{ backgroundImage: level ? `url(${baseUrl}${level.background_sprite})` : 'none' }}
+          style={{ backgroundImage: level ? `url(${level.background_sprite})` : 'none' }}
           >
             <div className="player-info p-5 details-card">
               <h2 className="text-shadow">{player.username}</h2>
-              <img src={`${baseUrl}${player.sprite}`} alt={player.username} className="m-3"/>
+              <img src={`${player.sprite}`} alt={player.username} className="m-3"/>
               <div className="progress mb-2 position-relative custom-progress-bar">
                 <div
                   className="progress-bar bg-success"
@@ -229,7 +229,7 @@ const Combat = () => {
             </div>
             <div className="enemy-info p-5 details-card">
               <h2 className="text-shadow">{enemy.name}</h2>
-              <img src={`${baseUrl}${enemy.sprite}`} alt={enemy.name} className="m-3 enemy-sprite"/>
+              <img src={`${enemy.sprite}`} alt={enemy.name} className="m-3 enemy-sprite"/>
               <div className="progress mb-2 position-relative custom-progress-bar">
                 <div
                   className="progress-bar bg-success"
