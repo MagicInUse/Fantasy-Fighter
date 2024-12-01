@@ -8,6 +8,7 @@ interface LevelAttributes {
     description: string | null;
     complete: boolean;
     locked: boolean;
+    background_sprite: string | null;
 }
 
 interface LevelCreationAttributes extends Optional<LevelAttributes, "level_id"> {}
@@ -19,6 +20,7 @@ export class Level extends Model<LevelAttributes, LevelCreationAttributes> imple
     public description!: string | null;
     public complete!: boolean;
     public locked!: boolean;
+    public background_sprite!: string | null;
 }
 
 export function LevelFactory(sequelize: Sequelize): typeof Level {
@@ -50,6 +52,10 @@ export function LevelFactory(sequelize: Sequelize): typeof Level {
                 type: DataTypes.BOOLEAN,
                 allowNull: false,
                 defaultValue: true,
+            },
+            background_sprite: {
+                type: DataTypes.STRING,
+                allowNull: true,
             },
         },
         {

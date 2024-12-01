@@ -7,6 +7,7 @@ export interface LevelData extends ItemData {
   description: string;
   complete: boolean;
   locked: boolean;
+  background_sprite: string;
 }
 
 export interface LevelDetailsData extends ItemData {
