@@ -35,7 +35,7 @@ const levelData: LevelSeedData[] = [
     {
         level_name: "Forest Ent's Grove",
         loot_table: [
-            { itemName: "Hero's Sword", type: 1, quantity: 1, damage: 20, description: "A sturdy wooden shield." },
+            { itemName: "Hero's Sword", type: 1, quantity: 1, damage: 20, description: "A sword that can banish evil." },
             { itemName: "Magic Sap", type: 2, quantity: 3, effect: "Restores 20 HP", description: "A magical sap that heals wounds." },
         ],
         description: "A peaceful grove inhabited by a powerful Forest Ent.",
