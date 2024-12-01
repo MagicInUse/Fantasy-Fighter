@@ -44,7 +44,7 @@ const levelData: LevelSeedData[] = [
         enemy: {
             type: "Forest Ent",
             sprite: '/assets/forestEnt.gif',
-            health: 30,
+            health: 60,
             mana: 50,
             attack: 10,
             defense: 0,
@@ -73,7 +73,7 @@ const levelData: LevelSeedData[] = [
     {
         level_name: "Zombie Outbreak",
         loot_table: [
-            { itemName: "Chainsaw", type: 1, quantity: 1, damage: 60, description: "An old chainsaw, it still rumbles as if brand new." },
+            { itemName: "Chainsaw", type: 1, quantity: 1, damage: 47, description: "An old chainsaw, it still rumbles as if brand new." },
             { itemName: "Zombie Flesh", type: 3, quantity: 2, description: "Flesh from a zombie." },
         ],
         description: "A dark and desolate town overrun by zombies.",
@@ -92,7 +92,7 @@ const levelData: LevelSeedData[] = [
     {
         level_name: "Alien Mayhem",
         loot_table: [
-            { itemName: "Ray Gun", type: 1, quantity: 1, damage: 85, description: "A ray gun from outer space." },
+            { itemName: "Ray Gun", type: 1, quantity: 1, damage: 70, description: "A ray gun from outer space." },
             { itemName: "Alien Blood", type: 3, quantity: 3, description: "Blood from an alien." },
         ],
         description: "A spaceship filled with hostile aliens.",
@@ -101,7 +101,7 @@ const levelData: LevelSeedData[] = [
         enemy: {
             type: "Alien",
             sprite: '/assets/hangingHorror.png',
-            health: 400,
+            health: 550,
             mana: 100,
             attack: 35,
             defense: 15,
@@ -111,7 +111,7 @@ const levelData: LevelSeedData[] = [
     {
         level_name: "Ghost Ship",
         loot_table: [
-            { itemName: "Phantom Blade", type: 1, quantity: 1, damage: 110, description: "A blade that can cut through ghosts." },
+            { itemName: "Phantom Blade", type: 1, quantity: 1, damage: 90, description: "A blade that can cut through ghosts." },
             { itemName: "Ghostly Essence", type: 2, quantity: 1, effect: "Restores 100 HP", description: "An essence from a ghost." },
         ],
         description: "A haunted ship filled with ghostly apparitions.",
@@ -120,7 +120,7 @@ const levelData: LevelSeedData[] = [
         enemy: {
             type: "Ghost Captain",
             sprite: '/assets/ghostCaptain.png',
-            health: 450,
+            health: 950,
             mana: 50,
             attack: 40,
             defense: 20,
@@ -130,7 +130,7 @@ const levelData: LevelSeedData[] = [
     {
         level_name: "Underwater Abyss",
         loot_table: [
-            { itemName: "Trident", type: 1, quantity: 1, damage: 140, description: "A trident from the depths of the ocean." },
+            { itemName: "Trident", type: 1, quantity: 1, damage: 125, description: "A trident from the depths of the ocean." },
             { itemName: "Sea Shells", type: 3, quantity: 5, effect: "Increases defense by 15", description: "Shells from the ocean floor." },
         ],
         description: "An underwater abyss filled with dangerous sea creatures.",
@@ -139,7 +139,7 @@ const levelData: LevelSeedData[] = [
         enemy: {
             type: "Kraken",
             sprite: '/assets/abyssKraken.png',
-            health: 500,
+            health: 1250,
             mana: 50,
             attack: 45,
             defense: 25,
@@ -149,7 +149,7 @@ const levelData: LevelSeedData[] = [
     {
         level_name: "Lava Caverns",
         loot_table: [
-            { itemName: "Fire Staff", type: 1, quantity: 1, damage: 170, description: "A staff that controls fire." },
+            { itemName: "Fire Staff", type: 1, quantity: 1, damage: 155, description: "A staff that controls fire." },
             { itemName: "Lava Rock", type: 3, quantity: 3, effect: "Increases attack by 10", description: "A rock from the depths of the earth." },
         ],
         description: "A dangerous cavern filled with molten lava.",
@@ -158,7 +158,7 @@ const levelData: LevelSeedData[] = [
         enemy: {
             type: "Ember Lord",
             sprite: '/assets/emberLord.png',
-            health: 550,
+            health: 1500,
             mana: 100,
             attack: 50,
             defense: 30,
@@ -168,7 +168,7 @@ const levelData: LevelSeedData[] = [
     {
         level_name: "Giant's Peak",
         loot_table: [
-            { itemName: "Giant's Club", type: 1, quantity: 1, damage: 210, description: "A club used by giants." },
+            { itemName: "Giant's Club", type: 1, quantity: 1, damage: 180, description: "A club used by giants." },
             { itemName: "Giant's Tooth", type: 3, quantity: 2, effect: "Increases health by 50", description: "A tooth from a giant." },
         ],
         description: "A mountain peak inhabited by a powerful Giant.",
@@ -177,7 +177,7 @@ const levelData: LevelSeedData[] = [
         enemy: {
             type: "Giant",
             sprite: '/assets/evilGiant.png',
-            health: 600,
+            health: 1800,
             mana: 50,
             attack: 55,
             defense: 35,
@@ -196,9 +196,9 @@ const levelData: LevelSeedData[] = [
         enemy: {
             type: "Ice Queen",
             sprite: '/assets/iceQueen.png',
-            health: 650,
+            health: 2000,
             mana: 200,
-            attack: 60,
+            attack: 65,
             defense: 40,
         },
         background_sprite: "/assets/iceFortress.png",
@@ -215,9 +215,9 @@ const levelData: LevelSeedData[] = [
         enemy: {
             type: "Dragon",
             sprite: '/assets/evilDragon.png',
-            health: 700,
+            health: 2100,
             mana: 100,
-            attack: 65,
+            attack: 80,
             defense: 45,
         },
         background_sprite: "/assets/dragonsLair.png",
