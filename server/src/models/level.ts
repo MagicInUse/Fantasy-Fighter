@@ -4,7 +4,7 @@ import sequelize from '../config/database';
 interface LevelAttributes {
     level_id: number;
     level_name: string;
-    loot_table: object[] | null; // Changed from object | null to object[] | null
+    loot_table: object[] | null;
     description: string | null;
     complete: boolean;
     locked: boolean;
