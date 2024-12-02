@@ -49,16 +49,18 @@ const Item: React.FC<ItemProps> = ({ item, onUpdate }) => {
 
   return (
     <>
-    {/* Display the item name and (if not weapon [type 1]) quantity, and open the modal when clicked */}
+      {/* Display the item name, quantity, damage or effect, and open the modal when clicked */}
       <div 
-        className="text-center d-flex align-items-center justify-content-center" 
+        className="text-center d-flex flex-column align-items-center justify-content-center" 
         style={{ backgroundColor: getColor(), border: getOutline(), width: '100%', height: '100%' }}
         onClick={() => setShowModal(true)}
       >
         <h4 className="text-white text-center">
           {item.itemName}
-          {item.type !== 1 && ` (${item.quantity})`}
         </h4>
+        {item.type !== 1 && <span className="text-white">Quantity: {item.quantity}</span>}
+        {item.type === 1 && <span className="text-white">Damage: {item.damage}</span>}
+        {(item.type === 2 || item.type === 3) && <span className="text-white">Effect: {item.effect}</span>}
         {showModal && (
           // Display the item modal when the modal state is true
           <ItemModal 
@@ -75,11 +77,11 @@ const Item: React.FC<ItemProps> = ({ item, onUpdate }) => {
             show={showModal} 
             onEquip={handleEquip} 
             onClose={handleClose} 
+            itemName={item.itemName} // Pass itemName prop
           />
         )}
       </div>
     </>
   );
 };
-
 export default Item;

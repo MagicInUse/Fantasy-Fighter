@@ -44,14 +44,43 @@ const getCharacterInventory = async (req: Request, res: Response): Promise<void>
     }
 };
 
+// Function to update character's currentWeapon
+export const updateCurrentWeapon = async (req: Request, res: Response): Promise<void> => {
+    const { itemName } = req.body;
+
+    if (!itemName) {
+        res.status(400).json({ message: 'itemName is required' });
+        return;
+    }
+
+    try {
+        const character = await Character.findOne({ where: { id: req.user.id } });
+        if (!character) {
+            res.status(404).json({ message: 'Character not found' });
+            return;
+        }
+
+        character.currentWeapon = itemName;
+        await character.save();
+
+        res.json({ message: 'Current weapon updated successfully', currentWeapon: character.currentWeapon });
+    } catch (error) {
+        console.error('Error updating current weapon:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
 router.get('/inventory/:playerId', getCharacterInventory);
 
 // GET /api/inventory 
 // Gets all inventory items
 router.get('/', authenticate, getCharacterInventory);
 
-// POST /api/inventory 
+// POST /api/inventory/seed
 // Add item to inventory
 router.post('/seed', createItems);
+
+// POST /api/inventory/equip
+router.post('/equip', authenticate, updateCurrentWeapon);
 
 export default router;

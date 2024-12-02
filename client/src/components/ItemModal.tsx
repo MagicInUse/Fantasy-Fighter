@@ -1,4 +1,7 @@
 import React, { ReactNode, useEffect } from 'react';
+import { postItem } from '../api/itemAPI';
+
+import AuthService from '../utils/auth';
 
 interface ItemModalProps {
   title: string;
@@ -8,13 +11,14 @@ interface ItemModalProps {
   show: boolean;
   onEquip: () => void;
   onClose: () => void;
+  itemName?: string;
 }
 
 // TODO: BUG: Modal closes when clicking outside of the modal, but not when using either X or Close button.
 
 // ItemModal is a reusable modal dialog component for displaying item details.
 // It includes an equip/use button and an exit button. The modal closes when clicking outside of it.
-const ItemModal: React.FC<ItemModalProps> = ({ title, body, equipButton, exitButton, show, onEquip, onClose }) => {
+const ItemModal: React.FC<ItemModalProps> = ({ title, body, equipButton, exitButton, show, onEquip, onClose, itemName }) => {
   // Handle clicks outside the modal to close it
   const handleClickOutside = (event: MouseEvent) => {
     const modal = document.querySelector('.modal-dialog');
@@ -35,6 +39,26 @@ const ItemModal: React.FC<ItemModalProps> = ({ title, body, equipButton, exitBut
     };
   }, [show]);
 
+
+
+  const handleEquipClick = async (): Promise<void> => {
+    if (!AuthService.loggedIn()) {
+      return Promise.reject('User is not authenticated');
+    }
+  
+    // Post item with user authentication
+    try {
+      if (itemName) {
+        await postItem(itemName);
+      } else {
+        console.error('Item name is undefined');
+      }
+      onEquip();
+    } catch (error) {
+      console.error('Error equipping item:', error);
+    }
+  };
+
   if (!show) {
     return null;
   }
@@ -53,7 +77,7 @@ const ItemModal: React.FC<ItemModalProps> = ({ title, body, equipButton, exitBut
             <div className="modal-body">{body}</div>
             <div className="modal-footer">
               {equipButton && (
-                <button type="button" className="btn btn-success" onClick={onEquip}>
+                <button type="button" className="btn btn-success" onClick={handleEquipClick}>
                   {equipButton}
                 </button>
               )}
