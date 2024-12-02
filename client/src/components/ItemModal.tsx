@@ -8,13 +8,14 @@ interface ItemModalProps {
   show: boolean;
   onEquip: () => void;
   onClose: () => void;
+  itemName?: string; // Add itemName prop
 }
 
 // TODO: BUG: Modal closes when clicking outside of the modal, but not when using either X or Close button.
 
 // ItemModal is a reusable modal dialog component for displaying item details.
 // It includes an equip/use button and an exit button. The modal closes when clicking outside of it.
-const ItemModal: React.FC<ItemModalProps> = ({ title, body, equipButton, exitButton, show, onEquip, onClose }) => {
+const ItemModal: React.FC<ItemModalProps> = ({ title, body, equipButton, exitButton, show, onEquip, onClose, itemName }) => {
   // Handle clicks outside the modal to close it
   const handleClickOutside = (event: MouseEvent) => {
     const modal = document.querySelector('.modal-dialog');
@@ -35,6 +36,56 @@ const ItemModal: React.FC<ItemModalProps> = ({ title, body, equipButton, exitBut
     };
   }, [show]);
 
+
+
+  // export const getCharacterData = async (): Promise<CharacterData> => {
+  //   if (!AuthService.loggedIn()) {
+  //     return Promise.reject('User is not authenticated');
+  //   }
+  
+  //   // Fetch player data from the server with user authentication
+  //   try {
+  //     const response = await fetch('/api/character', {
+  //       headers: {
+  //         Authorization: `Bearer ${AuthService.getToken()}`,
+  //       },
+  //     });
+  
+  //     if (!response.ok) {
+  //       throw new Error('Could not retrieve player data');
+  //     }
+  
+  //     const data = await response.json();
+  //     return data;
+  
+  //   } catch (err) {
+  //     console.log('Error from combat API: ', err);
+  //     return Promise.reject('Could not fetch player data');
+  //   }
+  // };
+
+  // Function to handle equip action
+  const handleEquipClick = async () => {
+    
+    if (!itemName) return;
+    try {
+      const response = await fetch('/api/inventory/equip', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ itemName })
+      });
+      if (response.ok) {
+        onEquip();
+      } else {
+        console.error('Failed to equip item');
+      }
+    } catch (error) {
+      console.error('Error equipping item:', error);
+    }
+  };
+
   if (!show) {
     return null;
   }
@@ -53,7 +104,7 @@ const ItemModal: React.FC<ItemModalProps> = ({ title, body, equipButton, exitBut
             <div className="modal-body">{body}</div>
             <div className="modal-footer">
               {equipButton && (
-                <button type="button" className="btn btn-success" onClick={onEquip}>
+                <button type="button" className="btn btn-success" onClick={handleEquipClick}>
                   {equipButton}
                 </button>
               )}
