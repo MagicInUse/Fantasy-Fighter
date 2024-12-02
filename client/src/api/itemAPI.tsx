@@ -4,7 +4,7 @@ import AuthService from '../utils/auth';
 
 // GET /api/inventory endpoint to get all items
 // Function to fetch items from the server
-const getItems = async (): Promise<ItemData> => {
+const getItems = async (): Promise<ItemData []> => {
   if (!AuthService.loggedIn()) {
     return Promise.reject('User is not authenticated');
   }
@@ -31,24 +31,24 @@ const getItems = async (): Promise<ItemData> => {
 };
 
 // POST /api/inventory endpoint to add item
-const postItem = async (item: ItemData): Promise<ItemData> => {
+const postItem = async (itemName: string): Promise<ItemData> => {
   if (!AuthService.loggedIn()) {
     return Promise.reject('User is not authenticated');
   }
 
   // Add item with user authentication
   try {
-    const response = await fetch('/api/inventory', {
+    const response = await fetch('/api/inventory/equip', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${AuthService.getToken()}`,
       },
-      body: JSON.stringify(item),
+      body: JSON.stringify({ itemName }),
     });
 
     if (!response.ok) {
-      throw new Error('Could not add item');
+      throw new Error('Could not equip item');
     }
 
     const data = await response.json();
@@ -56,7 +56,7 @@ const postItem = async (item: ItemData): Promise<ItemData> => {
 
   } catch (err) {
     console.log('Error from item API: ', err);
-    return Promise.reject('Could not add item');
+    return Promise.reject('Could not equip item');
   }
 }
 
