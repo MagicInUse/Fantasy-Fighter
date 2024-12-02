@@ -112,7 +112,6 @@ const handleEnemyDefeat = async (combatId: string, combat: any, messages: string
                         });
 
                         const inventory = await character.getItems();
-                        console.log('Inventory:', inventory.map(item => item.toJSON()));
 
                         // Equip the new weapon
                         character.currentWeapon = newWeaponName;
