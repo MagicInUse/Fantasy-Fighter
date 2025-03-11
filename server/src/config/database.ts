@@ -11,7 +11,7 @@ import { Sequelize, DataTypes } from "sequelize";
 import { sequelize } from "../models"; // Import the Sequelize instance from models/index.ts
 
 const adminSequelize = new Sequelize(
-    'postgres',
+    process.env.DB_NAME || 'postgres',
     process.env.DB_USER || 'postgres',
     process.env.DB_PASSWORD || 'postgres',
     {
